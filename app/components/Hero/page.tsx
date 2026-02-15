@@ -4,48 +4,59 @@ import Link from 'next/link';
 
 export default function Hero() {
   return (
-    <section
-      className="relative bg-gradient-to-br from-gray-900 via-slate-900 to-black dark:from-gray-950 dark:via-purple-950 dark:to-black text-white overflow-hidden"
-      role="banner"
-      aria-label="GalileeFX Academy Hero"
-    >
-      <div className="absolute inset-0 opacity-20 dark:opacity-30">
+    <section className="relative bg-slate-950 text-slate-50 overflow-hidden border-b border-slate-800">
+      {/* Subtle Grid Overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      
+      <div className="absolute inset-0 opacity-20">
         <Image
-          src="/images/hero-bg.jpg" // Replace with optimized asset in public/images/
-          alt="Dynamic Forex charts background"
+          src="/images/hero-bg.jpg" 
+          alt="Forex Charts"
           fill
-          className="object-cover brightness-50 dark:brightness-75"
+          className="object-cover grayscale"
           priority
-          sizes="100vw"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950"></div>
       </div>
+
       <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-24 text-center">
-        <h1 className="text-5xl md:text-7xl font-orbitron tracking-tight mb-6 text-white dark:text-gray-100 drop-shadow-md">
+        <div className="inline-block px-4 py-1.5 mb-6 text-sm font-medium tracking-wider text-yellow-500 uppercase bg-yellow-500/10 border border-yellow-500/20 rounded-full">
+          Trusted by 5,000+ Tanzanian Traders
+        </div>
+        
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
           Master Forex.<br />Trade with Confidence.
         </h1>
-        <p className="text-2xl md:text-3xl text-slate-300 dark:text-blue-200 max-w-3xl mx-auto mb-10">
-          Structured courses • Real-time BUY/SELL signals • Expert mentorship<br />
-          Built for Tanzanian traders using M-Pesa, Tigo Pesa &amp; Cards
+        
+        <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+          Structured courses, real-time signals, and expert mentorship. 
+          <span className="block mt-2 text-slate-300 font-medium text-lg">
+            Pay via M-Pesa, Tigo Pesa, or Airtel Money.
+          </span>
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
             href="/auth/register"
-            className="bg-yellow-500 hover:bg-yellow-400 dark:bg-yellow-400 dark:hover:bg-yellow-300 text-black font-bold text-xl px-10 py-4 rounded-xl transition-all focus:outline-none focus:ring-4 focus:ring-yellow-300 shadow-lg dark:shadow-yellow-500/25"
-            aria-label="Start free trial and register now"
+            className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-10 py-4 rounded-lg transition-all shadow-[0_0_20px_rgba(234,179,8,0.3)]"
           >
             Start Free – Register Now
           </Link>
           <Link
             href="#packages"
-            className="border-2 border-white hover:bg-white hover:text-black dark:border-slate-200 dark:hover:bg-slate-800 dark:hover:text-white font-bold text-xl px-10 py-4 rounded-xl transition-all focus:outline-none focus:ring-4 focus:ring-white dark:focus:ring-slate-300"
-            aria-label="Scroll to see packages"
+            className="w-full sm:w-auto bg-slate-900 border border-slate-700 hover:bg-slate-800 text-white font-bold text-lg px-10 py-4 rounded-lg transition-all"
           >
-            See Packages
+            View Packages
           </Link>
         </div>
-        <p className="mt-8 text-sm text-slate-400 dark:text-blue-300">
-          ✓ 100% Tanzanian payment methods ✓ Instant access after payment
-        </p>
+
+        <div className="mt-12 flex items-center justify-center gap-6 text-slate-500 grayscale opacity-70">
+           <span className="text-xs font-semibold tracking-widest uppercase">Integration Partners:</span>
+           {/* Add small logos for M-Pesa / Tigo here */}
+           <span className="text-sm font-medium">M-Pesa</span>
+           <span className="text-sm font-medium">Tigo Pesa</span>
+           <span className="text-sm font-medium">Airtel Money</span>
+        </div>
       </div>
     </section>
   );
