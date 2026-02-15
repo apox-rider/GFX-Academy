@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Hero() {
   return (
     <section
-      className="relative bg-gradient-to-br from-blue-950 via-purple-950 to-black text-white overflow-hidden"
+      className="relative bg-linear-to-br from-blue-950 via-purple-950 to-black text-white overflow-hidden"
       role="banner"
       aria-label="GalileeFX Academy Hero"
     >
