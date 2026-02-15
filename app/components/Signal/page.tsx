@@ -1,6 +1,6 @@
 // src/components/home/SignalsTeaser.tsx
 import Link from 'next/link';
-import { signals } from './mockData'; // Or pass as prop
+
 
 interface Signal { pair: string; type: string; entry: string; sl: string; tp: string; time: string; }
 
@@ -8,7 +8,7 @@ interface Props { signals: Signal[]; }
 
 export default function SignalsTeaser({ signals }: Props) {
   return (
-    <section className="py-20 bg-gradient-to-br from-purple-900 to-blue-900 text-white" aria-label="Live trading signals teaser">
+    <section className="py-20 bg-linear-to-br from-purple-900 to-blue-900 text-white" aria-label="Live trading signals teaser">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-col md:flex-row gap-12 items-center">
           <div className="flex-1">

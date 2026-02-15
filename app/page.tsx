@@ -1,6 +1,13 @@
 // src/pages/index.tsx
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
+import Navbar from './components/Header/page';
+import Hero from './components/Hero/page';
+import PackagesSection from './components/package/page';
+import SignalsTeaser from './components/Signal/page';
+import TestimonialsSection from './components/Testimonial/page';
+import CTASection from './components/CTA/page';
+import Footer from './components/Footer/page';
  
 
 interface Package {
@@ -25,7 +32,7 @@ export default function Home({ packages, signals }: { packages: Package[]; signa
       <main className="min-h-screen bg-gray-50">
         <Navbar />
         <Hero />
-        < packages={packages} />
+        <PackagesSection packages={packages} />
         <SignalsTeaser signals={signals} />
         <TestimonialsSection />
         <CTASection />
