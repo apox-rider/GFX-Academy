@@ -1,6 +1,7 @@
+'use client'
 // src/pages/index.tsx
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
+import { useEffect, useState } from 'react';
 import Navbar from './components/Header/page';
 import Hero from './components/Hero/page';
 import PackagesSection from './components/package/page';
@@ -19,48 +20,42 @@ interface Package {
   color: string;
 }
 
-export default function Home({ packages, signals }: { packages: Package[]; signals: any[] }) {
-  return (
-    <>
-      <Head>
-        <title>GalileeFX Academy - Forex Trading Education in Tanzania</title>
-        <meta name="description" content="Professional Forex courses, real-time signals, mentorship & Selcom payments. Start trading smarter today." />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="canonical" href="https://gfxacademy.com" />
-      </Head>
-
-      <main className="min-h-screen bg-gray-50">
-        <Navbar />
-        <Hero />
-        <PackagesSection packages={packages} />
-        <SignalsTeaser signals={signals} />
-        <TestimonialsSection />
-        <CTASection />
-        <Footer />
-      </main>
-    </>
-  );
+interface Signal {
+  pair: string;
+  type: string;
+  entry: string;
+  sl: string;
+  tp: string;
+  time: string;
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  // Fetch dynamic data from backend (SRS API)
-  let packages: Package[] = [];
-  let signals: any[] = [];
+export default function Home() {
+  const [packages, setPackages] = useState<Package[]>([]);
+  const [signals, setSignals] = useState<Signal[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  try {
-    const [pkgRes, sigRes] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/packages`),
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/signals/active?limit=2`),
-    ]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [pkgRes, sigRes] = await Promise.all([
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/packages`),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/signals/active?limit=2`),
+        ]);
 
-    if (pkgRes.ok) packages = await pkgRes.json();
-    if (sigRes.ok) signals = await sigRes.json();
-  } catch (error) {
-    console.error('Failed to fetch home data:', error);
-  }
+        if (pkgRes.ok) setPackages(await pkgRes.json());
+        if (sigRes.ok) setSignals(await sigRes.json());
+      } catch (error) {
+        console.error('Failed to fetch home data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Fallback static data (remove in production)
-  packages = packages.length ? packages : [
+    fetchData();
+  }, []);
+
+  // Static fallback data (loaded immediately for better UX)
+  const fallbackPackages: Package[] = [
     {
       id: 1,
       name: 'Bronze',
@@ -103,10 +98,40 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   ];
 
-  signals = signals.length ? signals : [
+  const fallbackSignals: Signal[] = [
     { pair: 'EUR/USD', type: 'BUY', entry: '1.0825', sl: '1.0780', tp: '1.0900', time: 'Just now' },
     { pair: 'GBP/JPY', type: 'SELL', entry: '189.45', sl: '189.95', tp: '188.20', time: '12 min ago' },
   ];
 
-  return { props: { packages, signals } };
-};
+  const currentPackages = packages.length > 0 ? packages : fallbackPackages;
+  const currentSignals = signals.length > 0 ? signals : fallbackSignals;
+
+  if (loading && packages.length === 0 && signals.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">Loading...</div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Head>
+        <title>GalileeFX Academy - Forex Trading Education in Tanzania</title>
+        <meta name="description" content="Professional Forex courses, real-time signals, mentorship & Selcom payments. Start trading smarter today." />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href="https://gfxacademy.com" />
+      </Head>
+
+      <main className="min-h-screen bg-gray-50">
+        <Navbar />
+        <Hero />
+        <PackagesSection packages={currentPackages} />
+        <SignalsTeaser signals={currentSignals} />
+        <TestimonialsSection />
+        <CTASection />
+        <Footer />
+      </main>
+    </>
+  );
+}

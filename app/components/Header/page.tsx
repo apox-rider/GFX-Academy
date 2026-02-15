@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 
 export default function Navbar() {
@@ -29,17 +29,13 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-6">
             <Link
               href="/about"
-              className={`font-medium transition-colors ${
-                router.pathname === '/about' ? 'text-primary-700' : 'text-gray-500 hover:text-primary-700'
-              }`}
+              className={`font-medium transition-colors  `}
             >
               About
             </Link>
             <Link
               href="/contact"
-              className={`font-medium transition-colors ${
-                router.pathname === '/contact' ? 'text-primary-700' : 'text-gray-500 hover:text-primary-700'
-              }`}
+              className={`font-medium transition-colors `}
             >
               Contact
             </Link>
