@@ -3,100 +3,116 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, TrendingUp } from 'lucide-react';
 
 export default function Navbar() {
-  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const toggleMobile = () => setMobileOpen(!mobileOpen);
 
   return (
     <nav
-      className="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-lg border-b border-gray-200"
+      className="bg-slate-950/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800/60"
       role="navigation"
       aria-label="Main navigation"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-orbitron text-primary-700">GFX</span>
-            <span className="text-xl font-inter text-gray-600">Academy</span>
+        <div className="flex justify-between items-center h-20">
+          {/* Logo Section */}
+          <Link href="/" className="flex items-center space-x-2 group">
+            <div className="bg-yellow-500 p-1.5 rounded-lg group-hover:rotate-3 transition-transform">
+              <TrendingUp size={24} className="text-slate-950" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold tracking-tighter text-white leading-none">
+                GALILEE<span className="text-yellow-500">FX</span>
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-medium leading-none mt-1">
+                Academy
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-8">
             <Link
               href="/about"
-              className={`font-medium transition-colors  `}
+              className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
             >
               About
             </Link>
             <Link
               href="/contact"
-              className={`font-medium transition-colors `}
+              className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
             >
               Contact
             </Link>
-            <Link
-              href="/auth/register"
-              className="bg-accent text-white px-6 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition"
-            >
-              Register
-            </Link>
+            <div className="h-4 w-[1px] bg-slate-800 mx-2"></div>
             <Link
               href="/auth/login"
-              className="text-primary-700 font-semibold hover:underline"
+              className="text-sm font-semibold text-slate-300 hover:text-yellow-500 transition-colors"
             >
               Login
+            </Link>
+            <Link
+              href="/auth/register"
+              className="bg-yellow-500 text-slate-950 px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-yellow-400 transition-all shadow-lg shadow-yellow-500/10 active:scale-95"
+            >
+              Get Started
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMobile}
-            className="md:hidden p-2 text-gray-500 hover:text-primary-700"
+            className="md:hidden p-2 text-slate-400 hover:text-white transition-colors"
             aria-label="Toggle mobile menu"
             aria-expanded={mobileOpen}
           >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
+      </div>
 
-        {/* Mobile Menu */}
-        {mobileOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200 px-2 pt-2 pb-3 space-y-1">
-            <Link
-              href="/about"
-              className="block px-3 py-2 text-gray-500 hover:text-primary-700 font-medium"
-              onClick={toggleMobile}
-            >
-              About
-            </Link>
-            <Link
-              href="/contact"
-              className="block px-3 py-2 text-gray-500 hover:text-primary-700 font-medium"
-              onClick={toggleMobile}
-            >
-              Contact
-            </Link>
-            <Link
-              href="/auth/register"
-              className="block px-3 py-2 bg-accent text-white text-center rounded-lg font-semibold mt-2"
-              onClick={toggleMobile}
-            >
-              Register
-            </Link>
+      {/* Mobile Menu Overlay */}
+      <div 
+        className={`md:hidden absolute w-full bg-slate-900 border-b border-slate-800 transition-all duration-300 ease-in-out overflow-hidden ${
+          mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="px-4 pt-4 pb-8 space-y-4">
+          <Link
+            href="/about"
+            className="block text-lg font-medium text-slate-300 hover:text-white px-2"
+            onClick={toggleMobile}
+          >
+            About
+          </Link>
+          <Link
+            href="/contact"
+            className="block text-lg font-medium text-slate-300 hover:text-white px-2"
+            onClick={toggleMobile}
+          >
+            Contact
+          </Link>
+          <hr className="border-slate-800 my-4" />
+          <div className="flex flex-col gap-3">
             <Link
               href="/auth/login"
-              className="block px-3 py-2 text-primary-700 font-semibold text-center"
+              className="w-full text-center py-3 text-slate-300 font-semibold border border-slate-700 rounded-xl"
               onClick={toggleMobile}
             >
               Login
             </Link>
+            <Link
+              href="/auth/register"
+              className="w-full text-center py-3 bg-yellow-500 text-slate-950 font-bold rounded-xl"
+              onClick={toggleMobile}
+            >
+              Create Account
+            </Link>
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );

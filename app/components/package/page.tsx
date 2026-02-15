@@ -1,5 +1,6 @@
 // src/components/home/PackagesSection.tsx
 import Link from 'next/link';
+import { Check, ShieldCheck } from 'lucide-react';
 
 interface Package {
   id: number;
@@ -7,50 +8,66 @@ interface Package {
   price: number;
   duration: string;
   features: string[];
-  color: string;
+  color: string; // We'll map this to slate-friendly accents
 }
 
 interface Props { packages: Package[]; }
 
 export default function PackagesSection({ packages }: Props) {
   return (
-    <section id="packages" className="py-20 bg-gray-50">
+    <section id="packages" className="py-24 bg-slate-950 text-slate-50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-orbitron">Choose Your Path to Profit</h2>
-          <p className="text-xl text-gray-600 mt-4">One-time, 2-month, or Lifetime access</p>
+          <div className="flex justify-center mb-4">
+            <ShieldCheck className="text-yellow-500 w-12 h-12" />
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
+            Choose Your Path to Profit
+          </h2>
+          <p className="text-xl text-slate-400 mt-4 max-w-2xl mx-auto">
+            Flexible plans designed for the Tanzanian market. Start small or go lifetime.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div className="grid md:grid-cols-3 gap-8 mb-20">
           {packages.map((pkg) => (
-            <article key={pkg.id} className="bg-white rounded-3xl shadow-xl overflow-hidden hover:-translate-y-2 transition-all group">
-              <div className={`h-2 bg-gradient-to-r ${pkg.color}`} />
-              <div className="p-8">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-3xl font-orbitron">{pkg.name}</h3>
-                  <div>
-                    <span className="text-5xl font-bold text-gray-900">TZS {pkg.price.toLocaleString()}</span>
-                    <div className="text-sm text-gray-500">{pkg.duration}</div>
+            <article 
+              key={pkg.id} 
+              className="relative bg-slate-900/50 border border-slate-800 rounded-3xl overflow-hidden hover:border-yellow-500/50 transition-all duration-300 group flex flex-col"
+            >
+              {/* Top Accent Bar */}
+              <div className={`h-1.5 w-full bg-gradient-to-r ${pkg.name === 'Gold' ? 'from-yellow-600 to-yellow-400' : 'from-slate-700 to-slate-500'}`} />
+              
+              <div className="p-8 flex flex-col flex-grow">
+                <div className="mb-8">
+                  <h3 className="text-2xl font-bold text-white mb-2">{pkg.name}</h3>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-sm text-slate-400 font-medium">TZS</span>
+                    <span className="text-4xl font-bold text-white leading-none">
+                      {pkg.price.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="text-xs uppercase tracking-widest text-yellow-500/80 font-bold mt-2">
+                    {pkg.duration}
                   </div>
                 </div>
 
-                <ul className="mt-8 space-y-4" role="list">
+                <ul className="space-y-4 mb-10 flex-grow" role="list">
                   {pkg.features.map((f, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <div
-                        className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center mt-0.5 flex-shrink-0"
-                        aria-hidden="true"
-                      >
-                        ✓
-                      </div>
-                      <span>{f}</span>
+                    <li key={i} className="flex items-start gap-3 text-slate-300">
+                      <Check className="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" />
+                      <span className="text-sm leading-relaxed">{f}</span>
                     </li>
                   ))}
                 </ul>
 
                 <Link
                   href={`/auth/register?package=${pkg.id}`}
-                  className="mt-10 block w-full bg-black text-white text-center py-4 rounded-2xl font-semibold hover:bg-gray-900 transition focus:outline-none focus:ring-4 focus:ring-gray-300"
+                  className={`block w-full text-center py-4 rounded-xl font-bold transition-all ${
+                    pkg.name === 'Gold' 
+                    ? 'bg-yellow-500 text-slate-950 hover:bg-yellow-400 shadow-lg shadow-yellow-500/10' 
+                    : 'bg-slate-800 text-white hover:bg-slate-700'
+                  }`}
                 >
                   Enroll Now
                 </Link>
@@ -59,44 +76,57 @@ export default function PackagesSection({ packages }: Props) {
           ))}
         </div>
 
-        {/* Responsive Comparison Table */}
-        <div className="bg-white rounded-3xl shadow p-8">
-          <h3 className="text-2xl font-semibold text-center mb-8">Quick Comparison</h3>
+        {/* Comparison Table: Professional Slate Style */}
+        <div className="bg-slate-900/40 border border-slate-800 rounded-3xl p-8 backdrop-blur-sm">
+          <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-2">
+            <span className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" />
+            Plan Comparison
+          </h3>
           <div className="overflow-x-auto">
-            <table className="w-full text-left min-w-max" role="table" aria-label="Package comparison table">
+            <table className="w-full text-left min-w-max border-separate border-spacing-y-2">
               <thead>
-                <tr className="border-b">
-                  <th className="py-4 pr-8">Feature</th>
+                <tr className="text-slate-500 text-xs uppercase tracking-widest">
+                  <th className="pb-4 px-4 font-semibold">Feature</th>
                   {packages.map((pkg) => (
-                    <th key={pkg.id} className="py-4 text-center">{pkg.name}</th>
+                    <th key={pkg.id} className="pb-4 px-4 text-center font-semibold">{pkg.name}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="text-sm">
-                <tr className="border-b">
-                  <td className="py-4 pr-8 font-medium">Price</td>
+                <tr className="bg-slate-800/30 rounded-lg">
+                  <td className="py-4 px-4 rounded-l-lg text-slate-300 font-medium border-y border-l border-slate-800/50">One-time Price</td>
                   {packages.map((pkg) => (
-                    <td key={pkg.id} className="text-center">{pkg.price.toLocaleString()}</td>
-                  ))}
-                </tr>
-                <tr className="border-b">
-                  <td className="py-4 pr-8 font-medium">Duration</td>
-                  {packages.map((pkg) => (
-                    <td key={pkg.id} className="text-center">{pkg.duration}</td>
-                  ))}
-                </tr>
-                <tr>
-                  <td className="py-4 pr-8 font-medium">Full Mentorship</td>
-                  {packages.map((pkg) => (
-                    <td key={pkg.id} className="text-center">
-                      {pkg.name === 'Bronze' ? '—' : pkg.name === 'Silver' ? '1 Month' : 'Lifetime'}
+                    <td key={pkg.id} className="text-center py-4 border-y border-slate-800/50 text-white font-mono">
+                      {pkg.price.toLocaleString()}
                     </td>
                   ))}
+                  <td className="rounded-r-lg border-y border-r border-slate-800/50"></td>
+                </tr>
+                <tr>
+                  <td className="py-4 px-4 text-slate-300 font-medium">Mentorship Access</td>
+                  {packages.map((pkg) => (
+                    <td key={pkg.id} className="text-center py-4 text-slate-400 italic">
+                      {pkg.name === 'Bronze' ? 'Community Only' : pkg.name === 'Silver' ? '1 Month Direct' : 'Lifetime Direct'}
+                    </td>
+                  ))}
+                </tr>
+                <tr className="bg-slate-800/30">
+                  <td className="py-4 px-4 rounded-l-lg text-slate-300 font-medium border-y border-l border-slate-800/50">Signal Priority</td>
+                  {packages.map((pkg) => (
+                    <td key={pkg.id} className="text-center py-4 border-y border-slate-800/50 text-white">
+                      {pkg.name === 'Gold' ? 'Instant Alert' : 'Standard'}
+                    </td>
+                  ))}
+                  <td className="rounded-r-lg border-y border-r border-slate-800/50"></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+        
+        <p className="mt-8 text-center text-slate-500 text-xs uppercase tracking-widest">
+          Secure Payments processed via local M-Pesa / Tigo Pesa integration
+        </p>
       </div>
     </section>
   );

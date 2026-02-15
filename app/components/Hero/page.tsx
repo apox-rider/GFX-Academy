@@ -3,6 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Hero() {
+  const features = [
+  { title: 'Live Signals', desc: 'Daily Buy/Sell alerts sent directly to your dashboard and Telegram.', icon: '📈' },
+  { title: 'Local Payments', desc: 'No credit card? No problem. Use M-Pesa or Tigo Pesa instantly.', icon: '📱' },
+  { title: 'Expert Mentors', desc: 'Weekly Zoom sessions with traders who actually live off the markets.', icon: '🎓' },
+];
   return (
     <section className="relative bg-slate-950 text-slate-50 overflow-hidden border-b border-slate-800">
       {/* Subtle Grid Overlay */}
@@ -58,6 +63,22 @@ export default function Hero() {
            <span className="text-sm font-medium">Airtel Money</span>
         </div>
       </div>
+      <section className="py-24 bg-slate-950">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {features.map((f, i) => (
+            <div key={i} className="p-8 rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-slate-700 transition-colors">
+              <div className="text-4xl mb-4">{f.icon}</div>
+              <h3 className="text-xl font-bold text-white mb-2">{f.title}</h3>
+              <p className="text-slate-400 leading-relaxed">{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    
+    
     </section>
   );
 }
