@@ -15,7 +15,7 @@ export default function Hero() {
       
       <div className="absolute inset-0 opacity-20">
         <Image
-          src="/images/hero-bg.jpg" 
+          src="/images/hero-bg.jpeg" 
           alt="Forex Charts"
           fill
           className="object-cover grayscale"
