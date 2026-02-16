@@ -29,7 +29,7 @@ export default function Hero() {
           Trusted by 5,000+ Tanzanian Traders
         </div> */}
         
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-linear-to-b from-white to-slate-400">
           Master Forex.<br />Trade with Confidence.
         </h1>
         
