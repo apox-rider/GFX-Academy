@@ -43,7 +43,7 @@ export default function TestimonialsSection() {
               role="listitem"
             >
               {/* Quote Icon Decoration */}
-              <Quote className="absolute top-6 right-8 text-slate-800 w-10 h-10 -z-0" />
+              <Quote className="absolute top-6 right-8 text-slate-800 w-10 h-10 z-0" />
               
               <div className="relative z-10">
                 <div className="flex gap-1 mb-4">
