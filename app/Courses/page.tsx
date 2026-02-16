@@ -26,13 +26,13 @@ export default function Courses() {
           className="object-cover grayscale"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-slate-950"></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-24 text-center">
        
         
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-linear-to-b from-white to-slate-400">
           Forex Courses<br />Video Tutorials for Success
         </h1>
         
