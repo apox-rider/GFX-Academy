@@ -12,7 +12,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className="bg-slate-950/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800/60"
+      className="bg-slate-950  sticky top-0 z-50 border-b border-slate-800/60"
       role="navigation"
       aria-label="Main navigation"
     >
@@ -36,26 +36,44 @@ export default function Navbar() {
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             <Link
-              href="/about"
+              href="/"
+              className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Home
+            </Link>
+            <Link
+              href="/Courses"
+              className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Courses
+            </Link>
+            <Link
+              href="/Signals"
+              className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              Signals
+            </Link>
+            <Link
+              href="/About"
               className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
             >
               About
             </Link>
             <Link
-              href="/contact"
+              href="/Contact"
               className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
             >
               Contact
             </Link>
-            <div className="h-4 w-[1px] bg-slate-800 mx-2"></div>
+            <div className="h-4 w-px bg-slate-800 mx-2"></div>
             <Link
-              href="/auth/login"
+              href="/auth/Login"
               className="text-sm font-semibold text-slate-300 hover:text-yellow-500 transition-colors"
             >
               Login
             </Link>
             <Link
-              href="/auth/register"
+              href="/auth/Register"
               className="bg-yellow-500 text-slate-950 px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-yellow-400 transition-all shadow-lg shadow-yellow-500/10 active:scale-95"
             >
               Get Started
@@ -81,8 +99,37 @@ export default function Navbar() {
         }`}
       >
         <div className="px-4 pt-4 pb-8 space-y-4">
+          
           <Link
-            href="/about"
+            href="/course"
+            className="block text-lg font-medium text-slate-300 hover:text-white px-2"
+            onClick={toggleMobile}
+          >
+            Course
+          </Link>
+          <Link
+            href="/"
+            className="block text-lg font-medium text-slate-300 hover:text-white px-2"
+            onClick={toggleMobile}
+          >
+            Home
+          </Link>
+          <Link
+            href="/Course"
+            className="block text-lg font-medium text-slate-300 hover:text-white px-2"
+            onClick={toggleMobile}
+          >
+            Courses
+          </Link>
+          <Link
+            href="/Signals"
+            className="block text-lg font-medium text-slate-300 hover:text-white px-2"
+            onClick={toggleMobile}
+          >
+            Signals
+          </Link>
+          <Link
+            href="/About"
             className="block text-lg font-medium text-slate-300 hover:text-white px-2"
             onClick={toggleMobile}
           >

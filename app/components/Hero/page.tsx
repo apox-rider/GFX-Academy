@@ -25,9 +25,9 @@ export default function Hero() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-24 text-center">
-        <div className="inline-block px-4 py-1.5 mb-6 text-sm font-medium tracking-wider text-yellow-500 uppercase bg-yellow-500/10 border border-yellow-500/20 rounded-full">
+        {/* <div className="inline-block px-4 py-1.5 mb-6 text-sm font-medium tracking-wider text-yellow-500 uppercase bg-yellow-500/10 border border-yellow-500/20 rounded-full">
           Trusted by 5,000+ Tanzanian Traders
-        </div>
+        </div> */}
         
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
           Master Forex.<br />Trade with Confidence.
