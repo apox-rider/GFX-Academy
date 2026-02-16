@@ -36,9 +36,9 @@ export default function PackagesSection({ packages }: Props) {
               className="relative bg-slate-900/50 border border-slate-800 rounded-3xl overflow-hidden hover:border-yellow-500/50 transition-all duration-300 group flex flex-col"
             >
               {/* Top Accent Bar */}
-              <div className={`h-1.5 w-full bg-gradient-to-r ${pkg.name === 'Gold' ? 'from-yellow-600 to-yellow-400' : 'from-slate-700 to-slate-500'}`} />
+              <div className={`h-1.5 w-full bg-linear-to-r ${pkg.name === 'Gold' ? 'from-yellow-600 to-yellow-400' : 'from-slate-700 to-slate-500'}`} />
               
-              <div className="p-8 flex flex-col flex-grow">
+              <div className="p-8 flex flex-col grow">
                 <div className="mb-8">
                   <h3 className="text-2xl font-bold text-white mb-2">{pkg.name}</h3>
                   <div className="flex items-baseline gap-1">
@@ -52,7 +52,7 @@ export default function PackagesSection({ packages }: Props) {
                   </div>
                 </div>
 
-                <ul className="space-y-4 mb-10 flex-grow" role="list">
+                <ul className="space-y-4 mb-10 grow" role="list">
                   {pkg.features.map((f, i) => (
                     <li key={i} className="flex items-start gap-3 text-slate-300">
                       <Check className="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" />
