@@ -16,7 +16,7 @@ export default function Contact() {
     <Navbar/>
     <section className="relative bg-slate-950 text-slate-50 overflow-hidden border-b border-slate-800">
       {/* Subtle Grid Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px]"></div>
       
       <div className="absolute inset-0 opacity-20">
         <Image
@@ -31,7 +31,7 @@ export default function Contact() {
 
       <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-24 text-center">
         
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-linear-to-b from-white to-slate-400">
           Contact Us<br />We're Here to Help
         </h1>
         
