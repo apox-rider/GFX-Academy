@@ -3,12 +3,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../components/Header/page';
 import Footer from '../components/Footer/page';
+import { AlignVerticalJustifyCenterIcon, BookUser, Rocket } from 'lucide-react';
 
 export default function Courses() {
   const courses = [
-    { title: 'Beginner Forex Fundamentals', desc: 'Master the basics of currency trading, market analysis, and risk management through engaging video tutorials.', lessons: 12, duration: '6 hours', icon: '📚' },
-    { title: 'Intermediate Technical Analysis', desc: 'Dive into chart patterns, indicators, and strategies with real-world examples in video format.', lessons: 15, duration: '8 hours', icon: '📊' },
-    { title: 'Advanced Trading Strategies', desc: 'Learn expert-level techniques, including scalping, swing trading, and algorithmic approaches via in-depth videos.', lessons: 10, duration: '5 hours', icon: '🚀' },
+    { title: 'Beginner Forex Fundamentals', desc: 'Master the basics of currency trading, market analysis, and risk management through engaging video tutorials.', lessons: 12, duration: '6 hours', icon: <BookUser/> },
+    { title: 'Intermediate Technical Analysis', desc: 'Dive into chart patterns, indicators, and strategies with real-world examples in video format.', lessons: 15, duration: '8 hours', icon: <AlignVerticalJustifyCenterIcon/> },
+    { title: 'Advanced Trading Strategies', desc: 'Learn expert-level techniques, including scalping, swing trading, and algorithmic approaches via in-depth videos.', lessons: 10, duration: '5 hours', icon: <Rocket/> },
   ];
 
   return (

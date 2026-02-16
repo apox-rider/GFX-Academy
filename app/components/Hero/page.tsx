@@ -1,26 +1,26 @@
 // src/components/home/Hero.tsx
+import { AlignVerticalJustifyStartIcon, GitGraph, HatGlasses, PhoneForwardedIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Hero() {
   const features = [
-  { title: 'Live Signals', desc: 'Daily Buy/Sell alerts sent directly to your dashboard and Telegram.', icon: '📈' },
-  { title: 'Local Payments', desc: 'No credit card? No problem. Use M-Pesa or Tigo Pesa instantly.', icon: '📱' },
-  { title: 'Expert Mentors', desc: 'Weekly Zoom sessions with traders who actually live off the markets.', icon: '🎓' },
+  { title: 'Live Signals', desc: 'Daily Buy/Sell alerts sent directly to your dashboard and Telegram.', icon: <AlignVerticalJustifyStartIcon/> },
+  { title: 'Local Payments', desc: 'No credit card? No problem. Use M-Pesa or Tigo Pesa instantly.', icon: <PhoneForwardedIcon/> },
+  { title: 'Expert Mentors', desc: 'Weekly Zoom sessions with traders who actually live off the markets.', icon: <HatGlasses/> },
 ];
   return (
     <section className="relative bg-slate-950 text-slate-50 overflow-hidden border-b border-slate-800">
       {/* Subtle Grid Overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px]"></div>
       
-      <div className="absolute inset-0 opacity-20">
-        <Image
-          src="/images/hero-bg.jpeg" 
+      <div className="flex justify-center absolute inset-0 opacity-20">
+        <img
+          src="WhatsApp Image 2026-02-15 at 15.59.02.jpeg" 
           alt="Forex Charts"
-          fill
           className="object-cover grayscale"
-          priority
         />
+        
         <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-slate-950"></div>
       </div>
 
@@ -42,7 +42,7 @@ export default function Hero() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
-            href="/auth/register"
+            href="/auth/Register"
             className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-10 py-4 rounded-lg transition-all shadow-[0_0_20px_rgba(234,179,8,0.3)]"
           >
             Start Free – Register Now

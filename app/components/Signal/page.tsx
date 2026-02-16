@@ -28,7 +28,7 @@ export default function SignalsTeaser({ signals }: Props) {
             </p>
             
             <Link
-              href="/auth/register"
+              href="/auth/Register"
               className="mt-8 group inline-flex items-center gap-2 text-yellow-500 hover:text-yellow-400 font-bold text-lg transition-all"
             >
               Get Full Access 
