@@ -1,13 +1,16 @@
 // src/components/home/Hero.tsx
 import { AlignVerticalJustifyStartIcon, GitGraph, HatGlasses, PhoneForwardedIcon } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
+import { GiAerialSignal } from 'react-icons/gi';
+import { MdPhoneAndroid } from "react-icons/md";
+import { SiCodementor } from 'react-icons/si';
+
 
 export default function Hero() {
   const features = [
-  { title: 'Live Signals', desc: 'Daily Buy/Sell alerts sent directly to your dashboard and Telegram.', icon: <AlignVerticalJustifyStartIcon/> },
-  { title: 'Local Payments', desc: 'No credit card? No problem. Use M-Pesa or Tigo Pesa instantly.', icon: <PhoneForwardedIcon/> },
-  { title: 'Expert Mentors', desc: 'Weekly Zoom sessions with traders who actually live off the markets.', icon: <HatGlasses/> },
+  { title: 'Live Signals', desc: 'Daily Buy/Sell alerts sent directly to your dashboard and Telegram.', icon: <GiAerialSignal /> },
+  { title: 'Local Payments', desc: 'No credit card? No problem. Use M-Pesa or Tigo Pesa instantly.', icon: <MdPhoneAndroid /> },
+  { title: 'Expert Mentors', desc: 'Weekly Zoom sessions with traders who actually live off the markets.', icon: <SiCodementor /> },
 ];
   return (
     <section className="relative bg-slate-950 text-slate-50 overflow-hidden border-b border-slate-800">

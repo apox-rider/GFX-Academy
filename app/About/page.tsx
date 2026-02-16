@@ -48,19 +48,19 @@ export default function About() {
       <main className="bg-slate-950 text-slate-50 min-h-screen">
         {/* Hero Section – unchanged from previous version */}
         <section className="relative overflow-hidden border-b border-slate-800">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px] pointer-events-none" />
 
-          <div className="justify-center absolute inset-0 opacity-25">
+          <div className="flex justify-center absolute inset-0 opacity-25">
             <img
               src="WhatsApp Image 2026-02-15 at 15.59.02.jpeg"
               alt="GalileeFx Academy Background"
               className="object-cover grayscale-[0.7] brightness-50"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/40 to-slate-950" />
+            <div className="absolute inset-0 bg-linear-to-b from-slate-950/60 via-slate-950/40 to-slate-950" />
           </div>
 
           <div className="relative max-w-7xl mx-auto px-6 pt-40 pb-32 text-center md:pt-48">
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-200 to-slate-400">
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 bg-clip-text text-transparent bg-linear-to-br from-white via-slate-200 to-slate-400">
               Welcome to GalileeFx Academy
               <br />
               <span className="text-4xl md:text-6xl block mt-4 text-yellow-400">Your Gateway to Professional Forex Trading</span>
@@ -73,7 +73,7 @@ export default function About() {
             <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
               <Link
                 href="/auth/Register"
-                className="w-full sm:w-auto bg-gradient-to-r from-yellow-500 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-slate-950 font-bold text-lg px-12 py-5 rounded-xl transition-all shadow-xl shadow-yellow-500/20 hover:shadow-yellow-500/40 transform hover:-translate-y-1"
+                className="w-full sm:w-auto bg-linear-to-r from-yellow-500 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-slate-950 font-bold text-lg px-12 py-5 rounded-xl transition-all shadow-xl shadow-yellow-500/20 hover:shadow-yellow-500/40 transform hover:-translate-y-1"
               >
                 Join GalileeFx Academy Today – Trade Like a Pro!
               </Link>
@@ -89,7 +89,7 @@ export default function About() {
         </section>
 
         {/* Mission – unchanged */}
-        <section className="py-24 bg-gradient-to-b from-slate-950 to-slate-900">
+        <section className="py-24 bg-linear-to-b from-slate-950 to-slate-900">
           <div className="max-w-5xl mx-auto px-6 text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-10 text-white">Our Mission</h2>
             <p className="text-2xl md:text-3xl text-slate-200 font-medium italic max-w-4xl mx-auto leading-relaxed">

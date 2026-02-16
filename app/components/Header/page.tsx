@@ -99,14 +99,7 @@ export default function Navbar() {
         }`}
       >
         <div className="px-4 pt-4 pb-8 space-y-4">
-          
-          <Link
-            href="/course"
-            className="block text-lg font-medium text-slate-300 hover:text-white px-2"
-            onClick={toggleMobile}
-          >
-            Course
-          </Link>
+      
           <Link
             href="/"
             className="block text-lg font-medium text-slate-300 hover:text-white px-2"
@@ -136,7 +129,7 @@ export default function Navbar() {
             About
           </Link>
           <Link
-            href="/contact"
+            href="/Ciontact"
             className="block text-lg font-medium text-slate-300 hover:text-white px-2"
             onClick={toggleMobile}
           >
