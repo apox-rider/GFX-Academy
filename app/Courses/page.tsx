@@ -96,7 +96,7 @@ export default function Courses() {
       <section className="py-24 bg-slate-900">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Why Choose Our Courses?
+            Why Choose Our Courses? 
           </h2>
           <p className="text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
             Our video tutorials are created by expert mentors who live off the markets. Access them anytime, anywhere, with progress tracking and community support.
