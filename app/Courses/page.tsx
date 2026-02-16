@@ -99,7 +99,7 @@ export default function Courses() {
             Why Choose Our Courses?
           </h2>
           <p className="text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-            Our video tutorials are created by expert mentors who live off the markets. Access them anytime, anywhere, with progress tracking  and community support.
+            Our video tutorials are created by expert mentors who live off the markets. Access them anytime, anywhere, with progress tracking and community support.
           </p>
           <Link
             href="#packages"
