@@ -27,9 +27,9 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">Platform</h4>
             <ul className="space-y-4 text-sm" role="list">
-              <li><Link href="/dashboard/courses" className="hover:text-yellow-500 transition-colors">Forex Courses</Link></li>
-              <li><Link href="/dashboard/signals" className="hover:text-yellow-500 transition-colors">VIP Signals</Link></li>
-              <li><Link href="/dashboard/referral" className="hover:text-yellow-500 transition-colors">Partner Program</Link></li>
+              <li><Link href="/Courses" className="hover:text-yellow-500 transition-colors">Forex Courses</Link></li>
+              <li><Link href="/auth/Register?=VIP" className="hover:text-yellow-500 transition-colors">VIP Signals</Link></li>
+              <li><Link href="/auth/Register?=Referral" className="hover:text-yellow-500 transition-colors">Partner Program</Link></li>
             </ul>
           </div>
 
@@ -37,9 +37,9 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">Support</h4>
             <ul className="space-y-4 text-sm" role="list">
-              <li><Link href="/about" className="hover:text-yellow-500 transition-colors">About Academy</Link></li>
-              <li><Link href="/contact" className="hover:text-yellow-500 transition-colors">Contact Support</Link></li>
-              <li><Link href="/privacy" className="hover:text-yellow-500 transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/About" className="hover:text-yellow-500 transition-colors">About Academy</Link></li>
+              <li><Link href="/Contact" className="hover:text-yellow-500 transition-colors">Contact Support</Link></li>
+              <li><Link href="/Privacypolicy" className="hover:text-yellow-500 transition-colors">Privacy Policy</Link></li>
             </ul>
           </div>
 
@@ -53,7 +53,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3 text-sm text-slate-500">
                 <Mail size={16} className="text-yellow-500" />
-                support@galileefx.com
+                xxx@gmail.com
               </div>
             </div>
             <div>

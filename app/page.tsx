@@ -121,6 +121,11 @@ export default function Home() {
         <meta name="description" content="Professional Forex courses, real-time signals, mentorship & Selcom payments. Start trading smarter today." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="canonical" href="https://gfxacademy.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"></link>
+
+
       </Head>
 
       <main className="min-h-screen bg-gray-50">
