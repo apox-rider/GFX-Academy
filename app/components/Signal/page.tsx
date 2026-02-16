@@ -59,11 +59,11 @@ export default function SignalsTeaser({ signals }: Props) {
                   {/* Blurring out the sensitive data for the teaser */}
                   <div className="flex items-center gap-3 text-sm">
                     <span className="text-slate-500 font-medium uppercase tracking-tighter text-xs">Entry</span>
-                    <span className="font-mono text-slate-300 blur-[4px] select-none">1.08450</span>
+                    <span className="font-mono text-slate-300 blur-xs select-none">1.08450</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm">
                     <span className="text-slate-500 font-medium uppercase tracking-tighter text-xs">Target</span>
-                    <span className="font-mono text-emerald-500/50 blur-[4px] select-none">1.09200</span>
+                    <span className="font-mono text-emerald-500/50 blur-xs select-none">1.09200</span>
                   </div>
                   
                   <div className="mt-2 flex items-center gap-1.5 px-2 py-0.5 bg-slate-800 rounded text-[10px] text-slate-500 font-bold uppercase tracking-widest">
