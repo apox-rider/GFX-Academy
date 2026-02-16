@@ -17,7 +17,7 @@ export default function Signals() {
     <Navbar/>
     <section className="relative bg-slate-950 text-slate-50 overflow-hidden border-b border-slate-800">
       {/* Subtle Grid Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px]"></div>
       
       <div className="absolute inset-0 opacity-20">
         <Image
@@ -27,7 +27,7 @@ export default function Signals() {
           className="object-cover grayscale"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-slate-950"></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-24 text-center">
@@ -35,7 +35,7 @@ export default function Signals() {
           Trusted by 5,000+ Tanzanian Traders
         </div>
         
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-linear-to-b from-white to-slate-400">
           Live Forex Signals<br />Trade Smarter
         </h1>
         
