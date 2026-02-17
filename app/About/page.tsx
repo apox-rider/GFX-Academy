@@ -98,9 +98,17 @@ export default function About() {
             <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-white">Meet the Team Behind GalileeFx Academy</h2>
 
             <div className="max-w-4xl mx-auto mb-12">
-              <div className="p-10 md:p-12 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 border border-yellow-600/30 hover:border-yellow-500/50 transition-all duration-300 shadow-xl shadow-black/40">
+              <div className="p-10 md:p-12 rounded-3xl bg-linear-to-br from-slate-900 to-slate-800 border border-yellow-600/30 hover:border-yellow-500/50 transition-all duration-300 shadow-xl shadow-black/40">
                 <div className="text-center md:text-left">
                   <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
+                    <div className=" inset-0 opacity-20">
+                      <img
+                        src="unnamed (2).jpg" 
+                        alt="Contact Background"
+                        className="rounded-full"
+                      />
+                      <div className="from-slate-950 via-transparent to-slate-950"></div>
+                    </div>    
                     Meshack Jeremiah Aidan
                   </h3>
                   <p className="text-2xl text-yellow-400 font-semibold mb-2">Founder of GalileeFx Academy</p>
