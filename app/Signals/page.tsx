@@ -19,21 +19,16 @@ export default function Signals() {
       {/* Subtle Grid Overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px]"></div>
       
-      <div className="absolute inset-0 opacity-20">
-        <Image
-          src="/images/signals-bg.jpeg" // Replace with a suitable signals page background image, e.g., charts
+      <div className="flex  absolute inset-0 opacity-20">
+        <img
+          src="https://fxmedia.s3.amazonaws.com/articles/free_forex_trading_signals-1.jpg"  
           alt="Signals Background"
-          fill
-          className="object-cover grayscale"
-          priority
+          className="object-cover "
         />
         <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-slate-950"></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-24 text-center">
-        <div className="inline-block px-4 py-1.5 mb-6 text-sm font-medium tracking-wider text-yellow-500 uppercase bg-yellow-500/10 border border-yellow-500/20 rounded-full">
-          Trusted by 5,000+ Tanzanian Traders
-        </div>
         
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-linear-to-b from-white to-slate-400">
           Live Forex Signals<br />Trade Smarter
@@ -77,18 +72,18 @@ export default function Signals() {
           </h2>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-slate-800">
-              <thead className="bg-slate-900">
+              <thead className="bg-black">
                 <tr>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-slate-300 uppercase tracking-wider">Pair</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-slate-300 uppercase tracking-wider">Action</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-slate-300 uppercase tracking-wider">Entry</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-slate-300 uppercase tracking-wider">SL</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-slate-300 uppercase tracking-wider">TP</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-slate-300 uppercase tracking-wider">Time</th>
-                  <th className="px-6 py-3 text-left text-sm font-medium text-slate-300 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">Pair</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">Action</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">Entry</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">SL</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">TP</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">Time</th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">Status</th>
                 </tr>
               </thead>
-              <tbody className="bg-slate-900/50 divide-y divide-slate-800">
+              <tbody className="bg-slate-950 divide-y divide-slate-800">
                 {signals.map((signal, i) => (
                   <tr key={i}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{signal.pair}</td>

@@ -15,7 +15,7 @@ export default function Navbar() {
     const baseClass = isMobile 
       ? 'block text-lg font-medium px-2' 
       : 'text-sm font-medium transition-colors';
-    const activeClass = isMobile ? 'text-yellow font-bold' : 'text-white font-semibold';
+    const activeClass = isMobile ? 'text-yellow font-bold' : 'text-white font-semibold px-3 py-2 text-sm font-medium border-b-4  ';
     const inactiveClass = isMobile 
       ? 'text-slate-300 hover:text-white' 
       : 'text-slate-300 hover:text-white';
