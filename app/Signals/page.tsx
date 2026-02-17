@@ -23,7 +23,7 @@ export default function Signals() {
         <img
           src="https://fxmedia.s3.amazonaws.com/articles/free_forex_trading_signals-1.jpg"  
           alt="Signals Background"
-          className="object-cover "
+          className="object-cover grayscale"
         />
         <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-slate-950"></div>
       </div>
@@ -72,7 +72,7 @@ export default function Signals() {
           </h2>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-slate-800">
-              <thead className="bg-black">
+              <thead className="bg-amber-950">
                 <tr>
                   <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">Pair</th>
                   <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">Action</th>
@@ -83,7 +83,7 @@ export default function Signals() {
                   <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider">Status</th>
                 </tr>
               </thead>
-              <tbody className="bg-slate-950 divide-y divide-slate-800">
+              <tbody className="bg-black divide-y divide-slate-800">
                 {signals.map((signal, i) => (
                   <tr key={i}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{signal.pair}</td>
