@@ -59,7 +59,7 @@ export default function ProfilePage() {
       `}>
         <div className="flex flex-col h-full p-6">
           <div className="flex items-center justify-between mb-10">
-            <span className="text-2xl font-black text-white tracking-tighter">TRADEX.</span>
+            <span className="text-2xl flex font-black text-white tracking-tighter"><p className='text-white'>GALILEE</p> <p className='text-yellow-600'>FX</p></span>
             <button onClick={() => setSidebarOpen(false)} className="md:hidden text-slate-400">
               <X size={20} />
             </button>
