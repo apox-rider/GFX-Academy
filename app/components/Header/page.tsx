@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, TrendingUp } from 'lucide-react';
+import { Menu, X, TrendingUp, User } from 'lucide-react';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const pathname = usePathname();
 
   const toggleMobile = () => setMobileOpen(!mobileOpen);
@@ -64,6 +65,19 @@ export default function Navbar() {
               Contact
             </Link>
             <div className="h-4 w-px bg-slate-800 mx-2"></div>
+            {!loggedIn?
+            (
+              <>
+              <div className='rounded-full m-5'>
+                <div className='rounded-full mt-2 mb-2 bg-yellow-500 text-white'>
+                  <Link href="/Profile" className={getLinkClass('/Profile')}>
+                    <User className='text-black ' />
+                  </Link>
+                </div>
+              </div>
+              </>
+            ):(
+              <>
             <Link
               href="/auth/Login"
               className="text-sm font-semibold text-slate-300 hover:text-yellow-500 transition-colors"
@@ -76,6 +90,9 @@ export default function Navbar() {
             >
               Get Started
             </Link>
+              </>
+            )
+            }
           </div>
 
           {/* Mobile Menu Button */}
