@@ -95,7 +95,7 @@ export default function Navbar() {
             }
           </div>
 
-          {/*  Mobile Menu Button  */}
+          {/*   Mobile Menu Button  */}
           <button
             onClick={toggleMobile}
             className="md:hidden p-2 text-slate-400 hover:text-white transition-colors"
