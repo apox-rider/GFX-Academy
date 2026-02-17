@@ -157,9 +157,9 @@ export default function Navbar() {
                 href="/Profile"
                 className="w-full text-center py-3 text-slate-300 font-semibold border border-slate-700 rounded-xl"
                 onClick={toggleMobile}
-            >
-              Profile
-            </Link>
+                >
+                Profile
+                </Link>
                 </>
             ):(
               <>
