@@ -47,7 +47,7 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Menu */}
+          {/* Desktop Menu  */}
           <div className="hidden md:flex items-center space-x-8">
             <Link href="/" className={getLinkClass('/')}>
               Home
