@@ -78,7 +78,7 @@ export default function Register() {
         
         <a href='/' className="justify-center mt-8  text-slate-500 text-xs">
         <div className="justify-center  flex mt-8 text-center text-slate-500 text-xs">
-          <ArrowLeft className='align-middle'/> <p className='text-center'>Back to home</p>
+          <ArrowLeft className='align-middle'/> <p className='text-lg'>Back to home</p>
         </div>
         </a>
       </div>

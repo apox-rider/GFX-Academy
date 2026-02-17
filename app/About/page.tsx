@@ -1,25 +1,31 @@
-// src/components/about/About.tsx
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../components/Header/page'; // Adjust path if needed
 import Footer from '../components/Footer/page';
+import { Trade_Winds } from 'next/font/google';
+import { GoGraph } from 'react-icons/go';
+import { CardSim, Group } from 'lucide-react';
+import { CgCommunity } from 'react-icons/cg';
+import { RiUserCommunityFill } from 'react-icons/ri';
+import { MdPayments } from 'react-icons/md';
 
 export default function About() {
   const features = [
     {
       title: 'Live Trading Signals',
       desc: 'Daily high-probability Buy/Sell alerts delivered to your dashboard and Telegram with clear entry, stop-loss & take-profit levels.',
-      icon: '📈',
+      icon: <GoGraph/>,
     },
     {
       title: 'Tanzania-Friendly Payments',
       desc: 'Instant access using M-Pesa, Tigo Pesa, or Airtel Money — no international cards required.',
-      icon: '💳',
+      icon: <MdPayments/>,
     },
     {
       title: 'Expert Mentorship & Community',
       desc: 'Weekly live Zoom sessions, one-on-one guidance, and a supportive community of active Tanzanian traders.',
-      icon: '👥',
+      icon:<RiUserCommunityFill/>
+      ,
     },
   ];
 
@@ -46,7 +52,7 @@ export default function About() {
       <Navbar />
 
       <main className="bg-slate-950 text-slate-50 min-h-screen">
-        {/* Hero Section – unchanged from previous version */}
+        {/* Hero Section */}
         <section className="relative overflow-hidden border-b border-slate-800">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px] pointer-events-none" />
 
@@ -61,13 +67,11 @@ export default function About() {
 
           <div className="relative max-w-7xl mx-auto px-6 pt-40 pb-32 text-center md:pt-48">
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 bg-clip-text text-transparent bg-linear-to-br from-white via-slate-200 to-slate-400">
-              Welcome to GalileeFx Academy
-              <br />
-              <span className="text-4xl md:text-6xl block mt-4 text-yellow-400">Your Gateway to Professional Forex Trading</span>
+              Welcome to GalileeFx Academy – Your Gateway to Professional Forex Trading.
             </h1>
 
             <p className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto mb-10 leading-relaxed font-light">
-              At GalileeFx Academy, we believe that trading is not just about numbers — it’s about knowledge, discipline, and strategy. We are dedicated to providing premium education, professional trading signals, and mentorship to traders at every level, from beginners to advanced.
+              At GalileeFx Academy, we believe that trading is not just about numbers—it’s about knowledge, discipline, and strategy. We are dedicated to providing premium education, professional trading signals, and mentorship to traders at every level, from beginners to advanced.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
@@ -75,7 +79,7 @@ export default function About() {
                 href="/auth/Register"
                 className="w-full sm:w-auto bg-linear-to-r from-yellow-500 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-slate-950 font-bold text-lg px-12 py-5 rounded-xl transition-all shadow-xl shadow-yellow-500/20 hover:shadow-yellow-500/40 transform hover:-translate-y-1"
               >
-                Join GalileeFx Academy Today – Trade Like a Pro!
+                Join GalileeFx Academy Today and Trade Like a Pro!
               </Link>
 
               <Link
@@ -88,46 +92,25 @@ export default function About() {
           </div>
         </section>
 
-        {/* Mission – unchanged */}
-        <section className="py-24 bg-linear-to-b from-slate-950 to-slate-900">
-          <div className="max-w-5xl mx-auto px-6 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-10 text-white">Our Mission</h2>
-            <p className="text-2xl md:text-3xl text-slate-200 font-medium italic max-w-4xl mx-auto leading-relaxed">
-              “Empower every trader with the skills and confidence to succeed in the forex market.”
-            </p>
-            <p className="text-xl text-slate-400 mt-8 max-w-3xl mx-auto">
-              We combine world-class education, cutting-edge technology, and expert human support to help you trade smarter, safer, and more profitably — whether you're just starting or leveling up your strategy.
-            </p>
-          </div>
-        </section>
-
-        {/* Founder Highlight Section */}
+        {/* Founder and Team Section */}
         <section id="founder" className="py-20 bg-slate-950">
           <div className="max-w-6xl mx-auto px-6">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-white">Meet the Founder</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-white">Meet the Team Behind GalileeFx Academy</h2>
 
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-4xl mx-auto mb-12">
               <div className="p-10 md:p-12 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 border border-yellow-600/30 hover:border-yellow-500/50 transition-all duration-300 shadow-xl shadow-black/40">
                 <div className="text-center md:text-left">
                   <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
                     Meshack Jeremiah Aidan
                   </h3>
-                  <p className="text-2xl text-yellow-400 font-semibold mb-6">Founder & Lead Trader</p>
+                  <p className="text-2xl text-yellow-400 font-semibold mb-2">Founder of GalileeFx Academy</p>
+                  <p className="text-lg text-slate-300 mb-6">Born-again Christian | Biomedical Equipment Engineer | Expert in Market Analysis & Strategy Development for Consistent Trading Performance</p>
                   <p className="text-xl text-slate-200 leading-relaxed">
-                    Passionate about empowering traders, Meshack brings years of forex trading experience and a track record of profitable strategies.
+                    Meshack Jeremiah Aidan – Founder & Lead Trader: Passionate about empowering traders, Meshack brings years of forex trading experience and a track record of profitable strategies.
                   </p>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Supporting Team */}
-        <section className="py-20 bg-slate-900/50">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-white">
-              The Team Behind GalileeFx Academy
-            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {supportTeams.map((team, i) => (
@@ -144,7 +127,20 @@ export default function About() {
           </div>
         </section>
 
-        {/* Features – unchanged */}
+        {/* Mission */}
+        <section className="py-24 bg-linear-to-b from-slate-950 to-slate-900">
+          <div className="max-w-5xl mx-auto px-6 text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-10 text-white">Our Mission</h2>
+            <p className="text-2xl md:text-3xl text-slate-200 font-medium italic max-w-4xl mx-auto leading-relaxed">
+              “Empower every trader with the skills and confidence to succeed in the forex market.”
+            </p>
+            <p className="text-xl text-slate-400 mt-8 max-w-3xl mx-auto">
+              At GalileeFx Academy, we combine education, technology, and expert support to ensure that every subscriber can trade smarter and safer. Whether you’re starting your forex journey or aiming to refine your strategy, our team is here to guide you every step of the way.
+            </p>
+          </div>
+        </section>
+
+        {/* Features */}
         <section className="py-24 bg-slate-900/70">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-white">What Sets Us Apart</h2>
@@ -163,7 +159,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* Final CTA – unchanged */}
+        {/* Final CTA */}
         <section className="py-24 bg-gradient-to-t from-slate-950 via-slate-900 to-slate-950 text-center border-t border-slate-800">
           <div className="max-w-5xl mx-auto px-6">
             <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">

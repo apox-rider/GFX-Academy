@@ -1,18 +1,31 @@
-// src/components/common/Navbar.tsx
 'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X, TrendingUp } from 'lucide-react';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleMobile = () => setMobileOpen(!mobileOpen);
 
+  const getLinkClass = (href: string, isMobile = false) => {
+    const baseClass = isMobile 
+      ? 'block text-lg font-medium px-2' 
+      : 'text-sm font-medium transition-colors';
+    const activeClass = isMobile ? 'text-yellow font-bold' : 'text-white font-semibold';
+    const inactiveClass = isMobile 
+      ? 'text-slate-300 hover:text-white' 
+      : 'text-slate-300 hover:text-white';
+
+    return `${baseClass} ${pathname === href ? activeClass : inactiveClass}`;
+  };
+
   return (
     <nav
-      className="bg-slate-950  sticky top-0 z-50 border-b border-slate-800/60"
+      className="bg-slate-950 sticky top-0 z-50 border-b border-slate-800/60"
       role="navigation"
       aria-label="Main navigation"
     >
@@ -35,34 +48,19 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link
-              href="/"
-              className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
-            >
+            <Link href="/" className={getLinkClass('/')}>
               Home
             </Link>
-            <Link
-              href="/Courses"
-              className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
-            >
+            <Link href="/Courses" className={getLinkClass('/Courses')}>
               Courses
             </Link>
-            <Link
-              href="/Signals"
-              className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
-            >
+            <Link href="/Signals" className={getLinkClass('/Signals')}>
               Signals
             </Link>
-            <Link
-              href="/About"
-              className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
-            >
+            <Link href="/About" className={getLinkClass('/About')}>
               About
             </Link>
-            <Link
-              href="/Contact"
-              className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
-            >
+            <Link href="/Contact" className={getLinkClass('/Contact')}>
               Contact
             </Link>
             <div className="h-4 w-px bg-slate-800 mx-2"></div>
@@ -99,38 +97,37 @@ export default function Navbar() {
         }`}
       >
         <div className="px-4 pt-4 pb-8 space-y-4">
-      
           <Link
             href="/"
-            className="block text-lg font-medium text-slate-300 hover:text-white px-2"
+            className={getLinkClass('/', true)}
             onClick={toggleMobile}
           >
             Home
           </Link>
           <Link
-            href="/Course"
-            className="block text-lg font-medium text-slate-300 hover:text-white px-2"
+            href="/Courses"
+            className={getLinkClass('/Courses', true)}
             onClick={toggleMobile}
           >
             Courses
           </Link>
           <Link
             href="/Signals"
-            className="block text-lg font-medium text-slate-300 hover:text-white px-2"
+            className={getLinkClass('/Signals', true)}
             onClick={toggleMobile}
           >
             Signals
           </Link>
           <Link
             href="/About"
-            className="block text-lg font-medium text-slate-300 hover:text-white px-2"
+            className={getLinkClass('/About', true)}
             onClick={toggleMobile}
           >
             About
           </Link>
           <Link
-            href="/Ciontact"
-            className="block text-lg font-medium text-slate-300 hover:text-white px-2"
+            href="/Contact"
+            className={getLinkClass('/Contact', true)}
             onClick={toggleMobile}
           >
             Contact
@@ -138,14 +135,14 @@ export default function Navbar() {
           <hr className="border-slate-800 my-4" />
           <div className="flex flex-col gap-3">
             <Link
-              href="/auth/login"
+              href="/auth/Login"
               className="w-full text-center py-3 text-slate-300 font-semibold border border-slate-700 rounded-xl"
               onClick={toggleMobile}
             >
               Login
             </Link>
             <Link
-              href="/auth/register"
+              href="/auth/Register"
               className="w-full text-center py-3 bg-yellow-500 text-slate-950 font-bold rounded-xl"
               onClick={toggleMobile}
             >

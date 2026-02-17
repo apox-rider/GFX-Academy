@@ -1,5 +1,5 @@
 // src/components/auth/Login.tsx
-import { ArrowLeft, MoveLeft } from 'lucide-react';
+import { ArrowLeft, Home, MoveLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -61,12 +61,12 @@ export default function Login() {
         </form>
         
         <p className="text-center text-sm text-slate-400 mt-6">
-          Don&apos;t have an account? <Link href="/auth/register" className="text-yellow-500 hover:underline">Sign up</Link>
+          Don&apos;t have an account? <Link href="/auth/Register" className="text-yellow-500 hover:underline">Sign up</Link>
         </p>
         
           <a href='/' className="justify-center mt-8  text-slate-500 text-xs">
-        <div className="justify-center  flex mt-8 text-center text-slate-500 text-xs">
-          <ArrowLeft className='align-middle'/> <p className='text-center'>Back to home</p>
+        <div className="justify-center flex mt-8 text-center text-slate-500 text-xs">
+          <ArrowLeft className='justify-center top-0  '/> <p className='text-lg'>Back to home</p>
         </div>
         </a>
       </div>

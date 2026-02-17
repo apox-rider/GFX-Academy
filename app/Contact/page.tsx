@@ -3,12 +3,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../components/Header/page';
 import Footer from '../components/Footer/page';
+import { LocateFixed, Mail, Phone } from 'lucide-react';
+import { ViewTransition } from 'react';
 
 export default function Contact() {
   const contactMethods = [
-    { title: 'Email Us', desc: 'Reach out via email for inquiries or support.', icon: '📧', details: 'support@forexmaster.co.tz' },
-    { title: 'Call Us', desc: 'Speak directly with our team during business hours.', icon: '📞', details: '+255 123 456 789' },
-    { title: 'Visit Us', desc: 'Come to our office in Dar es Salaam.', icon: '📍', details: '123 Forex Street, Dar es Salaam, Tanzania' },
+    { title: 'Email Us', desc: 'Reach out via email for inquiries or support.', icon: <Mail/>, details: 'meshackaidai3@gmail.com' },
+    { title: 'Call Us', desc: 'Speak directly with our team during business hours.', icon: <Phone/>, details: '+255 123 456 789' },
+    { title: 'Visit Us', desc: 'Come to our office in Mbeya.', icon: <LocateFixed/>, details: 'MUST, Mbeya, Tanzania' },
   ];
 
   return (
@@ -19,12 +21,10 @@ export default function Contact() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px]"></div>
       
       <div className="absolute inset-0 opacity-20">
-        <Image
-          src="/images/contact-bg.jpeg" // Replace with a suitable contact page background image
+        <img
+          src="unnamed (2).jpg.jpg" 
           alt="Contact Background"
-          fill
           className="object-cover grayscale"
-          priority
         />
         <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-slate-950"></div>
       </div>
@@ -93,7 +93,7 @@ export default function Contact() {
             Fill out the form below, and our team will get back to you within 24 hours.
           </p>
           {/* Simple contact form placeholder */}
-          <form className="max-w-xl mx-auto space-y-6">
+          <form className="max-w-full mx-auto space-y-6">
             <input
               type="text"
               placeholder="Your Name"
