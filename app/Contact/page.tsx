@@ -49,8 +49,7 @@ export default function ContactPage() {
     e.preventDefault();
     setStatus('sending');
 
-
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+     await new Promise((resolve) => setTimeout(resolve, 1200));
 
     console.log('Form data:', formData);
 
