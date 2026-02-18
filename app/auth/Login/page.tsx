@@ -9,13 +9,11 @@ export default function Login() {
       {/* Subtle Grid Overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px]"></div>
       
-      <div className="absolute inset-0 opacity-20">
-        <Image
-          src="/images/auth-bg.jpeg" // Replace with a suitable auth background image
+      <div className="flex absolute inset-0 opacity-20">
+        <img
+          src="https://static.vecteezy.com/system/resources/thumbnails/011/635/825/small/abstract-square-interface-modern-background-concept-fingerprint-digital-scanning-visual-security-system-authentication-login-vector.jpg" 
           alt="Auth Background"
-          fill
           className="object-cover grayscale"
-          priority
         />
         <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-slate-950"></div>
       </div>

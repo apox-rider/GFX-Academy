@@ -9,8 +9,8 @@ export default function Register() {
       {/* Subtle Grid Overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px]"></div>
       
-      <div className="absolute inset-0 opacity-20">
-        <Image
+      <div className="flex justify-center absolute inset-0 opacity-20">
+        <img
           src="https://cdn1.expresscomputer.in/wp-content/uploads/2023/01/04170521/EC_Data_Security_Lock_750.jpg" 
           alt="Auth Background"
           className="object-cover grayscale"
