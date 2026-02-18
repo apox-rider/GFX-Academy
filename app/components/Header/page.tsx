@@ -65,7 +65,7 @@ export default function Navbar() {
               Contact
             </Link>
             <div className="h-4 w-px bg-slate-800 mx-2"></div>
-            {loggedIn?
+            {!loggedIn?
             (
               <>
               <div className='rounded-full m-5'>
@@ -151,7 +151,7 @@ export default function Navbar() {
           </Link>
           <hr className="border-slate-800 my-4" />
           <div className="flex flex-col gap-3">
-            {loggedIn?(
+            {!loggedIn?(
                 <>
                 <Link
                 href="/Profile"

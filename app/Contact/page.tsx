@@ -76,40 +76,47 @@ export default function Contact() {
         </div>
       </section>
       
-      <section className="py-24 bg-slate-900">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Send Us a Message
-          </h2>
-          <p className="text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-            Fill out the form below, and our team will get back to you within 24 hours.
-          </p>
-          {/* Simple contact form placeholder */}
-          <form className="max-w-full mx-auto space-y-6">
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-yellow-500"
-            />
-            <input
-              type="email"
-              placeholder="Your Email"
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-yellow-500"
-            />
-            <textarea
-              placeholder="Your Message"
-              rows={4}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-yellow-500"
-            />
-            <button
-              type="submit"
-              className="w-full bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-10 py-4 rounded-lg transition-all"
-            >
-              Send Message
-            </button>
-          </form>
-        </div>
-      </section>
+   <section className="py-24 bg-slate-900">
+  <div className="max-w-7xl mx-auto px-6 text-center">
+    <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+      Send Us a Message
+    </h2>
+    <p className="text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+      Fill out the form below, and our team will get back to you within 24 hours.
+    </p>
+
+    {/* Add name attribute to all fields — very important even for uncontrolled forms */}
+    <form className="max-w-2xl mx-auto space-y-6">   {/* ← narrower width looks better */}
+      <input
+        type="text"
+        name="name"                     // ← add this
+        placeholder="Your Name"
+        required                        // ← optional but good UX
+        className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/30"
+      />
+      <input
+        type="email"
+        name="email"                    // ← add this
+        placeholder="Your Email"
+        required
+        className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/30"
+      />
+      <textarea
+        name="message"                  // ← add this
+        placeholder="Your Message"
+        rows={5}                        // ← a bit taller looks nicer
+        required
+        className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/30"
+      />
+      <button
+        type="submit"
+        className="w-full bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-10 py-4 rounded-lg transition-all shadow-[0_0_20px_rgba(234,179,8,0.3)]"
+      >
+        Send Message
+      </button>
+    </form>
+  </div>
+</section>
     </section>
     <Footer/>
     </>

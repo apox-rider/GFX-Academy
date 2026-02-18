@@ -71,7 +71,7 @@ export default function Footer() {
                 <Youtube size={20} />
               </a>
               <a 
-                href="#" 
+                href="https://t.me/GalileeFx" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 aria-label="YouTube"
