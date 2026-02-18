@@ -11,11 +11,9 @@ export default function Register() {
       
       <div className="absolute inset-0 opacity-20">
         <Image
-          src="/images/auth-bg.jpeg" // Replace with a suitable auth background image
+          src="https://cdn1.expresscomputer.in/wp-content/uploads/2023/01/04170521/EC_Data_Security_Lock_750.jpg" 
           alt="Auth Background"
-          fill
           className="object-cover grayscale"
-          priority
         />
         <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-slate-950"></div>
       </div>
