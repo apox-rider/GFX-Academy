@@ -7,7 +7,7 @@ export default function Login() {
   return (
     <section className="relative bg-slate-950 text-slate-50 overflow-hidden min-h-screen flex items-center justify-center">
       {/* Subtle Grid Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px]"></div>
       
       <div className="absolute inset-0 opacity-20">
         <Image
@@ -17,7 +17,7 @@ export default function Login() {
           className="object-cover grayscale"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-slate-950"></div>
       </div>
 
       <div className="relative max-w-md w-full mx-auto px-6 py-12 bg-slate-900/50 border border-slate-800 rounded-2xl shadow-xl">

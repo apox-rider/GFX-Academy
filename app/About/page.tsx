@@ -168,7 +168,7 @@ export default function About() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-24 bg-gradient-to-t from-slate-950 via-slate-900 to-slate-950 text-center border-t border-slate-800">
+        <section className="py-24 bg-linear-to-t from-slate-950 via-slate-900 to-slate-950 text-center border-t border-slate-800">
           <div className="max-w-5xl mx-auto px-6">
             <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">
               Ready to Start Your Forex Journey with Confidence?
@@ -179,7 +179,7 @@ export default function About() {
 
             <Link
               href="/auth/Register"
-              className="inline-block bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-bold text-xl px-16 py-6 rounded-xl transition-all shadow-2xl shadow-yellow-600/30 hover:shadow-yellow-500/50 transform hover:-translate-y-2"
+              className="inline-block bg-linear-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-bold text-xl px-16 py-6 rounded-xl transition-all shadow-2xl shadow-yellow-600/30 hover:shadow-yellow-500/50 transform hover:-translate-y-2"
             >
               Join GalileeFx Academy Today and Trade Like a Pro!
             </Link>
