@@ -143,6 +143,8 @@ export default function ContactPage() {
             </p>
 
             <form
+              action="https://formsubmit.co/meshackaidai3@gmail.com"
+              method='POST'
               onSubmit={handleSubmit}
               className="max-w-2xl mx-auto space-y-6"
             >
