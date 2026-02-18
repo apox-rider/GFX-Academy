@@ -49,7 +49,7 @@ export default function ContactPage() {
     e.preventDefault();
     setStatus('sending');
 
-    // Simulate sending (replace with real logic later)
+
     await new Promise((resolve) => setTimeout(resolve, 1200));
 
     console.log('Form data:', formData);
@@ -59,8 +59,7 @@ export default function ContactPage() {
     // You can switch to <form action="https://formsubmit.co/meshackaidai3@gmail.com" method="POST"> and remove this handler
 
     setStatus('success');
-    setFormData({ name: '', email: '', message: '' }); // reset
-
+    setFormData({ name: '', email: '', message: '' });
     setTimeout(() => setStatus('idle'), 4000);
   };
 
