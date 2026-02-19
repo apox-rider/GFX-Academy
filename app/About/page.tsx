@@ -35,7 +35,7 @@ export default function About() {
       role: 'Course Creators & Instructors',
       desc: 'Experts who create structured courses, video tutorials, and practical guides to make learning forex simple and effective.',
     },
-    {
+    { 
       name: 'Signals & Analysis Team',
       role: 'Market Analysts',
       desc: 'Professional traders who monitor the markets, deliver real-time signals, and provide trade explanations for subscribers.',
