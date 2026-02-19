@@ -40,7 +40,7 @@ export default function About() {
       role: 'Market Analysts',
       desc: 'Professional traders who monitor the markets, deliver real-time signals, and provide trade explanations for subscribers.',
     },
-    {
+    { 
       name: 'Support & Operations Team',
       role: 'Member Success',
       desc: 'Ensuring smooth payments, subscription management, and quick responses to subscriber queries.',
