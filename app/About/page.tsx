@@ -21,7 +21,7 @@ export default function About() {
       desc: 'Instant access using M-Pesa, Tigo Pesa, or Airtel Money — no international cards required.',
       icon: <MdPayments/>,
     },
-    {
+    { 
       title: 'Expert Mentorship & Community',
       desc: 'Weekly live Zoom sessions, one-on-one guidance, and a supportive community of active Tanzanian traders.',
       icon:<RiUserCommunityFill/>
