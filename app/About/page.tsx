@@ -27,7 +27,7 @@ export default function About() {
       icon:<RiUserCommunityFill/>
       ,
     },
-  ];
+  ]; 
 
   const supportTeams = [
     {
