@@ -45,7 +45,7 @@ export default function About() {
       role: 'Member Success',
       desc: 'Ensuring smooth payments, subscription management, and quick responses to subscriber queries.',
     },
-  ];
+  ]; 
 
   return (
     <>
