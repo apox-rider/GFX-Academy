@@ -26,7 +26,7 @@ export default function About() {
       desc: 'Weekly live Zoom sessions, one-on-one guidance, and a supportive community of active Tanzanian traders.',
       icon:<RiUserCommunityFill/>
       ,
-    },
+    }, 
   ]; 
 
   const supportTeams = [
