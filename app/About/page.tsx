@@ -11,7 +11,7 @@ import { MdPayments } from 'react-icons/md';
 
 export default function About() {
   const features = [
-    { 
+    {  
       title: 'Live Trading Signals',
       desc: 'Daily high-probability Buy/Sell alerts delivered to your dashboard and Telegram with clear entry, stop-loss & take-profit levels.',
       icon: <GoGraph/>,
