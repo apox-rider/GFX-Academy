@@ -25,7 +25,7 @@ export default function SettingsContent() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
-    const checked = (e.target as HTMLInputElement).checked;
+    const checked = (e.target as HTMLInputElement).checked; 
     
     setSettings(prev => ({
       ...prev,
