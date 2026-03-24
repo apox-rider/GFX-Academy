@@ -60,7 +60,7 @@ export default function Home() {
       id: 1,
       name: 'Bronze',
       price: 25000,
-      duration: 'One-time',
+      duration: '1 month',
       features: [
         'Technical Analysis',
         'Fundamental Analysis',
@@ -74,7 +74,7 @@ export default function Home() {
       id: 2,
       name: 'Silver',
       price: 100000,
-      duration: '2 Months',
+      duration: '2 months',
       features: [
         'Everything in Bronze',
         'Prop Firm Videos',
@@ -87,7 +87,7 @@ export default function Home() {
       id: 3,
       name: 'Gold',
       price: 130000,
-      duration: 'Lifetime',
+      duration: '3 months',
       features: [
         'Everything in Silver',
         'Full Lifetime Mentorship',

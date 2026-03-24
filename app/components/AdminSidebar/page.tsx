@@ -12,10 +12,11 @@ import {
   Menu,
   X
 } from 'lucide-react';
+import { RiSecurePaymentFill } from 'react-icons/ri';
 
 interface AdminSidebarProps {
   activeTab: string;
-  setActiveTab: (tab: 'dashboard' | 'signals' | 'courses' | 'contacts' | 'settings') => void;
+  setActiveTab: (tab: 'dashboard' | 'signals' | 'courses' | 'contacts' | 'settings'|'payments') => void;
 }
 
 export default function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarProps) {
@@ -27,6 +28,7 @@ export default function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarPr
     { id: 'courses', label: 'Courses', icon: BookOpen },
     { id: 'contacts', label: 'Contacts', icon: MessageSquare },
     { id: 'settings', label: 'Settings', icon: Settings },
+    { id: 'payments', label: 'Payments', icon: RiSecurePaymentFill }
   ];
 
   return (
@@ -34,9 +36,9 @@ export default function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarPr
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-gray-900 rounded-xl border border-gray-700"
+        className=" lg:hidden fixed top-4 left-4 z-50 p-2 bg-gray-900 rounded-xl border border-gray-700"
       >
-        {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
+        {isMobileOpen ? <X size={24} /> : <Menu className='' size={24} />}
       </button>
 
       {/* Sidebar */}
@@ -47,7 +49,7 @@ export default function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarPr
       `}>
         <div className="p-6">
           <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center text-black font-bold text-2xl">
+            <div className="w-10 h-10 bg-linear-to-br from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center text-black font-bold text-2xl">
               M
             </div>
             <div>
@@ -69,7 +71,7 @@ export default function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarPr
                   }}
                   className={`w-full flex items-center gap-3 px-5 py-3.5 rounded-2xl text-left transition-all ${
                     isActive 
-                      ? 'bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-semibold' 
+                      ? 'bg-linear-to-r from-yellow-500 to-orange-600 text-black font-semibold' 
                       : 'hover:bg-gray-800 text-gray-300'
                   }`}
                 >

@@ -1,117 +1,117 @@
-// src/components/courses/Courses.tsx
-import Image from 'next/image';
-import Link from 'next/link';
+'use client';
+
 import Navbar from '../components/Header/page';
 import Footer from '../components/Footer/page';
-import { AlignVerticalJustifyCenterIcon, BookUser, Rocket } from 'lucide-react';
+import Link from 'next/link';
+import { Unlock, Star, Crown, Play, FileText } from 'lucide-react';
+import { FaUnlockAlt } from 'react-icons/fa';
 
-export default function Courses() {
-  const courses = [
-    { title: 'Beginner Forex Fundamentals', desc: 'Master the basics of currency trading, market analysis, and risk management through engaging video tutorials.', lessons: 12, duration: '6 hours', icon: <BookUser/> },
-    { title: 'Intermediate Technical Analysis', desc: 'Dive into chart patterns, indicators, and strategies with real-world examples in video format.', lessons: 15, duration: '8 hours', icon: <AlignVerticalJustifyCenterIcon/> },
-    { title: 'Advanced Trading Strategies', desc: 'Learn expert-level techniques, including scalping, swing trading, and algorithmic approaches via in-depth videos.', lessons: 10, duration: '5 hours', icon: <Rocket/> },
-  ];
-
+export default function CoursesPage() {
+  const video=[
+                { title: 'Introduction to Forex Trading', type: 'video', duration: '28 min' },
+                { title: 'Currency Pairs Explained', type: 'video', duration: '35 min' },
+                { title: 'Forex Basics PDF Guide', type: 'pdf', pages: 48 },
+              ]
   return (
     <>
-    <Navbar/>
-    <section className="relative bg-slate-950 text-slate-50 overflow-hidden border-b border-slate-800">
-      {/* Subtle Grid Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px]"></div>
-      
-      <div className="absolute inset-0 opacity-20">
-        <Image
-          src="/images/courses-bg.jpeg" // Replace with a suitable courses page background image, e.g., educational charts or videos
-          alt="Courses Background"
-          fill
-          className="object-cover grayscale"
-          priority
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-slate-950"></div>
-      </div>
+      <Navbar />
+      <section className="relative bg-slate-950 text-slate-50 overflow-hidden">
+        {/* Subtle grid background */}
 
-      <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-24 text-center">
-       
-        
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-linear-to-b from-white to-slate-400">
-          Forex Courses<br />Video Tutorials for Success
-        </h1>
-        
-        <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-          Structured video courses from beginner to advanced levels, designed for Tanzanian traders. 
-          <span className="block mt-2 text-slate-300 font-medium text-lg">
-            Pay via M-Pesa, Tigo Pesa, or Airtel Money.
-          </span>
-        </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Link
-            href="/auth/register"
-            className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-10 py-4 rounded-lg transition-all shadow-[0_0_20px_rgba(234,179,8,0.3)]"
-          >
-            Enroll Now – Register Free
-          </Link>
-          <Link
-            href="#course-list"
-            className="w-full sm:w-auto bg-slate-900 border border-slate-700 hover:bg-slate-800 text-white font-bold text-lg px-10 py-4 rounded-lg transition-all"
-          >
-            Browse Courses
-          </Link>
-        </div>
+        <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-20 text-center">
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
+            Forex Courses &amp;<br />Video Tutorials
+          </h1>
+          <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto">
+            Start free with Beginner level.<br />
+            Unlock Intermediate &amp; Expert with a package.
+          </p>
 
-        <div className="mt-12 flex items-center justify-center gap-6 text-slate-500 grayscale opacity-70">
-          <span className="text-xs font-semibold tracking-widest uppercase">Integration Partners:</span>
-          {/* Add small logos for M-Pesa / Tigo here */}
-          <span className="text-sm font-medium">M-Pesa</span>
-          <span className="text-sm font-medium">Tigo Pesa</span>
-          <span className="text-sm font-medium">Airtel Money</span>
-        </div>
-      </div>
-
-      <section id="course-list" className="py-24 bg-slate-950">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
-            Our Video Tutorial Courses
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {courses.map((course, i) => (
-              <div key={i} className="p-8 rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-slate-700 transition-colors">
-                <div className="text-4xl mb-4">{course.icon}</div>
-                <h3 className="text-xl font-bold text-white mb-2">{course.title}</h3>
-                <p className="text-slate-400 leading-relaxed mb-4">{course.desc}</p>
-                <p className="text-sm text-slate-500 mb-4">
-                  {course.lessons} Lessons • {course.duration}
-                </p>
-                <Link
-                  href={`/courses/${i + 1}`} // Placeholder link to individual course page
-                  className="inline-block bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-sm px-6 py-2 rounded-lg transition-all"
-                >
-                  Start Course
-                </Link>
-              </div>
-            ))}
+          <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/auth/Register"
+              className="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-12 py-5 rounded-2xl transition-all shadow-xl shadow-yellow-500/30"
+            >
+              Start Free – Beginner Level
+            </Link>
+            <Link
+              href="/Packages"
+              className="border border-slate-700 hover:bg-slate-900 font-bold text-lg px-12 py-5 rounded-2xl transition-all"
+            >
+              View All Packages
+            </Link>
           </div>
         </div>
-      </section>
-      
-      <section className="py-24 bg-slate-900">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Why Choose Our Courses?   
-          </h2>
-          <p className="text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-            Our video tutorials are created by expert mentors who live off the markets. Access them anytime, anywhere, with progress tracking and community support.
-          </p>
-          <Link
-            href="#packages"
-            className="inline-block bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-10 py-4 rounded-lg transition-all"
-          >
-            View Packages
-          </Link>
+
+        {/* Levels */}
+        <div className="max-w-7xl mx-auto px-6 pb-24 space-y-24">
+          
+          {/* BEGINNER - FREE */}
+          <div>
+            <div className="flex items-center gap-4 mb-10">
+              <Unlock className="w-8 h-8 text-emerald-500" />
+              <div>
+                <h2 className="text-4xl font-bold text-white">Beginner Level</h2>
+                <p className="text-yellow-600 font-medium uppercase tracking-widest">FREE FOR EVERYONE</p>
+              </div>
+            </div>
+
+            <div className="border border-dashed border-yellow-500/30 rounded-3xl p-12 text-center">
+            <FaUnlockAlt className="w-12 h-12 text-emerald-500 mx-auto mb-6" />
+            <h2 className="text-4xl font-bold mb-4">Beginer Level</h2>
+            <p className="text-emerald-500 font-medium mb-8">Free for anyone</p>
+            <p className="text-slate-400 max-w-md mx-auto mb-10">
+              Introduction to Forex and Trading.
+            </p>
+            <Link
+              href="/auth/Register?package=1"
+              className="inline-block bg-blue-500 hover:bg-emerald-400 text-slate-950 font-bold text-xl px-16 py-6 rounded-2xl transition-all"
+            >
+              Watch Beginner Level Tutorials
+            </Link>
+          </div>
+          </div>
+
+          {/* INTERMEDIATE - DIRECTIVE */}
+          <div className="border border-dashed border-yellow-500/30 rounded-3xl p-12 text-center">
+            <Star className="w-12 h-12 text-yellow-500 mx-auto mb-6" />
+            <h2 className="text-4xl font-bold mb-4">Intermediate Level</h2>
+            <p className="text-yellow-500 font-medium mb-8">BRONZE • SILVER • GOLD PACKAGE REQUIRED</p>
+            <p className="text-slate-400 max-w-md mx-auto mb-10">
+              Master price action, support &amp; resistance, risk management and more.
+            </p>
+            <Link
+              href="/auth/Register?package=2"
+              className="inline-block bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-xl px-16 py-6 rounded-2xl transition-all"
+            >
+              Unlock Intermediate – View Packages
+            </Link>
+          </div>
+
+          {/* EXPERT - DIRECTIVE */}
+          <div className="border border-dashed border-violet-500/30 rounded-3xl p-12 text-center">
+            <Crown className="w-12 h-12 text-violet-500 mx-auto mb-6" />
+            <h2 className="text-4xl font-bold mb-4">Expert Level</h2>
+            <p className="text-violet-500 font-medium mb-8">GOLD PACKAGE ONLY + 1 MONTH FREE SIGNALS</p>
+            <p className="text-slate-400 max-w-md mx-auto mb-10">
+              Smart Money Concepts, Institutional trading, Order Blocks &amp; advanced strategies.
+            </p>
+            <Link
+              href="/auth/Register?package=3"
+              className="inline-block bg-gradient-to-r from-violet-500 to-yellow-500 text-white font-bold text-xl px-16 py-6 rounded-2xl transition-all"
+            >
+              Unlock Expert – Get Gold Package
+            </Link>
+          </div>
+        </div>
+
+        <div className="bg-slate-900 py-20 text-center border-t border-slate-800">
+          <p className="text-slate-400">Need help choosing a package?</p>
+          <Link href="/contacts" className="text-yellow-500 hover:text-yellow-400 font-medium">Contact Support →</Link>
         </div>
       </section>
-    </section>
-    <Footer/>
+      <Footer />
     </>
   );
 }

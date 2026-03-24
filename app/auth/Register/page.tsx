@@ -1,84 +1,190 @@
-// src/components/auth/Register.tsx
-import { ArrowLeft, MoveLeft } from 'lucide-react';
-import Image from 'next/image';
+'use client';
+
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Register() {
+  const searchParams = useSearchParams();
+  const packageParam = searchParams.get('package');
+
+  const [selectedPackage, setSelectedPackage] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const packageDetails = {
+    1: { name: 'Bronze', price: 25000, color: 'from-blue-500 to-cyan-600', desc: 'Beginner friendly package' },
+    2: { name: 'Silver', price: 100000, color: 'from-purple-500 to-violet-600', desc: 'Intermediate level access' },
+    3: { name: 'Gold', price: 130000, color: 'from-yellow-500 to-orange-600', desc: 'Full access + 1 month free signals' },
+  };
+
+  const currentPkg = selectedPackage ? packageDetails[selectedPackage as keyof typeof packageDetails] : null;
+
+  useEffect(() => {
+    if (packageParam) {
+      const pkgId = parseInt(packageParam);
+      if (pkgId >= 1 && pkgId <= 3) setSelectedPackage(pkgId);
+    }
+  }, [packageParam]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+    setSuccessMessage('');
+
+    const formData = new FormData(e.currentTarget);
+    const userData = {
+      fullName: formData.get('name'),
+      phone: formData.get('phone'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+      packageId: selectedPackage,        // null = Free Account
+    };
+
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      });
+
+      const result = await res.json();
+
+      if (res.status === 409) {
+        // Email already exists
+        setError('An account with this email already exists. Would you like to login instead?');
+        return;
+      }
+
+      if (!result.success) {
+        setError(result.message || 'Registration failed. Please try again.');
+        return;
+      }
+
+      // Success
+      if (selectedPackage) {
+        // Redirect to payment
+        window.location.href = `/api/payment/initiate?userId=${result.userId}&packageId=${selectedPackage}`;
+      } else {
+        setSuccessMessage('Account created successfully! Redirecting to dashboard...');
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 1500);
+      }
+    } catch (err) {
+      setError('Something went wrong. Please check your internet connection.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <section className="relative bg-slate-950 text-slate-50 overflow-hidden min-h-screen flex items-center justify-center">
-      {/* Subtle Grid Overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[40px_40px]"></div>
       
-      <div className="flex justify-center absolute inset-0 opacity-20">
-        <img
+      <div className="absolute inset-0 opacity-20">
+        <img 
           src="https://cdn1.expresscomputer.in/wp-content/uploads/2023/01/04170521/EC_Data_Security_Lock_750.jpg" 
-          alt="Auth Background"
-          className="object-cover grayscale"
+          alt="Auth Background"  
+          className="object-cover grayscale" 
         />
-        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-slate-950"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950" />
       </div>
 
-      <div className="relative max-w-md w-full mx-auto px-6 py-12 bg-slate-900/50 border border-slate-800 rounded-2xl shadow-xl">
-        <h1 className="text-3xl font-bold text-center mb-8 text-white">Sign Up</h1>
+      <div className="relative max-w-md w-full mx-auto px-6 py-12 bg-slate-900/70 backdrop-blur-xl border border-slate-800 rounded-3xl shadow-2xl">
         
-        <form className="space-y-6">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">Full Name</label>
-            <input
-              type="text"
-              id="name"
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-yellow-500"
-              placeholder="Enter your full name"
-            />
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-white">Sign Up</h1>
+          <p className="text-slate-400 mt-2">Join thousands of successful Forex traders</p>
+        </div>
+
+        {/* Package / Free Account Preview */}
+        {currentPkg ? (
+          <div className={`mb-8 p-6 rounded-2xl bg-gradient-to-br ${currentPkg.color} text-black`}>
+            <p className="uppercase text-xs tracking-widest opacity-75">Selected Package</p>
+            <div className="flex justify-between items-end mt-2">
+              <div>
+                <h2 className="text-3xl font-bold">{currentPkg.name}</h2>
+                <p className="text-sm mt-1 opacity-90">{currentPkg.desc}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-4xl font-bold">{currentPkg.price.toLocaleString()}</p>
+                <p className="text-xs">TZS</p>
+              </div>
+            </div>
           </div>
-          
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-yellow-500"
-              placeholder="Enter your email"
-            />
+        ) : (
+          <div className="mb-8 p-6 rounded-2xl bg-slate-800/80 border border-slate-700 text-center">
+            <h2 className="text-2xl font-semibold">Free Account</h2>
+            <p className="text-slate-400 text-sm mt-3">Access all Beginner courses + limited signals</p>
           </div>
-          
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">Password</label>
-            <input
-              type="password"
-              id="password"
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-yellow-500"
-              placeholder="Create a password"
-            />
+        )}
+
+        {error && (
+          <div className="mb-6 p-4 bg-red-900/50 border border-red-700 rounded-2xl text-red-300 text-sm">
+            {error}
+            {error.includes('already exists') && (
+              <div className="mt-3">
+                <Link href="/auth/login" className="text-yellow-400 hover:underline font-medium">
+                  → Go to Login
+                </Link>
+              </div>
+            )}
           </div>
-          
-          <div>
-            <label htmlFor="confirm-password" className="block text-sm font-medium text-slate-300 mb-2">Confirm Password</label>
-            <input
-              type="password"
-              id="confirm-password"
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-yellow-500"
-              placeholder="Confirm your password"
-            />
+        )}
+
+        {successMessage && (
+          <div className="mb-6 p-4 bg-green-900/50 border border-green-700 rounded-2xl text-green-300 text-sm">
+            {successMessage}
           </div>
-          
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Full Name</label>
+            <input name="name" type="text" required className="w-full px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:border-yellow-500" placeholder="John Mwangi" />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Phone Number (M-Pesa)</label>
+            <input name="phone" type="tel" required className="w-full px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:border-yellow-500" placeholder="+255 712 345 678" />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
+            <input name="email" type="email" required className="w-full px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:border-yellow-500" placeholder="john@example.com" />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Password</label>
+            <input name="password" type="password" required className="w-full px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:border-yellow-500" placeholder="Create password" />
+          </div>
+
           <button
             type="submit"
-            className="w-full bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg py-4 rounded-lg transition-all shadow-[0_0_20px_rgba(234,179,8,0.3)]"
+            disabled={isLoading}
+            className={`w-full font-bold text-lg py-4 rounded-2xl transition-all ${currentPkg ? 'bg-gradient-to-r from-yellow-500 to-orange-600 text-black' : 'bg-yellow-500 text-black'} hover:scale-105 disabled:opacity-70`}
           >
-            Sign Up
+            {isLoading 
+              ? 'Processing...' 
+              : currentPkg 
+                ? `Pay ${currentPkg.price.toLocaleString()} TZS & Create Account` 
+                : 'Create Free Account'}
           </button>
         </form>
-        
+
         <p className="text-center text-sm text-slate-400 mt-6">
-          Already have an account? <Link href="/auth/login" className="text-yellow-500 hover:underline">Sign in</Link>
+          Already have an account?{' '}
+          <Link href="/auth/Login" className="text-yellow-500 hover:underline">Sign in here</Link>
         </p>
-        
-        <a href='/' className="justify-center mt-8  text-slate-500 text-xs">
-        <div className="justify-center  flex mt-8 text-center text-slate-500 text-xs">
-          <ArrowLeft className='align-middle'/> <p className='text-lg'>Back to home</p>
-        </div>
-        </a>
+
+        <Link href="/" className="flex items-center justify-center gap-2 mt-10 text-slate-500 hover:text-slate-400 text-sm">
+          <ArrowLeft className="w-4 h-4" /> Back to Home
+        </Link>
       </div>
     </section>
   );

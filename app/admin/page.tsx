@@ -8,13 +8,14 @@ import SignalsContent from '../components/SignalsContent/page';
 import CoursesContent from '../components/CoursesContent/page';
 import ContactsContent from '../components/ContactsContent/page';
 import SettingsContent from '../components/SettingsContent/page';
+import PaymentsContent from '../components/Payment Content/page';
  
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'signals' | 'courses' | 'settings' | 'contacts'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'signals' | 'courses' | 'payments' | 'settings' | 'contacts'>('dashboard');
 
  
   const ADMIN_PASSWORD = 'forexadmin2026'; // Change this!
@@ -62,7 +63,7 @@ export default function AdminPage() {
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-semibold py-4 rounded-xl transition-all duration-300"
+              className="w-full bg-linear-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-semibold py-4 rounded-xl transition-all duration-300"
             >
               Login to Admin Panel
             </button>
@@ -87,6 +88,7 @@ export default function AdminPage() {
           {activeTab === 'courses' && <CoursesContent />}
           {activeTab === 'contacts' && <ContactsContent />}
           {activeTab === 'settings' && <SettingsContent />}
+          {activeTab === 'payments' && <PaymentsContent />}
         </main>
       </div>
     </div>

@@ -4,7 +4,7 @@ export default function AdminHeader() {
   return (
     <header className="bg-gray-900 border-b border-gray-800 px-8 py-5 flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <h2 className="text-2xl font-semibold text-white">Admin Dashboard</h2>
+        <h2 className="ml-8 text-2xl font-semibold text-white">Admin Dashboard</h2>
       </div>
 
       <div className="flex items-center gap-6">
@@ -18,8 +18,8 @@ export default function AdminHeader() {
             <p className="font-medium">Meshack</p>
             <p className="text-xs text-gray-500">Super Admin</p>
           </div>
-          <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center text-black font-bold">
-            A
+          <div className="w-10 h-10 bg-linear-to-br from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center text-black font-bold">
+            M
           </div>
         </div>
       </div>

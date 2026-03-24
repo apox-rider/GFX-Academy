@@ -62,7 +62,7 @@ export default function PackagesSection({ packages }: Props) {
                 </ul>
 
                 <Link
-                  href={`/auth/register?package=${pkg.id}`}
+                  href={`/auth/Register?package=${pkg.id}`}
                   className={`block w-full text-center py-4 rounded-xl font-bold transition-all ${
                     pkg.name === 'Gold' 
                     ? 'bg-yellow-500 text-slate-950 hover:bg-yellow-400 shadow-lg shadow-yellow-500/10' 
