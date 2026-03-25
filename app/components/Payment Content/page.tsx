@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { Calendar, Download, Send, Eye, X, CreditCard, Clock } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Calendar, Download, Send, Eye, X, CreditCard, Clock, AlertCircle } from 'lucide-react';
+
 
 interface Payment {
   id: number;
@@ -18,60 +19,9 @@ interface Payment {
 }
 
 export default function PaymentsContent() {
-  const [payments, setPayments] = useState<Payment[]>([
-    { 
-      id: 1001, 
-      user: "John Mwangi", 
-      email: "john.mwangi@gmail.com", 
-      package: "Gold", 
-      amount: 130000, 
-      date: "2026-03-20", 
-      expiryDate: "2027-03-20", 
-      status: "Active", 
-      daysLeft: 360, 
-      paymentMethod: "M-Pesa",
-      transactionId: "MPESA-7845K92X"
-    },
-    { 
-      id: 1002, 
-      user: "Aisha Khan", 
-      email: "aisha.khan@outlook.com", 
-      package: "Silver", 
-      amount: 100000, 
-      date: "2026-03-18", 
-      expiryDate: "2026-05-18", 
-      status: "Active", 
-      daysLeft: 54, 
-      paymentMethod: "Tigo Pesa",
-      transactionId: "TIGO-9382P44A"
-    },
-    { 
-      id: 1003, 
-      user: "David Kimaro", 
-      email: "davidk@ymail.com", 
-      package: "Bronze", 
-      amount: 25000, 
-      date: "2026-03-15", 
-      expiryDate: "2026-03-15", 
-      status: "Expired", 
-      daysLeft: 0, 
-      paymentMethod: "M-Pesa",
-      transactionId: "MPESA-1123M77B"
-    },
-    { 
-      id: 1004, 
-      user: "Fatma Hassan", 
-      email: "fatma.hassan@gmail.com", 
-      package: "Gold", 
-      amount: 130000, 
-      date: "2026-03-10", 
-      expiryDate: "2027-03-10", 
-      status: "Active", 
-      daysLeft: 350, 
-      paymentMethod: "Airtel Money",
-      transactionId: "AIRTEL-5567Q88C"
-    },
-  ]);
+  const [payments, setPayments] = useState<Payment[]>([]);
+
+ 
 
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
   const [showReminderModal, setShowReminderModal] = useState(false);
@@ -103,6 +53,14 @@ export default function PaymentsContent() {
     setShowReminderModal(true);
   };
 
+   const getpaymentRecords=()=>{
+     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/payments`)
+     .then(res=>res.json())
+     .then(json=>setPayments(json)) 
+  }
+  useEffect(()=>{
+    getpaymentRecords()
+  },[])
   return (
     <div className="space-y-10">
       <div>
@@ -138,7 +96,7 @@ export default function PaymentsContent() {
       <div className="flex flex-wrap gap-4">
         <button 
           onClick={exportPayments}
-          className="bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-semibold px-8 py-4 rounded-2xl flex items-center gap-3 hover:scale-105 transition"
+          className="bg-linear-to-r from-yellow-500 to-orange-600 text-black font-semibold px-8 py-4 rounded-2xl flex items-center gap-3 hover:scale-105 transition"
         >
           <Download className="w-5 h-5" />
           Export Payment Report (CSV)

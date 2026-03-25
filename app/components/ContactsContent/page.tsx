@@ -1,4 +1,27 @@
+'use client'
+import { useEffect, useState } from "react";
+
+interface Contact{
+  id:number
+  name:string;
+  email:string;
+  subject:string;
+  message:string;
+  date:string;
+  Action:string;
+}
+
 export default function ContactsContent() {
+  const [contacts,setContact]=useState<Contact[]>([])
+
+  const getContactInfor=()=>{
+      fetch('http://localhost:3000/api/contacts')
+      .then(res=>res.json())
+      .then(json=>setContact(json))
+  }
+  useEffect(()=>{
+    getContactInfor()
+  },[])
   return (
     <div className="space-y-8">
       <h1 className="text-4xl font-bold">Contact Messages</h1>
@@ -16,16 +39,13 @@ export default function ContactsContent() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-800">
-            {[
-              { name: "John Mwangi", email: "john@example.com", subject: "Signal Access Issue", message: "Cannot see today's signals...", date: "2 hours ago" },
-              { name: "Aisha Khan", email: "aisha@outlook.com", subject: "Course Inquiry", message: "Do you offer installment payments?", date: "Yesterday" },
-            ].map((msg, i) => (
-              <tr key={i} className="hover:bg-gray-800/50">
-                <td className="p-6 font-medium">{msg.name}</td>
-                <td className="p-6 text-gray-400">{msg.email}</td>
-                <td className="p-6">{msg.subject}</td>
-                <td className="p-6 max-w-xs truncate text-gray-300">{msg.message}</td>
-                <td className="p-6 text-gray-400">{msg.date}</td>
+            { contacts.map((contact, id) => (
+              <tr key={id} className="hover:bg-gray-800/50">
+                <td className="p-6 font-medium">{contact.name}</td>
+                <td className="p-6 text-gray-400">{contact.email}</td>
+                <td className="p-6">{contact.subject}</td>
+                <td className="p-6 max-w-xs truncate text-gray-300">{contact.message}</td>
+                <td className="p-6 text-gray-400">{contact.date}</td>
                 <td className="p-6">
                   <button className="text-yellow-500 hover:underline">Reply</button>
                 </td>

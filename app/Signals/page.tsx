@@ -1,16 +1,33 @@
-// src/components/signals/Signals.tsx
+'use client'
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../components/Header/page';
 import Footer from '../components/Footer/page';
+import { useEffect, useState } from 'react';
+
+interface Signal{
+  Id:number;
+  Pair:string;
+  Action:string;
+  Entry:number;
+  SL:number;
+  TP:number;
+  Time:string
+  Status:string;
+}
 
 export default function Signals() {
-  const signals = [
-    { pair: 'EUR/USD', action: 'Buy', entry: '1.0850', sl: '1.0800', tp: '1.0950', time: '2023-10-01 09:00', status: 'Open' },
-    { pair: 'GBP/USD', action: 'Sell', entry: '1.3100', sl: '1.3150', tp: '1.3000', time: '2023-10-01 10:30', status: 'Closed' },
-    { pair: 'USD/JPY', action: 'Buy', entry: '150.20', sl: '149.50', tp: '151.50', time: '2023-10-01 11:45', status: 'Open' },
-    // Add more placeholder signals as needed
-  ];
+  const [signals,setSignals]=useState<Signal[]>([])
+  const getSignal =()=>{
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/signals`)
+    .then(res=>res.json())
+    .then(json=>setSignals(json))
+  };
+
+  useEffect(()=>{
+      getSignal()
+  },[])
+
 
   return (
     <>
@@ -31,7 +48,7 @@ export default function Signals() {
       <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-24 text-center">
         
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-linear-to-b from-white to-slate-400">
-          Live Forex Signals<br />Trade Smarter
+          Live Forex Signals<br/>Trade Smarter
         </h1>
         
         <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
@@ -84,15 +101,15 @@ export default function Signals() {
                 </tr>
               </thead>
               <tbody className="bg-black divide-y divide-slate-800">
-                {signals.map((signal, i) => (
-                  <tr key={i}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{signal.pair}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{signal.action}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{signal.entry}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{signal.sl}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{signal.tp}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{signal.time}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{signal.status}</td>
+                {signals.map((signal) => (
+                  <tr key={signal.Id} >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{signal.Pair}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{signal.Action}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{signal.Entry}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{signal.SL}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{signal.TP}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{signal.Time}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{signal.Status}</td>
                   </tr>
                 ))}
               </tbody>
