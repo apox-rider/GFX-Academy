@@ -17,18 +17,91 @@ interface Signal{
 }
 
 export default function Signals() {
-  const [signals,setSignals]=useState<Signal[]>([])
+  const [signals,setSignals]=useState<Signal[]>([]);
+  const [isGoldUser, setIsGoldUser] = useState<boolean | null>(null); // null = loading
+
   const getSignal =()=>{
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/signals`)
-    .then(res=>res.json())
-    .then(json=>setSignals(json))
+      .then(res=>res.json())
+      .then(json=>setSignals(json));
   };
 
+  // Check user package (Gold only)
   useEffect(()=>{
-      getSignal()
-  },[])
+    const userPackage = localStorage.getItem('userPackage'); // e.g. "Gold", "Silver", "Bronze", or null
+    
+    if (userPackage === 'Gold') {
+      setIsGoldUser(true);
+      getSignal();
+    } else {
+      setIsGoldUser(false);
+    }
+  },[]);
 
+  // If still checking package
+  if (isGoldUser === null) {
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-slate-400">Checking access...</p>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
+  // If not Gold user → Show locked screen
+  if (!isGoldUser) {
+    return (
+      <>
+        <Navbar />
+        <section className="relative bg-slate-950 text-slate-50 min-h-screen flex items-center">
+          <div className="relative max-w-7xl mx-auto px-6 py-24 text-center">
+            <div className="max-w-md mx-auto">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-violet-500/10 rounded-full mb-8">
+                <span className="text-5xl">👑</span>
+              </div>
+              
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
+                Gold Package Only
+              </h1>
+              
+              <p className="text-xl text-slate-400 mb-10 leading-relaxed">
+                Live Forex Signals are exclusive to <span className="text-yellow-400 font-medium">Gold Package</span> members.
+              </p>
+
+              <div className="space-y-4">
+                <Link
+                  href="/Packages"
+                  className="block w-full bg-gradient-to-r from-violet-500 to-yellow-500 text-white font-bold text-lg px-10 py-5 rounded-2xl transition-all hover:scale-105"
+                >
+                  Upgrade to Gold Package
+                </Link>
+                
+                <Link
+                  href="/"
+                  className="block w-full border border-slate-700 hover:bg-slate-900 text-white font-medium py-5 rounded-2xl transition-all"
+                >
+                  Back to Homepage
+                </Link>
+              </div>
+
+              <p className="text-sm text-slate-500 mt-12">
+                Already a Gold member? <span className="text-yellow-400">Login again</span> to refresh access.
+              </p>
+            </div>
+          </div>
+        </section>
+        <Footer />
+      </>
+    );
+  }
+
+  // Gold user → Show full Signals page (original design untouched)
   return (
     <>
     <Navbar/>
@@ -75,7 +148,6 @@ export default function Signals() {
 
         <div className="mt-12 flex items-center justify-center gap-6 text-slate-500 grayscale opacity-70">
           <span className="text-xs font-semibold tracking-widest uppercase">Integration Partners:</span>
-          {/* Add small logos for M-Pesa / Tigo here */}
           <span className="text-sm font-medium">M-Pesa</span>
           <span className="text-sm font-medium">Tigo Pesa</span>
           <span className="text-sm font-medium">Airtel Money</span>

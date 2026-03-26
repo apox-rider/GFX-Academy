@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Play, FileText, Unlock, Lock, Crown, Star } from 'lucide-react';
+import { Play, FileText, Unlock, Lock, Crown, Star, X, Trash2 } from 'lucide-react';
 
 interface Tutorial {
   id: number;
@@ -25,31 +25,48 @@ interface CourseLevel {
 
 export default function CoursesContent() {
   const [activeLevel, setActiveLevel] = useState<'Beginner' | 'Intermediate' | 'Expert'>('Beginner');
-  const [toturial,setToturial]=useState<Tutorial[]>([])
-  const getToturials=()=>{
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/toturials`)
-    .then(res=>res.json())
-    .then(json=>setToturial(json))
-  }
+  const [toturial, setToturial] = useState<Tutorial[]>([]);
 
-  useEffect(()=>{
-    getToturials()
-  },[])
+  // Modal states
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<'add' | 'edit' | 'preview'>('add');
+  const [selectedTutorial, setSelectedTutorial] = useState<Tutorial | null>(null);
+
+  const [formData, setFormData] = useState({
+    id: 0,
+    title: '',
+    type: 'video' as 'video' | 'pdf',
+    duration: '',
+    pages: '',
+    url: '',
+    level: 'Beginner' as 'Beginner' | 'Intermediate' | 'Expert',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const getToturials = () => {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/toturials`)
+      .then(res => res.json())
+      .then(json => setToturial(json));
+  };
+
+  useEffect(() => {
+    getToturials();
+  }, []);
 
   const beginnerTutorials = useMemo(() => 
     toturial.filter(t => t.level === 'Beginner'), 
     [toturial]
-);
+  );
 
   const intermediateTutorials = useMemo(() => 
     toturial.filter(t => t.level === 'Intermediate'), 
     [toturial]
-);
+  );
 
   const expertTutorials = useMemo(() => 
     toturial.filter(t => t.level === 'Expert'), 
     [toturial]
-);
+  );
 
   const courseLevels: CourseLevel[] = [
     {
@@ -60,7 +77,6 @@ export default function CoursesContent() {
       icon: <Unlock className="w-6 h-6" />,
       color: 'from-green-500 to-emerald-600',
       tutorials: beginnerTutorials
-       
     },
     {
       level: 'Intermediate',
@@ -69,7 +85,7 @@ export default function CoursesContent() {
       access: 'Requires Bronze, Silver or Gold Package',
       icon: <Star className="w-6 h-6" />,
       color: 'from-yellow-500 to-orange-600',
-      tutorials:intermediateTutorials 
+      tutorials: intermediateTutorials 
     },
     {
       level: 'Expert',
@@ -83,6 +99,113 @@ export default function CoursesContent() {
   ];
 
   const currentLevel = courseLevels.find(l => l.level === activeLevel)!;
+
+  // Open Add Modal
+  const openAddModal = () => {
+    setModalMode('add');
+    setSelectedTutorial(null);
+    setFormData({
+      id: 0,
+      title: '',
+      type: 'video',
+      duration: '',
+      pages: '',
+      url: '',
+      level: activeLevel,
+    });
+    setIsModalOpen(true);
+  };
+
+  // Open Edit Modal
+  const openEditModal = (tutorial: Tutorial) => {
+    setModalMode('edit');
+    setSelectedTutorial(tutorial);
+    setFormData({
+      id: tutorial.id,
+      title: tutorial.title,
+      type: tutorial.type,
+      duration: tutorial.duration || '',
+      pages: tutorial.pages?.toString() || '',
+      url: tutorial.url,
+      level: tutorial.level,
+    });
+    setIsModalOpen(true);
+  };
+
+  // Open Preview Modal
+  const openPreviewModal = (tutorial: Tutorial) => {
+    setModalMode('preview');
+    setSelectedTutorial(tutorial);
+    setIsModalOpen(true);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const payload = {
+      title: formData.title,
+      type: formData.type,
+      duration: formData.type === 'video' ? formData.duration : undefined,
+      pages: formData.type === 'pdf' && formData.pages ? Number(formData.pages) : undefined,
+      url: formData.url,
+      level: formData.level,
+    };
+
+    try {
+      const url = modalMode === 'edit' 
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/toturials/${formData.id}`
+        : `${process.env.NEXT_PUBLIC_BASE_URL}/api/toturials`;
+
+      const method = modalMode === 'edit' ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        setIsModalOpen(false);
+        getToturials();
+      } else {
+        alert('Failed to save tutorial. Please try again.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Error connecting to server.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!selectedTutorial || !confirm('Are you sure you want to delete this tutorial?')) return;
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/toturials/${selectedTutorial.id}`, {
+        method: 'DELETE',
+      });
+
+      if (res.ok) {
+        setIsModalOpen(false);
+        getToturials();
+      } else {
+        alert('Failed to delete tutorial.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Error connecting to server.');
+    }
+  };
 
   return (
     <div className="space-y-10">
@@ -183,14 +306,16 @@ export default function CoursesContent() {
                 </h4>
 
                 <div className="mt-6 flex gap-3">
-                  <a
-                    href={tutorial.url}
-                    target="_blank"
+                  <button
+                    onClick={() => openPreviewModal(tutorial)}
                     className="flex-1 text-center py-3 bg-gray-800 hover:bg-gray-700 rounded-2xl text-sm font-medium transition"
                   >
                     Preview Resource
-                  </a>
-                  <button className="flex-1 bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-semibold py-3 rounded-2xl transition">
+                  </button>
+                  <button
+                    onClick={() => openEditModal(tutorial)}
+                    className="flex-1 bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-semibold py-3 rounded-2xl transition"
+                  >
                     Edit
                   </button>
                 </div>
@@ -200,11 +325,215 @@ export default function CoursesContent() {
         </div>
       </div>
 
+      {/* Add Button */}
       <div className="flex justify-center pt-8">
-        <button className="bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-bold px-10 py-4 rounded-2xl flex items-center gap-3 hover:scale-105 active:scale-95 transition">
+        <button 
+          onClick={openAddModal}
+          className="bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-bold px-10 py-4 rounded-2xl flex items-center gap-3 hover:scale-105 active:scale-95 transition"
+        >
           + Add New {currentLevel.level} Tutorial / Document
         </button>
       </div>
+
+      {/* Unified Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-900 border border-gray-700 rounded-3xl w-full max-w-lg max-h-[95vh] overflow-hidden flex flex-col">
+            
+            {/* Modal Header */}
+            <div className="flex justify-between items-center p-6 border-b border-gray-800">
+              <h3 className="text-2xl font-semibold">
+                {modalMode === 'add' && `Add New ${activeLevel} Material`}
+                {modalMode === 'edit' && 'Edit Tutorial'}
+                {modalMode === 'preview' && `Preview: ${selectedTutorial?.title}`}
+              </h3>
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-400 hover:text-white transition"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Preview Mode - Enhanced Video Accessibility */}
+            {modalMode === 'preview' && selectedTutorial && (
+              <div className="p-6 flex-1 overflow-auto">
+                <h4 className="font-semibold text-xl mb-6">{selectedTutorial.title}</h4>
+
+                {selectedTutorial.type === 'video' ? (
+                  <div className="mb-6 rounded-3xl overflow-hidden bg-black shadow-2xl">
+                    {selectedTutorial.url.includes('youtube.com') || selectedTutorial.url.includes('youtu.be') ? (
+                      // YouTube Embed (accessible iframe)
+                      <iframe
+                        src={selectedTutorial.url.replace('watch?v=', 'embed/')}
+                        className="w-full aspect-video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        title={selectedTutorial.title}
+                      />
+                    ) : (
+                      // Native Video Player - Better Accessibility
+                      <video
+                        controls
+                        className="w-full aspect-video"
+                        controlsList="nodownload"
+                        preload="metadata"
+                        aria-label={`Video: ${selectedTutorial.title}`}
+                      >
+                        <source src={selectedTutorial.url} type="video/mp4" />
+                        <source src={selectedTutorial.url} type="video/webm" />
+                        Your browser does not support the video tag.
+                        <track 
+                          kind="captions" 
+                          src="" // Add caption file URL if available
+                          label="English" 
+                          default 
+                        />
+                      </video>
+                    )}
+                  </div>
+                ) : (
+                  // PDF Preview
+                  <div className="bg-gray-800 rounded-3xl p-10 text-center">
+                    <FileText className="w-20 h-20 text-orange-400 mx-auto mb-6" />
+                    <p className="text-xl mb-2">PDF Document</p>
+                    {selectedTutorial.pages && <p className="text-gray-400 mb-8">{selectedTutorial.pages} pages</p>}
+                    <a 
+                      href={selectedTutorial.url} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-semibold rounded-2xl hover:scale-105 transition"
+                    >
+                      Open PDF in New Tab
+                    </a>
+                  </div>
+                )}
+
+                <div className="mt-8 grid grid-cols-2 gap-4 text-sm text-gray-400">
+                  <p><strong>Type:</strong> {selectedTutorial.type.toUpperCase()}</p>
+                  <p><strong>Level:</strong> {selectedTutorial.level}</p>
+                  {selectedTutorial.duration && <p><strong>Duration:</strong> {selectedTutorial.duration}</p>}
+                  {selectedTutorial.pages && <p><strong>Pages:</strong> {selectedTutorial.pages}</p>}
+                </div>
+              </div>
+            )}
+
+            {/* Add / Edit Form - Unchanged */}
+            {(modalMode === 'add' || modalMode === 'edit') && (
+              <form onSubmit={handleSubmit} className="p-6 space-y-5 flex-1 overflow-auto">
+                <div>
+                  <label className="block text-sm text-gray-400 mb-1">Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500"
+                    placeholder="e.g. Introduction to Candlestick Patterns"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-1">Type</label>
+                    <select
+                      name="type"
+                      value={formData.type}
+                      onChange={handleInputChange}
+                      className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500"
+                    >
+                      <option value="video">Video</option>
+                      <option value="pdf">PDF Document</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-1">Level</label>
+                    <input
+                      type="text"
+                      value={formData.level}
+                      readOnly
+                      className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-4 py-3 text-gray-400 cursor-not-allowed"
+                    />
+                  </div>
+                </div>
+
+                {formData.type === 'video' && (
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-1">Duration (optional)</label>
+                    <input
+                      type="text"
+                      name="duration"
+                      value={formData.duration}
+                      onChange={handleInputChange}
+                      className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500"
+                      placeholder="e.g. 12:45"
+                    />
+                  </div>
+                )}
+
+                {formData.type === 'pdf' && (
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-1">Number of Pages (optional)</label>
+                    <input
+                      type="number"
+                      name="pages"
+                      value={formData.pages}
+                      onChange={handleInputChange}
+                      className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500"
+                      placeholder="e.g. 24"
+                    />
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-sm text-gray-400 mb-1">Resource URL</label>
+                  <input
+                    type="url"
+                    name="url"
+                    value={formData.url}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500"
+                    placeholder="https://..."
+                  />
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="flex-1 py-3 bg-gray-800 hover:bg-gray-700 rounded-2xl font-medium transition"
+                  >
+                    Cancel
+                  </button>
+
+                  {modalMode === 'edit' && (
+                    <button
+                      type="button"
+                      onClick={handleDelete}
+                      className="px-6 py-3 bg-red-600/80 hover:bg-red-700 text-white rounded-2xl transition flex items-center gap-2"
+                    >
+                      <Trash2 className="w-5 h-5" /> Delete
+                    </button>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="flex-1 py-3 bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-semibold rounded-2xl transition disabled:opacity-70"
+                  >
+                    {isSubmitting 
+                      ? (modalMode === 'edit' ? 'Updating...' : 'Adding...') 
+                      : (modalMode === 'edit' ? 'Update Tutorial' : 'Add Tutorial')
+                    }
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

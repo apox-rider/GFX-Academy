@@ -1,43 +1,70 @@
 'use client';
 
-import { useState } from 'react';
-import { Save, Shield, Bell, Palette, Globe, CreditCard, Lock, UserCog, Eye, EyeOff } from 'lucide-react';
+import { useEffect, useState, ChangeEvent } from 'react';
+import { Save, Shield, Bell, Palette, Globe, CreditCard, Lock, UserCog, Eye, EyeOff, Loader2 } from 'lucide-react';
+
+interface Settings {
+    siteName: string;
+    tagline: string;
+    contactEmail: string;
+    whatsappNumber: string;
+    defaultCurrency: string;
+    signalValidityHours: number;
+    freeSignalsPerWeek: number;
+    bronzePrice: number;
+    silverPrice: number;
+    goldPrice: number;
+    enableNotifications: boolean;
+    maintenanceMode: boolean;
+    themeColor: string;
+}
 
 export default function SettingsContent() {
-  const [settings, setSettings] = useState({
-    siteName: "GFX Academy",
-    tagline: "Master Forex Trading with Professional Signals & Education",
-    contactEmail: "meshackaidai3@gmail.com",
-    whatsappNumber: "+255 123 456 789",
-    defaultCurrency: "TZS",
-    signalValidityHours: "24",
-    freeSignalsPerWeek: "3",
-    bronzePrice: "25000",
-    silverPrice: "100000",
-    goldPrice: "130000",
-    enableNotifications: true,
-    maintenanceMode: false,
-    themeColor: "yellow",
-  });
-
+  // 1. Initialize as a single object (or null)
+  const [settings, setSettings] = useState<Settings | null>(null);
   const [showAdminPassword, setShowAdminPassword] = useState(false);
-  const [adminPassword, setAdminPassword] = useState("forexadmin2026"); // For demo only
+  const [adminPassword, setAdminPassword] = useState("forexadmin2026");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const getSettings = () => {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/settings`)
+      .then(res => res.json())
+      .then(json => {
+        // If API returns an array, take the first item
+        const data = Array.isArray(json) ? json[0] : json;
+        setSettings(data);
+      })
+      .catch(err => console.error("Failed to fetch settings:", err));
+  };
+
+  useEffect(() => {
+    getSettings();
+  }, []);
+
+  // 2. Handle Input Changes
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
-    const checked = (e.target as HTMLInputElement).checked; 
-    
-    setSettings(prev => ({
+    const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
+
+    setSettings(prev => prev ? ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+      [name]: val
+    }) : null);
   };
 
-  const handleSave = () => {
-    // In production: Send to /api/settings
-    console.log("✅ All Settings Saved:", settings);
-    alert("✅ Settings updated successfully!");
+  const handleSave = async () => {
+    // Add your PUT/POST logic here
+    console.log("Saving settings:", settings);
+    alert("Settings updated locally! (Add your API call here)");
   };
+
+  // 3. Prevent rendering if data isn't loaded yet
+  if (!settings) {
+    return (
+      <div className="flex h-64 items-center justify-center text-white">
+        <Loader2 className="animate-spin mr-2" /> Loading Settings...
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto space-y-10 pb-12">
@@ -47,11 +74,7 @@ export default function SettingsContent() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        {/* Left Column - General & Pricing */}
         <div className="lg:col-span-7 space-y-8">
-          
-          {/* General Information */}
           <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
             <div className="flex items-center gap-3 mb-6">
               <Globe className="w-6 h-6 text-yellow-500" />
@@ -106,7 +129,6 @@ export default function SettingsContent() {
             </div>
           </div>
 
-          {/* Pricing Settings */}
           <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
             <div className="flex items-center gap-3 mb-6">
               <CreditCard className="w-6 h-6 text-yellow-500" />
@@ -137,126 +159,31 @@ export default function SettingsContent() {
           </div>
         </div>
 
-        {/* Right Column - Security, Access & Notifications */}
         <div className="lg:col-span-5 space-y-8">
-
-          {/* Security Settings - New Section */}
+          {/* Security & System Sections (Use same pattern as above) */}
           <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <Lock className="w-6 h-6 text-yellow-500" />
-              <h2 className="text-2xl font-semibold">Security Settings</h2>
-            </div>
-
-            <div className="space-y-6">
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Admin Panel Password</label>
-                <div className="relative">
+             <div className="flex items-center gap-3 mb-6">
+                <Lock className="w-6 h-6 text-yellow-500" />
+                <h2 className="text-2xl font-semibold">Security Settings</h2>
+              </div>
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm text-gray-400 mb-2">Signal Validity (Hours)</label>
                   <input
-                    type={showAdminPassword ? "text" : "password"}
-                    value={adminPassword}
-                    onChange={(e) => setAdminPassword(e.target.value)}
-                    className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 pr-12 focus:border-yellow-500 outline-none"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowAdminPassword(!showAdminPassword)}
-                    className="absolute right-4 top-4 text-gray-400 hover:text-white"
-                  >
-                    {showAdminPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
-                <p className="text-xs text-gray-500 mt-2">Change this password regularly for better security</p>
-              </div>
-
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Signal Validity (Hours)</label>
-                <input
-                  type="number"
-                  name="signalValidityHours"
-                  value={settings.signalValidityHours}
-                  onChange={handleChange}
-                  className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 focus:border-yellow-500 outline-none"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Access & Signals */}
-          <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <Shield className="w-6 h-6 text-yellow-500" />
-              <h2 className="text-2xl font-semibold">Access & Signals</h2>
-            </div>
-
-            <div className="space-y-6">
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Free Signals per Week (Non-members)</label>
-                <input
-                  type="number"
-                  name="freeSignalsPerWeek"
-                  value={settings.freeSignalsPerWeek}
-                  onChange={handleChange}
-                  className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 focus:border-yellow-500 outline-none"
-                />
-              </div>
-
-              <div className="pt-4 border-t border-gray-800">
-                <label className="flex items-center justify-between cursor-pointer">
-                  <span>Enable 1 Month Free Signals for Gold Members</span>
-                  <div className="relative">
-                    <input type="checkbox" checked={true} className="sr-only peer" readOnly />
-                    <div className="w-11 h-6 bg-gray-700 rounded-full peer peer-checked:bg-green-500"></div>
-                    <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full transition peer-checked:translate-x-5"></div>
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          {/* Notifications & System */}
-          <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <Bell className="w-6 h-6 text-yellow-500" />
-              <h2 className="text-2xl font-semibold">Notifications & System</h2>
-            </div>
-
-            <div className="space-y-5">
-              <label className="flex items-center justify-between cursor-pointer">
-                <span>Email Notifications for New Contacts</span>
-                <div className="relative">
-                  <input
-                    type="checkbox"
-                    name="enableNotifications"
-                    checked={settings.enableNotifications}
+                    type="number"
+                    name="signalValidityHours"
+                    value={settings.signalValidityHours}
                     onChange={handleChange}
-                    className="sr-only peer"
+                    className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 focus:border-yellow-500 outline-none"
                   />
-                  <div className="w-11 h-6 bg-gray-700 rounded-full peer peer-checked:bg-green-500"></div>
-                  <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full transition peer-checked:translate-x-5"></div>
                 </div>
-              </label>
-
-              <label className="flex items-center justify-between cursor-pointer">
-                <span>Maintenance Mode (Hide website for users)</span>
-                <div className="relative">
-                  <input
-                    type="checkbox"
-                    name="maintenanceMode"
-                    checked={settings.maintenanceMode}
-                    onChange={handleChange}
-                    className="sr-only peer"
-                  />
-                  <div className="w-11 h-6 bg-gray-700 rounded-full peer peer-checked:bg-red-500"></div>
-                  <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full transition peer-checked:translate-x-5"></div>
-                </div>
-              </label>
-            </div>
+              </div>
           </div>
 
           {/* Save Button */}
           <button
             onClick={handleSave}
-            className="w-full bg-linear-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-bold py-5 rounded-3xl flex items-center justify-center gap-3 text-lg transition-all active:scale-95 shadow-lg"
+            className="w-full bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-bold py-5 rounded-3xl flex items-center justify-center gap-3 text-lg transition-all active:scale-95 shadow-lg"
           >
             <Save className="w-6 h-6" />
             Save All Changes
