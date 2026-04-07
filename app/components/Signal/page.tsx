@@ -6,7 +6,13 @@ interface Signal { pair: string; type: string; entry: string; sl: string; tp: st
 
 interface Props { signals: Signal[]; }
 
+const defaultSignals: Signal[] = [
+  { pair: 'EUR/USD', type: 'BUY', entry: '1.0825', sl: '1.0780', tp: '1.0900', time: 'Just now' },
+  { pair: 'GBP/JPY', type: 'SELL', entry: '189.45', sl: '189.95', tp: '188.20', time: '12 min ago' },
+]
+
 export default function SignalsTeaser({ signals }: Props) {
+  const displaySignals = signals && signals.length > 0 ? signals : defaultSignals
   return (
     <section className="py-24 bg-slate-950 border-y border-slate-900" aria-label="Live trading signals teaser">
       <div className="max-w-7xl mx-auto px-6">
@@ -28,7 +34,7 @@ export default function SignalsTeaser({ signals }: Props) {
             </p>
             
             <Link
-              href="/auth/Register"
+              href="/auth/register"
               className="mt-8 group inline-flex items-center gap-2 text-yellow-500 hover:text-yellow-400 font-bold text-lg transition-all"
             >
               Get Full Access 
@@ -38,7 +44,7 @@ export default function SignalsTeaser({ signals }: Props) {
 
           {/* Signals Preview Cards */}
           <div className="flex-1 w-full grid gap-4">
-            {signals.map((s, i) => (
+            {displaySignals.map((s, i) => (
               <div
                 key={i}
                 className="relative bg-slate-900/40 border border-slate-800 p-6 rounded-2xl flex justify-between items-center transition-all hover:bg-slate-900/60 overflow-hidden"

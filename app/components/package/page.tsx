@@ -13,7 +13,51 @@ interface Package {
 
 interface Props { packages: Package[]; }
 
+const defaultPackages: Package[] = [
+  {
+    id: 1,
+    name: 'Bronze',
+    price: 25000,
+    duration: '1 month',
+    features: [
+      'Technical Analysis',
+      'Fundamental Analysis',
+      'Weekly Market Recap',
+      'Trading Psychology',
+      'Risk Management',
+    ],
+    color: 'from-blue-500 to-blue-600',
+  },
+  {
+    id: 2,
+    name: 'Silver',
+    price: 100000,
+    duration: '2 months',
+    features: [
+      'Everything in Bronze',
+      'Prop Firm Videos',
+      '1 Month Live Mentorship',
+      'Priority Signal Access',
+    ],
+    color: 'from-purple-500 to-purple-600',
+  },
+  {
+    id: 3,
+    name: 'Gold',
+    price: 130000,
+    duration: '3 months',
+    features: [
+      'Everything in Silver',
+      'Full Lifetime Mentorship',
+      'All Future Courses Free',
+      'Private WhatsApp Group',
+    ],
+    color: 'from-yellow-500 to-orange-600',
+  },
+]
+
 export default function PackagesSection({ packages }: Props) {
+  const displayPackages = packages && packages.length > 0 ? packages : defaultPackages
   return (
     <section id="packages" className="py-24 bg-slate-950 text-slate-50">
       <div className="max-w-7xl mx-auto px-6">
@@ -30,13 +74,13 @@ export default function PackagesSection({ packages }: Props) {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 mb-20">
-          {packages.map((pkg) => (
+          {displayPackages.map((pkg) => (
             <article 
               key={pkg.id} 
               className="relative bg-slate-900/50 border border-slate-800 rounded-3xl overflow-hidden hover:border-yellow-500/50 transition-all duration-300 group flex flex-col"
             >
               {/* Top Accent Bar */}
-              <div className={`h-1.5 w-full bg-linear-to-r ${pkg.name === 'Gold' ? 'from-yellow-600 to-yellow-400' : 'from-slate-700 to-slate-500'}`} />
+              <div className={`h-1.5 w-full bg-gradient-to-r ${pkg.name === 'Gold' ? 'from-yellow-600 to-yellow-400' : 'from-slate-700 to-slate-500'}`} />
               
               <div className="p-8 flex flex-col grow">
                 <div className="mb-8">
@@ -87,7 +131,7 @@ export default function PackagesSection({ packages }: Props) {
               <thead>
                 <tr className="text-slate-500 text-xs uppercase tracking-widest">
                   <th className="pb-4 px-4 font-semibold">Feature</th>
-                  {packages.map((pkg) => (
+                  {displayPackages.map((pkg) => (
                     <th key={pkg.id} className="pb-4 px-4 text-center font-semibold">{pkg.name}</th>
                   ))}
                 </tr>
@@ -95,7 +139,7 @@ export default function PackagesSection({ packages }: Props) {
               <tbody className="text-sm">
                 <tr className="bg-slate-800/30 rounded-lg">
                   <td className="py-4 px-4 rounded-l-lg text-slate-300 font-medium border-y border-l border-slate-800/50">One-time Price</td>
-                  {packages.map((pkg) => (
+                  {displayPackages.map((pkg) => (
                     <td key={pkg.id} className="text-center py-4 border-y border-slate-800/50 text-white font-mono">
                       {pkg.price.toLocaleString()}
                     </td>
@@ -104,7 +148,7 @@ export default function PackagesSection({ packages }: Props) {
                 </tr>
                 <tr>
                   <td className="py-4 px-4 text-slate-300 font-medium">Mentorship Access</td>
-                  {packages.map((pkg) => (
+                  {displayPackages.map((pkg) => (
                     <td key={pkg.id} className="text-center py-4 text-slate-400 italic">
                       {pkg.name === 'Bronze' ? 'Community Only' : pkg.name === 'Silver' ? '1 Month Direct' : 'Lifetime Direct'}
                     </td>
@@ -112,7 +156,7 @@ export default function PackagesSection({ packages }: Props) {
                 </tr>
                 <tr className="bg-slate-800/30">
                   <td className="py-4 px-4 rounded-l-lg text-slate-300 font-medium border-y border-l border-slate-800/50">Signal Priority</td>
-                  {packages.map((pkg) => (
+                  {displayPackages.map((pkg) => (
                     <td key={pkg.id} className="text-center py-4 border-y border-slate-800/50 text-white">
                       {pkg.name === 'Gold' ? 'Instant Alert' : 'Standard'}
                     </td>

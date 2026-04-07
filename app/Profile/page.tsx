@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   User, Settings, CreditCard, History, LogOut, 
   ShieldCheck, TrendingUp, Menu, X, Camera, 
@@ -8,56 +8,83 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { PiCrosshairSimpleBold } from 'react-icons/pi';
+import { useAuth } from '@/lib/hooks/useAuth';
 
 export default function ProfilePage() {
   const router = useRouter();
+  const { user: authUser, logout, isLoading: authLoading } = useAuth();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('Profile');
   const [isEditing, setIsEditing] = useState(false);
   const [read, setRead]= useState(false)
-  const [showPassword, setShowPassword] = useState(false);
-  const [notification, setIsNotification] = useState([
+  const [notification] = useState([
     {id:1, category:'Daily', message:'Welcome to Galilee TX '}
   ])
-  //  if(activeTab==='Notifications'){
-  //   setRead(!read)
-  // };
+  const [user, setUser] = useState<{name: string; username: string; email: string; plan: string; location: string; joined: string; bio: string} | null>(null)
+  const [subscription, setSubscription] = useState<{package_tier: string; end_date: string | null; status: string; id: string} | null>(null)
+  const [editForm, setEditForm] = useState({ full_name: '', bio: '' })
+  const [isSaving, setIsSaving] = useState(false)
 
+  useEffect(() => {
+    if (!authLoading && !authUser) {
+      router.push('/auth/login')
+      return
+    }
 
-  // --- HANDLER FUNCTIONS ---
+    if (authUser) {
+      const fullName = authUser.full_name || 'User'
+      setUser({
+        name: fullName,
+        username: `@${fullName?.toLowerCase().replace(/\s/g, '_') || 'user'}`,
+        email: authUser.email,
+        plan: 'Member',
+        location: 'Tanzania',
+        joined: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+        bio: 'Forex trading enthusiast.',
+      })
+      setEditForm({ full_name: fullName, bio: 'Forex trading enthusiast.' })
+
+      if (authUser.subscriptions) {
+        const activeSub = Array.isArray(authUser.subscriptions) 
+          ? authUser.subscriptions.find((s: { status: string }) => s.status === 'active')
+          : authUser.subscriptions
+        if (activeSub) {
+          setSubscription({
+            package_tier: activeSub.package_tier || 'free',
+            end_date: activeSub.end_date || null,
+            status: activeSub.status || 'active',
+            id: activeSub.id || '',
+          })
+        }
+      }
+    }
+  }, [authUser, authLoading, router])
+
   const gotohome = () => router.push('/');
 
- 
-
-  const handleLogout = () => {
-    // Add your logic to clear cookies/localstorage here
-    console.log("Logging out...");
-    router.push('/auth/login');
-  };
+  const handleLogout = async () => {
+    await logout()
+    router.push('/')
+  }
 
   const editprofile = () => {
-    setIsEditing(!isEditing);
-    if(isEditing) {
-        // profile editing
-        console.log("Saving profile changes...");
-    }
-  };
+    setIsEditing(!isEditing)
+  }
 
   const handlenotifications = () => {
-    console.log("Opening notifications...");
     setRead(true)
     setActiveTab('Notifications')
-  };
+  }
 
-  const user = {
-    name: "Juma Hamisi",
-    username: "@juma_fx",
-    email: "juma.forex@example.com",
-    plan: "Pro Member",
-    location: "Dar es Salaam, TZ",
-    joined: "February 2026",
-    bio: "Focused on Price Action and Gold (XAUUSD). Trading the Tanzanian session daily.",
-  };
+  const displayUser = user || {
+    name: "Loading...",
+    username: "@loading",
+    email: "",
+    plan: "Member",
+    location: "Tanzania",
+    joined: "",
+    bio: "",
+  }
 
   const menuItems = [
     { id: 'Profile', label: 'My Profile', icon: <User size={20} /> },
@@ -66,6 +93,18 @@ export default function ProfilePage() {
     { id: 'Security', label: 'Security', icon: <ShieldCheck size={20} /> },
     { id: 'Notifications', label: 'Notifications', icon: <Bell size={20} /> },
   ];
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    )
+  }
+
+  if (!authUser) {
+    return null
+  }
 
   return (
     <>
@@ -132,7 +171,7 @@ export default function ProfilePage() {
 
       {/* --- MAIN CONTENT --- */}
       <main className="flex-1 overflow-y-auto bg-slate-950">
-        <div className="h-32 md:h-48 bg-linear-to-r from-yellow-600 via-yellow-500 to-orange-500 w-full" />
+        <div className="h-32 md:h-48 bg-gradient-to-r from-yellow-600 via-yellow-500 to-orange-500 w-full" />
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 -mt-16 pb-20">
           
@@ -141,7 +180,7 @@ export default function ProfilePage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div className="relative">
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-slate-800 border-4 border-slate-900 overflow-hidden shadow-xl flex items-center justify-center text-4xl font-bold text-slate-500">
-                    {user.name.charAt(0)}
+                    {displayUser.name.charAt(0)}
                 </div>
                 <button className="absolute bottom-2 right-2 p-2 bg-yellow-500 rounded-lg text-slate-950 border-2 border-slate-900 hover:scale-110 transition-transform">
                     <Camera size={16} />
@@ -150,17 +189,27 @@ export default function ProfilePage() {
               
               <div className="flex-1 md:mb-2">
                 <div className="flex items-center gap-2">
-                    <h1 className="text-2xl md:text-3xl font-black text-white">{user.name}</h1>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={editForm.full_name}
+                        onChange={(e) => setEditForm({ ...editForm, full_name: e.target.value })}
+                        className="text-2xl md:text-3xl font-black text-white bg-slate-800 border border-slate-700 rounded-lg px-3 py-1 outline-none focus:border-yellow-500"
+                      />
+                    ) : (
+                      <h1 className="text-2xl md:text-3xl font-black text-white">{displayUser.name}</h1>
+                    )}
                     <CheckCircle2 size={20} className="text-blue-400" />
                 </div>
-                <p className="text-slate-400 font-medium">{user.username}</p>
+                <p className="text-slate-400 font-medium">{displayUser.username}</p>
               </div>
 
               <div className="flex gap-2 md:mb-2">
                 <button 
                 onClick={editprofile}
-                className={`flex-1 md:flex-none font-bold px-6 py-2.5 rounded-xl transition-all text-sm ${isEditing ? 'bg-green-500 text-white' : 'bg-yellow-500 text-slate-950'}`}>
-                  {isEditing ? 'Save Changes' : 'Edit Profile'}
+                disabled={isSaving}
+                className={`flex-1 md:flex-none font-bold px-6 py-2.5 rounded-xl transition-all text-sm ${isEditing ? 'bg-green-500 text-white' : 'bg-yellow-500 text-slate-950'} disabled:opacity-50`}>
+                  {isSaving ? 'Saving...' : isEditing ? 'Save Changes' : 'Edit Profile'}
                 </button>
                 <button 
                 onClick={handlenotifications}
@@ -174,15 +223,15 @@ export default function ProfilePage() {
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-slate-800 pt-6">
                 <div className="flex items-center gap-2 text-slate-400 text-sm">
                     <MapPin size={16} className="text-yellow-500" />
-                    {user.location}
+                    {displayUser.location}
                 </div>
                 <div className="flex items-center gap-2 text-slate-400 text-sm">
                     <Calendar size={16} className="text-yellow-500" />
-                    Joined {user.joined}
+                    Joined {displayUser.joined}
                 </div>
                 <div className="flex items-center gap-2 text-slate-400 text-sm">
                     <div className="px-2 py-0.5 bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 rounded text-[10px] font-bold uppercase tracking-tighter">
-                        {user.plan}
+                        {displayUser.plan}
                     </div>
                 </div>
             </div>
@@ -199,17 +248,17 @@ export default function ProfilePage() {
                         <div>
                             <label className="text-[10px] uppercase font-bold text-slate-500 tracking-widest">Email Address</label>
                             {isEditing ? (
-                                <input defaultValue={user.email} className="w-full bg-slate-950 border border-slate-800 p-2 rounded-lg mt-1 text-sm text-yellow-500 outline-none" />
+                                <input defaultValue={displayUser.email} className="w-full bg-slate-950 border border-slate-800 p-2 rounded-lg mt-1 text-sm text-yellow-500 outline-none" />
                             ) : (
-                                <div className="text-slate-200 mt-1">{user.email}</div>
+                                <div className="text-slate-200 mt-1">{displayUser.email}</div>
                             )}
                         </div>
                         <div>
                             <label className="text-[10px] uppercase font-bold text-slate-500 tracking-widest">Bio</label>
                             {isEditing ? (
-                                <textarea defaultValue={user.bio} className="w-full bg-slate-950 border border-slate-800 p-2 rounded-lg mt-1 text-sm text-yellow-500 outline-none h-20" />
+                                <textarea defaultValue={displayUser.bio} className="w-full bg-slate-950 border border-slate-800 p-2 rounded-lg mt-1 text-sm text-yellow-500 outline-none h-20" />
                             ) : (
-                                <div className="text-slate-200 mt-1 text-sm">{user.bio}</div>
+                                <div className="text-slate-200 mt-1 text-sm">{displayUser.bio}</div>
                             )}
                         </div>
                     </div>
@@ -223,8 +272,8 @@ export default function ProfilePage() {
                             <div className="text-[10px] uppercase font-bold text-slate-500">Active Signals</div>
                         </div>
                         <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-center">
-                            <div className="text-2xl font-bold text-yellow-500">Gold</div>
-                            <div className="text-[10px] uppercase font-bold text-slate-500">Pref. Pair</div>
+                            <div className="text-2xl font-bold text-yellow-500">{subscription?.package_tier || 'Free'}</div>
+                            <div className="text-[10px] uppercase font-bold text-slate-500">Package</div>
                         </div>
                     </div>
                 </div>
@@ -249,9 +298,9 @@ export default function ProfilePage() {
                         <div className="flex justify-between items-center p-4 bg-slate-950 rounded-2xl border border-slate-800">
                             <div>
                                 <p className="text-sm font-bold">Two-Factor Authentication</p>
-                                <p className="text-xs text-green-500">Active (via SMS)</p>
+                                <p className="text-xs text-slate-500">Not enabled</p>
                             </div>
-                            <button className="text-xs text-red-500">Disable</button>
+                            <button className="text-xs text-green-500">Enable</button>
                         </div>
                     </div>
                 </div>
@@ -262,12 +311,8 @@ export default function ProfilePage() {
                     </h3>
                     <div className="text-sm text-slate-400 space-y-3">
                         <div className="flex items-center justify-between">
-                            <span>iPhone 15 Pro • Dar es Salaam</span>
+                            <span>Current Device</span>
                             <span className="text-[10px] bg-yellow-500/20 text-yellow-500 px-2 py-1 rounded">Current</span>
-                        </div>
-                        <div className="flex items-center justify-between border-t border-slate-800 pt-3">
-                            <span>Windows Desktop • Mbeya</span>
-                            <button className="text-red-500 text-xs">Revoke</button>
                         </div>
                     </div>
                 </div>
