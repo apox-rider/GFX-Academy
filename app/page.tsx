@@ -1,6 +1,5 @@
 'use client'
-// src/pages/index.tsx
-import Head from 'next/head';
+
 import { useEffect, useState } from 'react';
 import Navbar from './components/Header/page';
 import Hero from './components/Hero/page';

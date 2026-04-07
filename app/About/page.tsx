@@ -62,11 +62,11 @@ export default function About() {
               alt="GalileeFx Academy Background"
               className="object-cover grayscale-[0.7] brightness-50"
             />
-            <div className="absolute inset-0 bg-linear-to-b from-slate-950/60 via-slate-950/40 to-slate-950" />
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/40 to-slate-950" />
           </div>
 
           <div className="relative max-w-7xl mx-auto px-6 pt-40 pb-32 text-center md:pt-48">
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 bg-clip-text text-transparent bg-linear-to-br from-white via-slate-200 to-slate-400">
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-200 to-slate-400">
               Welcome to GalileeFx Academy – Your Gateway to Professional Forex Trading.
             </h1>
 
@@ -76,8 +76,8 @@ export default function About() {
 
             <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
               <Link
-                href="/auth/Register"
-                className="w-full sm:w-auto bg-linear-to-r from-yellow-500 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-slate-950 font-bold text-lg px-12 py-5 rounded-xl transition-all shadow-xl shadow-yellow-500/20 hover:shadow-yellow-500/40 transform hover:-translate-y-1"
+                href="/auth/register"
+                className="w-full sm:w-auto bg-gradient-to-r from-yellow-500 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-slate-950 font-bold text-lg px-12 py-5 rounded-xl transition-all shadow-xl shadow-yellow-500/20 hover:shadow-yellow-500/40 transform hover:-translate-y-1"
               >
                 Join GalileeFx Academy Today and Trade Like a Pro!
               </Link>
@@ -98,7 +98,7 @@ export default function About() {
             <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 text-white">Meet the Team Behind GalileeFx Academy</h2>
 
             <div className="max-w-4xl mx-auto mb-12">
-              <div className="p-10 md:p-12 rounded-3xl bg-linear-to-br from-slate-900 to-slate-800 border border-yellow-600/30 hover:border-yellow-500/50 transition-all duration-300 shadow-xl shadow-black/40">
+              <div className="p-10 md:p-12 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 border border-yellow-600/30 hover:border-yellow-500/50 transition-all duration-300 shadow-xl shadow-black/40">
                 <div className="text-center md:text-left">
                   <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
                     <div className=" inset-0 opacity-20">
@@ -136,7 +136,7 @@ export default function About() {
         </section>
 
         {/* Mission */}
-        <section className="py-24 bg-linear-to-b from-slate-950 to-slate-900">
+        <section className="py-24 bg-gradient-to-b from-slate-950 to-slate-900">
           <div className="max-w-5xl mx-auto px-6 text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-10 text-white">Our Mission</h2>
             <p className="text-2xl md:text-3xl text-slate-200 font-medium italic max-w-4xl mx-auto leading-relaxed">
@@ -168,7 +168,7 @@ export default function About() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-24 bg-linear-to-t from-slate-950 via-slate-900 to-slate-950 text-center border-t border-slate-800">
+        <section className="py-24 bg-gradient-to-t from-slate-950 via-slate-900 to-slate-950 text-center border-t border-slate-800">
           <div className="max-w-5xl mx-auto px-6">
             <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">
               Ready to Start Your Forex Journey with Confidence?
@@ -178,8 +178,8 @@ export default function About() {
             </p>
 
             <Link
-              href="/auth/Register"
-              className="inline-block bg-linear-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-bold text-xl px-16 py-6 rounded-xl transition-all shadow-2xl shadow-yellow-600/30 hover:shadow-yellow-500/50 transform hover:-translate-y-2"
+              href="/auth/register"
+              className="inline-block bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-bold text-xl px-16 py-6 rounded-xl transition-all shadow-2xl shadow-yellow-600/30 hover:shadow-yellow-500/50 transform hover:-translate-y-2"
             >
               Join GalileeFx Academy Today and Trade Like a Pro!
             </Link>

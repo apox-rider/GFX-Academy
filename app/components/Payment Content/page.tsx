@@ -96,7 +96,7 @@ export default function PaymentsContent() {
       <div className="flex flex-wrap gap-4">
         <button 
           onClick={exportPayments}
-          className="bg-linear-to-r from-yellow-500 to-orange-600 text-black font-semibold px-8 py-4 rounded-2xl flex items-center gap-3 hover:scale-105 transition"
+          className="bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-semibold px-8 py-4 rounded-2xl flex items-center gap-3 hover:scale-105 transition"
         >
           <Download className="w-5 h-5" />
           Export Payment Report (CSV)

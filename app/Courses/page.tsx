@@ -84,13 +84,13 @@ export default function CoursesPage() {
 
           <div className="mt-10 md:mt-12 flex flex-col sm:flex-row gap-4 justify-center px-4">
             <Link
-              href="/auth/Register"
+              href="/auth/register"
               className="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-10 sm:px-12 py-4 sm:py-5 rounded-2xl transition-all shadow-xl shadow-yellow-500/30 w-full sm:w-auto"
             >
               Start Free – Beginner Level
             </Link>
             <Link
-              href="/Packages"
+              href="/payment"
               className="border border-slate-700 hover:bg-slate-900 font-bold text-lg px-10 sm:px-12 py-4 sm:py-5 rounded-2xl transition-all w-full sm:w-auto"
             >
               View All Packages
@@ -119,7 +119,7 @@ export default function CoursesPage() {
                 Introduction to Forex and Trading.
               </p>
               <Link
-                href="/auth/Register?package=1"
+                href="/auth/register?package=1"
                 className="inline-block bg-blue-500 hover:bg-emerald-400 text-slate-950 font-bold text-lg md:text-xl px-12 md:px-16 py-4 md:py-6 rounded-2xl transition-all w-full sm:w-auto"
               >
                 Get Started Free
@@ -189,7 +189,7 @@ export default function CoursesPage() {
                 Master price action, support &amp; resistance, risk management and more.
               </p>
               <Link
-                href="/Packages"
+                href="/payment"
                 className="inline-block bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg md:text-xl px-12 md:px-16 py-4 md:py-6 rounded-2xl transition-all w-full sm:w-auto"
               >
                 Unlock Intermediate
@@ -230,7 +230,7 @@ export default function CoursesPage() {
                 Smart Money Concepts, Institutional trading, Order Blocks &amp; advanced strategies.
               </p>
               <Link
-                href="/Packages"
+                href="/payment"
                 className="inline-block bg-gradient-to-r from-violet-500 to-yellow-500 text-white font-bold text-lg md:text-xl px-12 md:px-16 py-4 md:py-6 rounded-2xl transition-all w-full sm:w-auto"
               >
                 Unlock Expert – Get Gold
@@ -242,7 +242,7 @@ export default function CoursesPage() {
         {/* Support Section */}
         <div className="bg-slate-900 py-16 md:py-20 text-center border-t border-slate-800">
           <p className="text-slate-400 text-base">Need help choosing a package?</p>
-          <Link href="/contacts" className="text-yellow-500 hover:text-yellow-400 font-medium text-lg mt-2 inline-block">
+          <Link href="/Contact" className="text-yellow-500 hover:text-yellow-400 font-medium text-lg mt-2 inline-block">
             Contact Support →
           </Link>
         </div>

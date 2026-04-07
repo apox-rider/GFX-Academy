@@ -44,7 +44,7 @@ export default function CoursesContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const getToturials = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/toturials`)
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tutorials`)
       .then(res => res.json())
       .then(json => setToturial(json));
   };
@@ -162,8 +162,8 @@ export default function CoursesContent() {
 
     try {
       const url = modalMode === 'edit' 
-        ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/toturials/${formData.id}`
-        : `${process.env.NEXT_PUBLIC_BASE_URL}/api/toturials`;
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutorials/${formData.id}`
+        : `${process.env.NEXT_PUBLIC_BASE_URL}/api/tutorials`;
 
       const method = modalMode === 'edit' ? 'PUT' : 'POST';
 
@@ -191,7 +191,7 @@ export default function CoursesContent() {
     if (!selectedTutorial || !confirm('Are you sure you want to delete this tutorial?')) return;
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/toturials/${selectedTutorial.id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tutorials/${selectedTutorial.id}`, {
         method: 'DELETE',
       });
 
@@ -222,7 +222,7 @@ export default function CoursesContent() {
             onClick={() => setActiveLevel(lvl.level)}
             className={`flex-1 px-8 py-4 rounded-2xl font-semibold transition-all flex items-center justify-center gap-3 ${
               activeLevel === lvl.level
-                ? 'bg-linear-to-r from-yellow-500 to-orange-600 text-black shadow-xl'
+                ? 'bg-gradient-to-r from-yellow-500 to-orange-600 text-black shadow-xl'
                 : 'hover:bg-gray-800 text-gray-300'
             }`}
           >
@@ -236,7 +236,7 @@ export default function CoursesContent() {
       {/* Level Header Card */}
       <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
         <div className="flex flex-col md:flex-row gap-8 items-start">
-          <div className={`w-24 h-24 rounded-3xl bg-linear-to-br ${currentLevel.color} flex items-center justify-center text-5xl shrink-0`}>
+          <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br ${currentLevel.color} flex items-center justify-center text-5xl shrink-0`}>
             {currentLevel.level === 'Beginner' ? '🌱' : currentLevel.level === 'Intermediate' ? '📈' : '👑'}
           </div>
 
@@ -255,7 +255,7 @@ export default function CoursesContent() {
             </div>
 
             {currentLevel.level === 'Expert' && (
-              <div className="mt-4 inline-flex items-center gap-2 bg-linear-to-r from-amber-500/20 to-yellow-500/20 border border-yellow-500/30 text-yellow-400 px-5 py-2 rounded-2xl">
+              <div className="mt-4 inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/20 to-yellow-500/20 border border-yellow-500/30 text-yellow-400 px-5 py-2 rounded-2xl">
                 <Crown className="w-5 h-5" /> Gold members also get 1 Month Free Signals after payment
               </div>
             )}

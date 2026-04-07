@@ -47,11 +47,11 @@ export default function Hero() {
           alt="Forex Charts"
           className="object-cover grayscale"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-slate-950"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950"></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-12 text-center">
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-linear-to-b from-white to-slate-400">
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
           Master Forex.<br />Trade with Confidence.
         </h1>
         
@@ -64,7 +64,7 @@ export default function Hero() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
-            href="/auth/Register"
+            href="/auth/register"
             className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-10 py-4 rounded-lg transition-all shadow-[0_0_20px_rgba(234,179,8,0.3)]"
           >
             Start Free – Register Now

@@ -1,86 +1,94 @@
-'use client';
+'use client'
 
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
-import Image from 'next/image';
+import { Suspense, useEffect, useState } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
+import { useAuth } from '@/lib/hooks/useAuth'
 
-export default function Register() {
-  const searchParams = useSearchParams();
-  const packageParam = searchParams.get('package');
+const packageDetails: Record<number, { name: string; price: number; color: string; desc: string; tier: string }> = {
+  1: { name: 'Bronze', price: 25000, color: 'from-blue-500 to-cyan-600', desc: 'Beginner friendly package', tier: 'bronze' },
+  2: { name: 'Silver', price: 100000, color: 'from-purple-500 to-violet-600', desc: 'Intermediate level access', tier: 'silver' },
+  3: { name: 'Gold', price: 130000, color: 'from-yellow-500 to-orange-600', desc: 'Full access + 1 month free signals', tier: 'gold' },
+}
 
-  const [selectedPackage, setSelectedPackage] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+function RegisterContent() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const { register, isAuthenticated } = useAuth()
+  const packageParam = searchParams.get('package')
 
-  const packageDetails = {
-    1: { name: 'Bronze', price: 25000, color: 'from-blue-500 to-cyan-600', desc: 'Beginner friendly package' },
-    2: { name: 'Silver', price: 100000, color: 'from-purple-500 to-violet-600', desc: 'Intermediate level access' },
-    3: { name: 'Gold', price: 130000, color: 'from-yellow-500 to-orange-600', desc: 'Full access + 1 month free signals' },
-  };
+  const [selectedPackage, setSelectedPackage] = useState<number | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    password: '',
+  })
 
-  const currentPkg = selectedPackage ? packageDetails[selectedPackage as keyof typeof packageDetails] : null;
+  const currentPkg = selectedPackage ? packageDetails[selectedPackage] : null
 
   useEffect(() => {
     if (packageParam) {
-      const pkgId = parseInt(packageParam);
-      if (pkgId >= 1 && pkgId <= 3) setSelectedPackage(pkgId);
+      const pkgId = parseInt(packageParam)
+      if (pkgId >= 1 && pkgId <= 3) setSelectedPackage(pkgId)
     }
-  }, [packageParam]);
+  }, [packageParam])
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-    setSuccessMessage('');
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/dashboard')
+    }
+  }, [isAuthenticated, router])
 
-    const formData = new FormData(e.currentTarget);
-    const userData = {
-      fullName: formData.get('name'),
-      phone: formData.get('phone'),
-      email: formData.get('email'),
-      password: formData.get('password'),
-      packageId: selectedPackage,        // null = Free Account
-    };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+    setSuccessMessage('')
 
     try {
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
-      });
-
-      const result = await res.json();
-
-      if (res.status === 409) {
-        // Email already exists
-        setError('An account with this email already exists. Would you like to login instead?');
-        return;
-      }
+      const result = await register({
+        email: formData.email,
+        password: formData.password,
+        full_name: formData.name,
+        phone_number: formData.phone,
+      })
 
       if (!result.success) {
-        setError(result.message || 'Registration failed. Please try again.');
-        return;
+        if (result.error?.includes('already exists')) {
+          setError('An account with this email already exists. Would you like to login instead?')
+        } else {
+          setError(result.error || 'Registration failed. Please try again.')
+        }
+        setIsLoading(false)
+        return
       }
 
-      // Success
       if (selectedPackage) {
-        // Redirect to payment
-        window.location.href = `/api/payment/initiate?userId=${result.userId}&packageId=${selectedPackage}`;
-      } else {
-        setSuccessMessage('Account created successfully! Redirecting to dashboard...');
+        setSuccessMessage('Account created! Redirecting to payment...')
         setTimeout(() => {
-          window.location.href = '/dashboard';
-        }, 1500);
+          router.push(`/payment?package=${currentPkg?.tier}`)
+        }, 1500)
+      } else {
+        setSuccessMessage('Account created successfully! Redirecting to dashboard...')
+        setTimeout(() => {
+          router.push('/dashboard')
+        }, 1500)
       }
     } catch (err) {
-      setError('Something went wrong. Please check your internet connection.');
+      setError('Something went wrong. Please check your internet connection.')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <section className="relative bg-slate-950 text-slate-50 overflow-hidden min-h-screen flex items-center justify-center">
@@ -102,7 +110,6 @@ export default function Register() {
           <p className="text-slate-400 mt-2">Join thousands of successful Forex traders</p>
         </div>
 
-        {/* Package / Free Account Preview */}
         {currentPkg ? (
           <div className={`mb-8 p-6 rounded-2xl bg-gradient-to-br ${currentPkg.color} text-black`}>
             <p className="uppercase text-xs tracking-widest opacity-75">Selected Package</p>
@@ -146,22 +153,55 @@ export default function Register() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">Full Name</label>
-            <input name="name" type="text" required className="w-full px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:border-yellow-500" placeholder="John Mwangi" />
+            <input 
+              name="name" 
+              type="text" 
+              required 
+              value={formData.name}
+              onChange={handleInputChange}
+              className="w-full px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:border-yellow-500" 
+              placeholder="John Mwangi" 
+            />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">Phone Number (M-Pesa)</label>
-            <input name="phone" type="tel" required className="w-full px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:border-yellow-500" placeholder="+255 712 345 678" />
+            <input 
+              name="phone" 
+              type="tel" 
+              required 
+              value={formData.phone}
+              onChange={handleInputChange}
+              className="w-full px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:border-yellow-500" 
+              placeholder="+255 712 345 678" 
+            />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
-            <input name="email" type="email" required className="w-full px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:border-yellow-500" placeholder="john@example.com" />
+            <input 
+              name="email" 
+              type="email" 
+              required 
+              value={formData.email}
+              onChange={handleInputChange}
+              className="w-full px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:border-yellow-500" 
+              placeholder="john@example.com" 
+            />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">Password</label>
-            <input name="password" type="password" required className="w-full px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:border-yellow-500" placeholder="Create password" />
+            <input 
+              name="password" 
+              type="password" 
+              required 
+              minLength={6}
+              value={formData.password}
+              onChange={handleInputChange}
+              className="w-full px-5 py-4 bg-slate-800 border border-slate-700 rounded-2xl focus:border-yellow-500" 
+              placeholder="Create password" 
+            />
           </div>
 
           <button
@@ -179,7 +219,7 @@ export default function Register() {
 
         <p className="text-center text-sm text-slate-400 mt-6">
           Already have an account?{' '}
-          <Link href="/auth/Login" className="text-yellow-500 hover:underline">Sign in here</Link>
+          <Link href="/auth/login" className="text-yellow-500 hover:underline">Sign in here</Link>
         </p>
 
         <Link href="/" className="flex items-center justify-center gap-2 mt-10 text-slate-500 hover:text-slate-400 text-sm">
@@ -187,5 +227,17 @@ export default function Register() {
         </Link>
       </div>
     </section>
-  );
+  )
+}
+
+export default function Register() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-slate-950">
+        <div className="text-white">Loading...</div>
+      </div>
+    }>
+      <RegisterContent />
+    </Suspense>
+  )
 }

@@ -18,7 +18,7 @@ export default function AdminHeader() {
             <p className="font-medium">Meshack</p>
             <p className="text-xs text-gray-500">Super Admin</p>
           </div>
-          <div className="w-10 h-10 bg-linear-to-br from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center text-black font-bold">
+          <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center text-black font-bold">
             M
           </div>
         </div>

@@ -49,7 +49,7 @@ export default function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarPr
       `}>
         <div className="p-6">
           <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 bg-linear-to-br from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center text-black font-bold text-2xl">
+            <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center text-black font-bold text-2xl">
               M
             </div>
             <div>
@@ -71,7 +71,7 @@ export default function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarPr
                   }}
                   className={`w-full flex items-center gap-3 px-5 py-3.5 rounded-2xl text-left transition-all ${
                     isActive 
-                      ? 'bg-linear-to-r from-yellow-500 to-orange-600 text-black font-semibold' 
+                      ? 'bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-semibold' 
                       : 'hover:bg-gray-800 text-gray-300'
                   }`}
                 >

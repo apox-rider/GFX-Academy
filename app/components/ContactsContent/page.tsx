@@ -2,135 +2,155 @@
 import { useEffect, useState } from "react";
 
 interface Contact {
-  id: number;
+  id: string;
   name: string;
   email: string;
-  subject: string;
+  subject: string | null;
   message: string;
-  date: string;
+  is_read: boolean;
+  created_at: string;
 }
 
 export default function ContactsContent() {
   const [contacts, setContacts] = useState<Contact[]>([]);
-  const [deletingId, setDeletingId] = useState<number | null>(null); // for loading state
+  const [isLoading, setIsLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  const getContactInfor = async () => {
+  const fetchContacts = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/contacts');
+      const res = await fetch('/api/contacts?include_read=true');
       const json = await res.json();
-      setContacts(json);
+      if (json.success) {
+        setContacts(json.contacts || []);
+      }
     } catch (error) {
       console.error("Failed to fetch contacts:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    getContactInfor();
+    fetchContacts();
   }, []);
 
-  // Reply using mailto
   const handleReply = (contact: Contact) => {
-    const mailtoLink = `mailto:${contact.email}?subject=Re: ${encodeURIComponent(contact.subject)}&body=Hi ${encodeURIComponent(contact.name)},%0A%0A${encodeURIComponent("Thank you for your message.")}%0A%0A--- Original Message ---%0A${encodeURIComponent(contact.message)}`;
+    const mailtoLink = `mailto:${contact.email}?subject=Re: ${encodeURIComponent(contact.subject || 'Contact Form Response')}&body=Hi ${encodeURIComponent(contact.name)},%0A%0A`;
     window.location.href = mailtoLink;
   };
 
-  // Delete contact
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this message?")) return;
 
     setDeletingId(id);
 
     try {
-      const res = await fetch(`http://localhost:3000/api/contacts/${id}`, {
+      const res = await fetch(`/api/contacts?id=${id}`, {
         method: "DELETE",
       });
 
       if (res.ok) {
-        // Optimistic update
         setContacts((prev) => prev.filter((c) => c.id !== id));
       } else {
         alert("Failed to delete the message.");
-        // Refetch on failure
-        await getContactInfor();
       }
     } catch (error) {
       console.error("Delete failed:", error);
       alert("An error occurred while deleting.");
-      await getContactInfor();
     } finally {
       setDeletingId(null);
     }
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-white">Loading contacts...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
-      <h1 className="text-4xl font-bold">Contact Messages</h1>
-
-      <div className="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-950">
-            <tr>
-              <th className="text-left p-6">Name</th>
-              <th className="text-left p-6">Email</th>
-              <th className="text-left p-6">Subject</th>
-              <th className="text-left p-6">Message</th>
-              <th className="text-left p-6">Date</th>
-              <th className="text-left p-6">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-800">
-            {contacts.map((contact) => (
-              <tr key={contact.id} className="hover:bg-gray-800/50">
-                <td className="p-6 font-medium">{contact.name}</td>
-                <td className="p-6 text-gray-400">{contact.email}</td>
-                <td className="p-6">{contact.subject}</td>
-                <td className="p-6 max-w-xs truncate text-gray-300">{contact.message}</td>
-                <td className="p-6 text-gray-400">{contact.date}</td>
-                <td className="p-6">
-                  <div className="flex gap-4">
-                    <button
-                      onClick={() => handleReply(contact)}
-                      className="text-yellow-500 hover:underline font-medium"
-                    >
-                      Reply
-                    </button>
-
-                    <button
-                      onClick={() => handleDelete(contact.id)}
-                      disabled={deletingId === contact.id}
-                      className="text-red-500 hover:underline font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {deletingId === contact.id ? "Deleting..." : "Delete"}
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="flex justify-between items-center">
+        <h1 className="text-4xl font-bold">Contact Messages</h1>
+        <button
+          onClick={fetchContacts}
+          className="bg-yellow-500 hover:bg-yellow-400 text-slate-950 px-4 py-2 rounded-lg font-semibold"
+        >
+          Refresh
+        </button>
       </div>
+
+      {contacts.length === 0 ? (
+        <div className="bg-gray-900 border border-gray-800 rounded-3xl p-12 text-center">
+          <p className="text-gray-400 text-lg">No contact messages yet.</p>
+        </div>
+      ) : (
+        <div className="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-gray-950">
+              <tr>
+                <th className="text-left p-4 text-sm font-semibold text-gray-400">Name</th>
+                <th className="text-left p-4 text-sm font-semibold text-gray-400">Email</th>
+                <th className="text-left p-4 text-sm font-semibold text-gray-400">Subject</th>
+                <th className="text-left p-4 text-sm font-semibold text-gray-400">Message</th>
+                <th className="text-left p-4 text-sm font-semibold text-gray-400">Date</th>
+                <th className="text-left p-4 text-sm font-semibold text-gray-400">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-800">
+              {contacts.map((contact) => (
+                <tr 
+                  key={contact.id} 
+                  className={`hover:bg-gray-800/50 ${!contact.is_read ? 'bg-yellow-500/5' : ''}`}
+                >
+                  <td className="p-4">
+                    <div className="flex items-center gap-2">
+                      {contact.name}
+                      {!contact.is_read && (
+                        <span className="w-2 h-2 bg-yellow-500 rounded-full" title="New" />
+                      )}
+                    </div>
+                  </td>
+                  <td className="p-4 text-gray-400">{contact.email}</td>
+                  <td className="p-4 text-gray-300">{contact.subject || '-'}</td>
+                  <td className="p-4 max-w-xs truncate text-gray-300">{contact.message}</td>
+                  <td className="p-4 text-gray-400 text-sm">{formatDate(contact.created_at)}</td>
+                  <td className="p-4">
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleReply(contact)}
+                        className="text-yellow-500 hover:text-yellow-400 font-medium text-sm"
+                      >
+                        Reply
+                      </button>
+                      <button
+                        onClick={() => handleDelete(contact.id)}
+                        disabled={deletingId === contact.id}
+                        className="text-red-500 hover:text-red-400 font-medium text-sm disabled:opacity-50"
+                      >
+                        {deletingId === contact.id ? "Deleting..." : "Delete"}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
-
-
-
-// // app/api/contacts/[id]/route.ts
-// import { NextRequest, NextResponse } from "next/server";
-
-// // Example: delete from your database (replace with your actual DB logic)
-// export async function DELETE(
-//   request: NextRequest,
-//   { params }: { params: { id: string } }
-// ) {
-//   const id = parseInt(params.id);
-
-//   try {
-//     // TODO: Delete from your database here
-//     // await db.contact.delete({ where: { id } });
-
-//     return NextResponse.json({ success: true });
-//   } catch (error) {
-//     return NextResponse.json({ error: "Failed to delete" }, { status: 500 });
-//   }
-// }

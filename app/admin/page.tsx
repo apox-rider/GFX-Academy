@@ -18,7 +18,7 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'signals' | 'courses' | 'payments' | 'settings' | 'contacts'>('dashboard');
 
  
-  const ADMIN_PASSWORD = 'forexadmin2026'; // Change this!
+  const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'forexadmin2026';
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +63,7 @@ export default function AdminPage() {
 
             <button
               type="submit"
-              className="w-full bg-linear-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-semibold py-4 rounded-xl transition-all duration-300"
+              className="w-full bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-semibold py-4 rounded-xl transition-all duration-300"
             >
               Login to Admin Panel
             </button>

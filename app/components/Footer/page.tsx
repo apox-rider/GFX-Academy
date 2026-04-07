@@ -87,8 +87,8 @@ export default function Footer() {
             <h4 className="text-white font-bold mb-4 uppercase tracking-widest text-xs">Platform</h4>
             <ul className="space-y-3 text-sm" role="list">
               <li><Link href="/Courses" className="hover:text-yellow-500 transition-colors">Forex Courses</Link></li>
-              <li><Link href="/auth/Register?plan=VIP" className="hover:text-yellow-500 transition-colors">VIP Signals</Link></li>
-              <li><Link href="/auth/Register?plan=Referral" className="hover:text-yellow-500 transition-colors">Partner Program</Link></li>
+              <li><Link href="/auth/register?plan=VIP" className="hover:text-yellow-500 transition-colors">VIP Signals</Link></li>
+              <li><Link href="/auth/register?plan=Referral" className="hover:text-yellow-500 transition-colors">Partner Program</Link></li>
             </ul>
           </div>
 
