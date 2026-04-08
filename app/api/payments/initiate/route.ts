@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { getClickPesaClient } from '@/lib/clickpesa'
 import type { PackageTier, PaymentMethod } from '@/lib/supabase/types'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
@@ -14,9 +13,9 @@ const PACKAGE_PRICES: Record<PackageTier, number> = {
 }
 
 function generateOrderReference(): string {
-  const timestamp = Date.now()
+  const timestamp = Date.now().toString(36).toUpperCase()
   const random = Math.random().toString(36).substring(2, 8).toUpperCase()
-  return `GFX-${timestamp}-${random}`
+  return `GFX${timestamp}${random}`
 }
 
 function mapPaymentMethod(method: string): PaymentMethod {
@@ -65,7 +64,6 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
-    const clickpesa = getClickPesaClient()
 
     const { data: profile } = await supabase
       .from('profiles')
@@ -84,19 +82,24 @@ export async function POST(request: NextRequest) {
     const orderReference = generateOrderReference()
     const mappedPaymentMethod = mapPaymentMethod(payment_method)
 
+    // Check for any recent pending payment for this package (last 30 minutes)
+    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000).toISOString()
     const { data: existingPayment } = await supabase
       .from('payments')
-      .select('id')
+      .select('id, payment_status, created_at')
       .eq('user_id', user_id)
       .eq('package_tier', package_tier)
-      .eq('payment_status', 'pending')
-      .single()
+      .in('payment_status', ['pending', 'processing'])
+      .gte('created_at', thirtyMinutesAgo)
+      .maybeSingle()
 
     if (existingPayment) {
-      return NextResponse.json(
-        { error: 'You already have a pending payment for this package' },
-        { status: 400 }
-      )
+      // Cancel the old pending payment first
+      await supabase
+        .from('payments')
+        .update({ payment_status: 'cancelled' })
+        .eq('id', existingPayment.id)
+      console.log('Cancelled old pending payment:', existingPayment.id)
     }
 
     const { data: payment, error: paymentError } = await supabase
@@ -123,68 +126,76 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    // Call ClickPesa directly from the client-side (Next.js server has network access)
+    const clickpesaResponse = await fetch('https://api.clickpesa.com/third-parties/generate-token', {
+      method: 'POST',
+      headers: {
+        'client-id': process.env.CLICKPESA_CLIENT_ID || '',
+        'api-key': process.env.CLICKPESA_API_KEY || '',
+        'Content-Type': 'application/json',
+      },
+    })
 
-    try {
-      const initiateResponse = await clickpesa.initiatePayment({
+    if (!clickpesaResponse.ok) {
+      const errorText = await clickpesaResponse.text()
+      console.error('ClickPesa token error:', errorText)
+      throw new Error('Failed to connect to payment provider')
+    }
+
+    const tokenData = await clickpesaResponse.json()
+    const token = tokenData.token
+
+    const initiateResponse = await fetch('https://api.clickpesa.com/third-parties/payments/initiate-ussd-push-request', {
+      method: 'POST',
+      headers: {
+        'Authorization': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: amount.toString(),
+        currency: 'TZS',
+        orderReference: orderReference,
+        phoneNumber: customer_phone.replace(/^0/, '255'),
+      }),
+    })
+
+    if (!initiateResponse.ok) {
+      const errorText = await initiateResponse.text()
+      console.error('ClickPesa initiate error:', errorText)
+      throw new Error(errorText || 'Failed to initiate payment')
+    }
+
+    const initiateData = await initiateResponse.json()
+
+    await supabase
+      .from('payments')
+      .update({
+        clickpesa_transaction_id: initiateData.id,
+        provider_reference: initiateData.id,
+      })
+      .eq('id', payment.id)
+
+    return NextResponse.json({
+      success: true,
+      payment: {
+        id: payment.id,
+        order_reference: orderReference,
         amount: amount,
         currency: 'TZS',
-        order_reference: orderReference,
-        payment_method: mappedPaymentMethod,
-        customer: {
-          email: customer_email || profile.email,
-          phone_number: customer_phone.replace(/^0/, '255'),
-          name: profile.full_name || undefined,
-        },
-        description: `GalileeFX Academy ${package_tier} package subscription`,
-        callback_url: `${baseUrl}/api/payments/webhook`,
-        return_url: `${baseUrl}/profile?payment=success&order=${orderReference}`,
-      })
-
-      await supabase
-        .from('payments')
-        .update({
-          clickpesa_transaction_id: initiateResponse.data.transaction_id,
-          provider_reference: initiateResponse.data.provider_reference,
-        })
-        .eq('id', payment.id)
-
-      return NextResponse.json({
-        success: true,
-        payment: {
-          id: payment.id,
-          order_reference: orderReference,
-          amount: amount,
-          currency: 'TZS',
-          package_tier: package_tier,
-          status: 'pending',
-        },
-        clickpesa: {
-          transaction_id: initiateResponse.data.transaction_id,
-          checkout_url: initiateResponse.data.checkout_url,
-          provider_reference: initiateResponse.data.provider_reference,
-        },
-        message: 'Payment initiated successfully. Please complete the payment on your phone.',
-      })
-    } catch (clickpesaError) {
-      console.error('ClickPesa error:', clickpesaError)
-      
-      await supabase
-        .from('payments')
-        .update({ payment_status: 'failed' })
-        .eq('id', payment.id)
-
-      return NextResponse.json(
-        {
-          error: 'Failed to connect to payment provider. Please try again later.',
-        },
-        { status: 500 }
-      )
-    }
+        package_tier: package_tier,
+        status: 'pending',
+      },
+      clickpesa: {
+        transaction_id: initiateData.id,
+        order_reference: initiateData.orderReference,
+        status: initiateData.status,
+      },
+      message: 'Payment initiated successfully. Please complete the payment on your phone.',
+    })
   } catch (error) {
     console.error('Payment initiation error:', error)
     return NextResponse.json(
-      { error: 'An unexpected error occurred' },
+      { error: error instanceof Error ? error.message : 'An unexpected error occurred' },
       { status: 500 }
     )
   }

@@ -205,7 +205,13 @@ Deno.serve(async (req: RequestEvent) => {
     console.error('Webhook processing error:', error)
     return new Response(
       JSON.stringify({ error: 'An unexpected error occurred' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { 
+        status: 500, 
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        } 
+      }
     )
   }
 })

@@ -84,13 +84,55 @@ function PaymentContent() {
     }
   }, [orderReference, step])
 
+  useEffect(() => {
+    if (step !== 'processing' || !orderReference) return
+
+    const TIMEOUT_DURATION = 60000 // 1 minute
+
+    const timeoutId = setTimeout(async () => {
+      // Check current payment status before cancelling
+      try {
+        const response = await fetch(`/api/payments/status?order_reference=${orderReference}`)
+        const data = await response.json()
+
+        if (data.success && data.payment && data.payment.payment_status === 'pending') {
+          // Payment still pending after 1 minute - cancel it
+          console.log('Payment timeout - cancelling payment')
+
+          await fetch('/api/payments/cancel', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ payment_id: data.payment.id }),
+          })
+
+          setError('Payment request timed out. Please try again.')
+          setStep('failed')
+        }
+      } catch (err) {
+        console.error('Error handling payment timeout:', err)
+        setError('Payment request timed out. Please try again.')
+        setStep('failed')
+      }
+    }, TIMEOUT_DURATION)
+
+    return () => clearTimeout(timeoutId)
+  }, [step, orderReference])
+
   const handleSelectPackage = (pkg: string) => {
     setSelectedPackage(pkg)
     setStep('payment')
   }
 
   const handleInitiatePayment = async () => {
-    if (!selectedPackage || !phoneNumber) return
+    if (!user) {
+      setError('Please log in to make a payment')
+      return
+    }
+
+    if (!selectedPackage || !phoneNumber) {
+      setError('Please select a package and enter phone number')
+      return
+    }
 
     if (!phoneNumber.match(/^(\+255|0)[0-9]{9}$/)) {
       setError('Please enter a valid Tanzanian phone number (e.g., 0712345678 or +255712345678)')
@@ -100,20 +142,26 @@ function PaymentContent() {
     setIsLoading(true)
     setError('')
 
+    console.log('Initiating payment:', { user_id: user.id, package: selectedPackage, phone: phoneNumber, method: selectedMethod })
+
     try {
+      console.log('Sending request to /api/payments/initiate')
       const response = await fetch('/api/payments/initiate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          user_id: user?.id,
+          user_id: user.id,
           package_tier: selectedPackage,
           payment_method: selectedMethod,
-          customer_email: user?.email,
+          customer_email: user.email,
           customer_phone: phoneNumber,
         }),
       })
 
       const data = await response.json()
+
+      console.log('Response status:', response.status)
+      console.log('Response data:', data)
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to initiate payment')
@@ -122,6 +170,7 @@ function PaymentContent() {
       setOrderReference(data.payment.order_reference)
       setStep('processing')
     } catch (err) {
+      console.error('Payment error:', err)
       setError(err instanceof Error ? err.message : 'Failed to initiate payment')
       setStep('failed')
     } finally {
