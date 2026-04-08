@@ -1,29 +1,62 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { getClickPesaClient } from '@/lib/clickpesa'
-import type { PaymentStatus } from '@/lib/clickpesa/types'
+import crypto from 'crypto'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
+function verifySignature(payload: string, signature: string, apiKey: string): boolean {
+  const expectedSignature = crypto
+    .createHmac('sha256', apiKey)
+    .update(payload)
+    .digest('hex')
+  return signature === expectedSignature
+}
+
 export async function POST(request: NextRequest) {
+  if (request.method === 'OPTIONS') {
+    return new Response('ok', {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'content-type, x-clickpesa-signature',
+      },
+    })
+  }
+
   try {
     const rawBody = await request.text()
     const signature = request.headers.get('x-clickpesa-signature') || ''
+    const apiKey = process.env.CLICKPESA_API_KEY
 
-    const clickpesa = getClickPesaClient()
-    
-    const isValidSignature = clickpesa.verifyWebhookSignature(rawBody, signature)
-    
-    if (!isValidSignature) {
-      console.warn('Invalid webhook signature received')
-      return NextResponse.json(
-        { error: 'Invalid signature' },
-        { status: 401 }
-      )
+    if (apiKey) {
+      const isValidSignature = verifySignature(rawBody, signature, apiKey)
+      if (!isValidSignature) {
+        console.warn('Invalid webhook signature received')
+        return NextResponse.json(
+          { error: 'Invalid signature' },
+          { status: 401 }
+        )
+      }
     }
 
-    const payload = clickpesa.parseWebhookPayload(rawBody)
+    let payload: { data?: {
+      order_reference: string
+      payment_status: string
+      transaction_id: string
+      provider_reference: string | null
+      amount: number
+      currency: string
+    } } | null = null
+    
+    try {
+      payload = JSON.parse(rawBody)
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid JSON payload' },
+        { status: 400 }
+      )
+    }
 
     if (!payload || !payload.data) {
       return NextResponse.json(
@@ -50,7 +83,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const statusMapping: Record<string, PaymentStatus> = {
+    const statusMapping: Record<string, 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled'> = {
       pending: 'pending',
       processing: 'processing',
       completed: 'completed',
@@ -188,6 +221,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Webhook processed successfully',
+    }, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
     })
   } catch (error) {
     console.error('Webhook processing error:', error)

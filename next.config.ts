@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Supabase Edge Functions use Deno which isn't compiled by Next.js
+  // These functions are deployed separately to Supabase
 };
 
 export default nextConfig;

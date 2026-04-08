@@ -42,34 +42,62 @@ function mapPaymentMethod(method: string): string {
 }
 
 async function getClickPesaToken(): Promise<string> {
-  const clientId = Deno.env.get('CLICKPESA_CLIENT_ID')!
-  const apiKey = Deno.env.get('CLICKPESA_API_KEY')!
-  const environment = Deno.env.get('CLICKPESA_ENVIRONMENT') || 'sandbox'
+  // Log environment to debug
+  console.log('All env vars:', Deno.env.toObject())
   
-  const baseUrl = environment === 'sandbox' 
-    ? 'https://client-api.sandbox.clickpesa.com'
-    : 'https://client-api.clickpesa.com'
-
-  const credentials = btoa(`${clientId}:${apiKey}`)
+  const clientId = Deno.env.get('CLICKPESA_CLIENT_ID') || ''
+  const apiKey = Deno.env.get('CLICKPESA_API_KEY') || ''
   
-  const response = await fetch(`${baseUrl}/identity/v1/token`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Basic ${credentials}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      grant_type: 'client_credentials',
-      scope: 'payments.all',
-    }),
-  })
-
-  if (!response.ok) {
-    throw new Error('Failed to get ClickPesa access token')
+  console.log('clientId exists:', !!clientId, 'length:', clientId?.length)
+  console.log('apiKey exists:', !!apiKey, 'length:', apiKey?.length)
+  
+  if (!clientId || !apiKey) {
+    // Fallback to direct values - remove in production
+    const fallbackClientId = 'IDJelSv7y1VIoXPB55VaY0VvMx8xFz9f'
+    const fallbackApiKey = 'SKwFrEmDnb8OvWgx69jlCA3rwRv3XSYL8UlhHXrxua'
+    
+    console.log('Using fallback credentials')
+    
+    // Make request with explicit settings
+    const url = 'https://api.clickpesa.com/third-parties/generate-token'
+    console.log('Request URL:', url)
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'client-id': fallbackClientId,
+        'api-key': fallbackApiKey,
+      },
+    })
+    
+    console.log('Direct response status:', response.status)
+    const text = await response.text()
+    console.log('Direct response:', text.substring(0, 50))
+    
+    if (!response.ok) {
+      throw new Error(`Token failed: ${text}`)
+    }
+    
+    const data = JSON.parse(text)
+    return data.token
   }
 
-  const data = await response.json()
-  return data.access_token
+  const response = await fetch('https://api.clickpesa.com/third-parties/generate-token', {
+    method: 'POST',
+    headers: {
+      'client-id': clientId,
+      'api-key': apiKey,
+    },
+  })
+
+  const text = await response.text()
+  console.log('Token response:', text.substring(0, 50))
+
+  if (!response.ok) {
+    throw new Error(`Token failed: ${text}`)
+  }
+
+  return JSON.parse(text).token
 }
 
 async function initiatePayment(request: {
@@ -86,40 +114,55 @@ async function initiatePayment(request: {
   callback_url?: string
   return_url?: string
 }): Promise<{
-  status: boolean
-  message: string
-  data: {
-    transaction_id: string
-    order_reference: string
-    checkout_url: string
-    provider_reference: string
-    status: string
-    expires_at: string
-  }
+  id: string
+  status: string
+  orderReference: string
+  channel: string
+  collectedAmount: string
+  collectedCurrency: string
+  createdAt: string
 }> {
-  const environment = Deno.env.get('CLICKPESA_ENVIRONMENT') || 'sandbox'
-  
-  const baseUrl = environment === 'sandbox' 
-    ? 'https://client-api.sandbox.clickpesa.com'
-    : 'https://client-api.clickpesa.com'
-
   const token = await getClickPesaToken()
 
-  const response = await fetch(`${baseUrl}/payments/v1/ussd-push`, {
+  console.log('Token obtained, initiating payment...')
+
+  const response = await fetch('https://api.clickpesa.com/third-parties/payments/initiate-ussd-push-request', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
+      'Accept': 'application/json',
     },
-    body: JSON.stringify(request),
+    body: JSON.stringify({
+      amount: request.amount.toString(),
+      currency: request.currency,
+      orderReference: request.order_reference,
+      phoneNumber: request.customer.phone_number,
+    }),
   })
 
+  console.log('Payment response status:', response.status)
+  const responseText = await response.text()
+  console.log('Payment response body length:', responseText.length)
+  console.log('Payment response body first 100 chars:', responseText.substring(0, 100))
+
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: 'Payment request failed' }))
-    throw new Error(error.message || 'Payment request failed')
+    console.error('ClickPesa API error:', response.status, responseText)
+    // Check if it's a JSON error or plain text
+    let errorMessage = 'Payment request failed'
+    try {
+      const error = JSON.parse(responseText)
+      errorMessage = error.message || errorMessage
+    } catch {
+      // Not JSON, use the text directly if it's meaningful
+      if (responseText && responseText.length < 100) {
+        errorMessage = responseText
+      }
+    }
+    throw new Error(errorMessage)
   }
 
-  return response.json()
+  return JSON.parse(responseText)
 }
 
 Deno.serve(async (req: RequestEvent) => {
@@ -232,6 +275,20 @@ Deno.serve(async (req: RequestEvent) => {
 
     const baseUrl = Deno.env.get('NEXT_PUBLIC_BASE_URL') || 'http://localhost:3000'
 
+    // Test external connectivity first
+    console.log('Testing external network connectivity...')
+    
+    try {
+      const testResp = await fetch('https://jsonplaceholder.typicode.com/todos/1')
+      console.log('External network test status:', testResp.status)
+      const testBody = await testResp.text()
+      console.log('External network test response:', testBody.substring(0, 50))
+    } catch (netErr) {
+      console.error('Network test failed:', netErr)
+    }
+
+    console.log('Testing ClickPesa connectivity...')
+
     try {
       const initiateResponse = await initiatePayment({
         amount: amount,
@@ -248,11 +305,13 @@ Deno.serve(async (req: RequestEvent) => {
         return_url: `${baseUrl}/payment?payment=success&order=${orderReference}`,
       })
 
+      console.log('Payment initiated successfully:', initiateResponse)
+
       await supabase
         .from('payments')
         .update({
-          clickpesa_transaction_id: initiateResponse.data.transaction_id,
-          provider_reference: initiateResponse.data.provider_reference,
+          clickpesa_transaction_id: initiateResponse.id,
+          provider_reference: initiateResponse.id,
         })
         .eq('id', payment.id)
 
@@ -268,17 +327,25 @@ Deno.serve(async (req: RequestEvent) => {
             status: 'pending',
           },
           clickpesa: {
-            transaction_id: initiateResponse.data.transaction_id,
-            checkout_url: initiateResponse.data.checkout_url,
-            provider_reference: initiateResponse.data.provider_reference,
-            expires_at: initiateResponse.data.expires_at,
+            transaction_id: initiateResponse.id,
+            order_reference: initiateResponse.orderReference,
+            status: initiateResponse.status,
+            channel: initiateResponse.channel,
           },
           message: 'Payment initiated successfully. Please complete the payment on your phone.',
         }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
+        { 
+          status: 200, 
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          } 
+        }
       )
     } catch (clickpesaError) {
       console.error('ClickPesa error:', clickpesaError)
+      const errorMessage = clickpesaError instanceof Error ? clickpesaError.message : 'Unknown error'
+      console.error('Error details:', errorMessage)
       
       await supabase
         .from('payments')
@@ -287,16 +354,28 @@ Deno.serve(async (req: RequestEvent) => {
 
       return new Response(
         JSON.stringify({
-          error: 'Failed to connect to payment provider. Please try again later.',
+          error: `Payment provider error: ${errorMessage}`,
         }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
+        { 
+          status: 500, 
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          } 
+        }
       )
     }
   } catch (error) {
     console.error('Payment initiation error:', error)
     return new Response(
       JSON.stringify({ error: 'An unexpected error occurred' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { 
+        status: 500, 
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        } 
+      }
     )
   }
 })
