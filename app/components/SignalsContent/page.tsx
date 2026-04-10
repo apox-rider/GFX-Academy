@@ -266,6 +266,10 @@ export default function SignalsContent() {
                   >
                     <option value="BUY">BUY</option>
                     <option value="SELL">SELL</option>
+                    <option value="SELLSTOP">SELL STOP</option>
+                    <option value="BUYSTOP">BUY STOP</option>
+                    <option value="SELL LIMIT">SELL LIMIT</option>
+                    <option value="BUYLIMIT">BUY LIMIT</option>
                   </select>
                 </div>
                 <div>
