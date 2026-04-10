@@ -1,4 +1,4 @@
-// src/components/home/Hero.tsx
+
 import { ExternalLink, TrendingUp, ShieldCheck, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { GiAerialSignal } from 'react-icons/gi';
@@ -64,7 +64,7 @@ export default function Hero() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
-            href="/auth/register"
+            href="/auth/Register"
             className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-10 py-4 rounded-lg transition-all shadow-[0_0_20px_rgba(234,179,8,0.3)]"
           >
             Start Free – Register Now
