@@ -106,7 +106,7 @@ export default function ContactPage() {
                 <Phone className="w-10 h-10 text-yellow-500 mb-4" />
                 <h3 className="text-xl font-bold text-white mb-2">Call Us</h3>
                 <p className="text-slate-400 leading-relaxed mb-2">Speak directly with our team during business hours.</p>
-                <p className="text-slate-300 font-medium">+255 700 000 000</p>
+                <p className="text-slate-300 font-medium">+255 794 577 158</p>
               </div>
               <div className="p-8 rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-slate-700 transition-colors">
                 <LocateFixed className="w-10 h-10 text-yellow-500 mb-4" />
