@@ -57,17 +57,16 @@ export default function SettingsContent() {
     alert("Settings updated locally! (Add your API call here)");
   };
 
-  // 3. Prevent rendering if data isn't loaded yet
-  if (!settings) {
-    return (
-      <div className="flex h-64 items-center justify-center text-white">
-        <Loader2 className="animate-spin mr-2" /> Loading Settings...
-      </div>
-    );
-  }
+ 
 
   return (
     <div className="max-w-6xl mx-auto space-y-10 pb-12">
+    {
+      !settings &&
+      <div className="flex h-64 items-center justify-center text-white">
+        <Loader2 className="animate-spin mr-2" /> Loading Settings...
+      </div>
+    }
       <div>
         <h1 className="text-4xl font-bold text-white">Settings</h1>
         <p className="text-gray-400 mt-2">Manage your website, security, and business settings</p>
@@ -85,9 +84,10 @@ export default function SettingsContent() {
               <div>
                 <label className="block text-sm text-gray-400 mb-2">Website Name</label>
                 <input
+                  disabled={!settings}
                   type="text"
                   name="siteName"
-                  value={settings.siteName}
+                  value={settings?.siteName}
                   onChange={handleChange}
                   className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 focus:border-yellow-500 outline-none transition"
                 />
@@ -96,8 +96,9 @@ export default function SettingsContent() {
               <div>
                 <label className="block text-sm text-gray-400 mb-2">Tagline / Slogan</label>
                 <textarea
+                  disabled={!settings}
                   name="tagline"
-                  value={settings.tagline}
+                  value={settings?.tagline}
                   onChange={handleChange}
                   rows={3}
                   className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 focus:border-yellow-500 outline-none transition"
@@ -108,9 +109,10 @@ export default function SettingsContent() {
                 <div>
                   <label className="block text-sm text-gray-400 mb-2">Contact Email</label>
                   <input
+                    disabled={!settings}
                     type="email"
                     name="contactEmail"
-                    value={settings.contactEmail}
+                    value={settings?.contactEmail}
                     onChange={handleChange}
                     className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 focus:border-yellow-500 outline-none transition"
                   />
@@ -118,9 +120,10 @@ export default function SettingsContent() {
                 <div>
                   <label className="block text-sm text-gray-400 mb-2">WhatsApp Number</label>
                   <input
+                    disabled={!settings}
                     type="text"
                     name="whatsappNumber"
-                    value={settings.whatsappNumber}
+                    value={settings?.whatsappNumber}
                     onChange={handleChange}
                     className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 focus:border-yellow-500 outline-none transition"
                   />
@@ -137,9 +140,9 @@ export default function SettingsContent() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
-                { label: "Bronze", name: "bronzePrice", value: settings.bronzePrice },
-                { label: "Silver", name: "silverPrice", value: settings.silverPrice },
-                { label: "Gold", name: "goldPrice", value: settings.goldPrice },
+                { label: "Bronze", name: "bronzePrice", value: settings?.bronzePrice },
+                { label: "Silver", name: "silverPrice", value: settings?.silverPrice },
+                { label: "Gold", name: "goldPrice", value: settings?.goldPrice },
               ].map((pkg) => (
                 <div key={pkg.name}>
                   <label className="block text-sm text-gray-400 mb-2">{pkg.label} Package</label>
@@ -170,9 +173,10 @@ export default function SettingsContent() {
                 <div>
                   <label className="block text-sm text-gray-400 mb-2">Signal Validity (Hours)</label>
                   <input
+                    disabled={!settings}
                     type="number"
                     name="signalValidityHours"
-                    value={settings.signalValidityHours}
+                    value={settings?.signalValidityHours}
                     onChange={handleChange}
                     className="w-full bg-gray-800 border border-gray-700 rounded-2xl px-5 py-4 focus:border-yellow-500 outline-none"
                   />
@@ -182,6 +186,7 @@ export default function SettingsContent() {
 
           {/* Save Button */}
           <button
+            disabled={!settings}
             onClick={handleSave}
             className="w-full bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-bold py-5 rounded-3xl flex items-center justify-center gap-3 text-lg transition-all active:scale-95 shadow-lg"
           >
