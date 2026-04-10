@@ -76,7 +76,7 @@ export default function About() {
 
             <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
               <Link
-                href="/auth/register"
+                href="/auth/Register"
                 className="w-full sm:w-auto bg-gradient-to-r from-yellow-500 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-slate-950 font-bold text-lg px-12 py-5 rounded-xl transition-all shadow-xl shadow-yellow-500/20 hover:shadow-yellow-500/40 transform hover:-translate-y-1"
               >
                 Join GalileeFx Academy Today and Trade Like a Pro!

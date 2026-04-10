@@ -163,14 +163,14 @@ export default function Signals() {
               </div>
             ) : (
               <Link
-                href="/auth/register"
+                href="/auth/egister"
                 className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-10 py-4 rounded-lg transition-all shadow-[0_0_20px_rgba(234,179,8,0.3)]"
               >
                 Get Signals – Register Now
               </Link>
             )}
             <Link
-              href="#recent-signals"
+              href={`${!user ? '#recent-signals':'/#packages'}`}
               className="w-full sm:w-auto bg-slate-900 border border-slate-700 hover:bg-slate-800 text-white font-bold text-lg px-10 py-4 rounded-lg transition-all"
             >
               View Recent Signals
