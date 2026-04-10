@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 interface Signal {
   id: string;
   pair: string;
-  action: 'BUY' | 'SELL';
+  action: 'BUY' | 'SELL'|'SELL STOP'|'BUY STOP'| 'SELL LIMIT '|'BUY LIMIT';
   entry_price: number;
   stop_loss: number;
   take_profit: number;
