@@ -1,4 +1,33 @@
+import { useEffect, useState } from "react";
+import { json } from "stream/consumers";
+interface Dashboard{
+  pair:string;
+  type:string;
+  entry:number;
+  sl:number;
+  tp:number;
+  time:string|number
+}
+
 export default function DashboardContent() {
+  const [signal,setIsSignal]=useState<Dashboard[]>()
+  const [students,setIsStudent]=useState<Dashboard[]>()
+
+  const getSignals=async()=>{await
+    fetch(`/api/signals`)
+    .then(res=>res.json())
+    .then(json=>setIsSignal(json))
+  }
+  const getStudents=async()=>{await
+    fetch(`/api/signals?status=active`)
+    .then(res=>res.json())
+    .then(json=>setIsStudent(json))
+  }
+ 
+  useEffect(()=>{
+    getSignals()
+    getStudents()
+  },[])
   return (
     <div className="space-y-8">
       <div>
@@ -10,23 +39,23 @@ export default function DashboardContent() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
           <p className="text-gray-400 text-sm">Active Signals</p>
-          <p className="text-5xl font-bold mt-4">18</p>
-          <p className="text-green-500 text-sm mt-2">↑ 5 from yesterday</p>
+          <p className="text-5xl font-bold mt-4">{signal?.length}</p>
+          <p className="text-green-500 text-sm mt-2">↑  from yesterday</p>
         </div>
         <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
           <p className="text-gray-400 text-sm">Total Students</p>
-          <p className="text-5xl font-bold mt-4">347</p>
-          <p className="text-green-500 text-sm mt-2">↑ 23 this month</p>
+          <p className="text-5xl font-bold mt-4">{students?.length}</p>
+          <p className="text-green-500 text-sm mt-2">↑ this month</p>
         </div>
-        <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
+        {/* <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
           <p className="text-gray-400 text-sm">Revenue (TZS)</p>
-          <p className="text-5xl font-bold mt-4">124.8M</p>
+          <p className="text-5xl font-bold mt-4">{}</p>
           <p className="text-green-500 text-sm mt-2">↑ 18% this month</p>
-        </div>
+        </div> */}
         <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
           <p className="text-gray-400 text-sm">Success Rate</p>
-          <p className="text-5xl font-bold mt-4">87%</p>
-          <p className="text-green-500 text-sm mt-2">+4% this week</p>
+          <p className="text-5xl font-bold mt-4">Top</p>
+          <p className="text-green-500 text-sm mt-2">Higher this week</p>
         </div>
       </div>
 
@@ -34,7 +63,7 @@ export default function DashboardContent() {
       <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold">Recent Signals</h2>
-          <button className="text-yellow-500 hover:text-yellow-400 text-sm font-medium">View All Signals →</button>
+          <button className="text-yellow-500 hover:text-yellow-400 text-sm font-medium">View Signals⬇️</button>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -49,20 +78,16 @@ export default function DashboardContent() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-800">
-              {[
-                { pair: "EUR/USD", type: "BUY", entry: "1.0850", sl: "1.0800", tp: "1.0950", time: "2 min ago" },
-                { pair: "GBP/JPY", type: "SELL", entry: "191.25", sl: "191.80", tp: "189.50", time: "15 min ago" },
-                { pair: "XAU/USD", type: "BUY", entry: "2650.50", sl: "2638.00", tp: "2680.00", time: "1 hour ago" },
-              ].map((signal, i) => (
+              {signal?.map((s, i) => (
                 <tr key={i} className="hover:bg-gray-800/50">
-                  <td className="py-5 font-medium">{signal.pair}</td>
-                  <td className={`py-5 font-bold ${signal.type === 'BUY' ? 'text-green-500' : 'text-red-500'}`}>
-                    {signal.type}
+                  <td className="py-5 font-medium">{s.entry}</td>
+                  <td className={`py-5 font-bold ${s.type === 'BUY' ? 'text-green-500' : 'text-red-500'}`}>
+                    {s.type}
                   </td>
-                  <td className="py-5">{signal.entry}</td>
-                  <td className="py-5 text-red-400">{signal.sl}</td>
-                  <td className="py-5 text-green-400">{signal.tp}</td>
-                  <td className="py-5 text-gray-400">{signal.time}</td>
+                  <td className="py-5">{s.entry}</td>
+                  <td className="py-5 text-red-400">{s.sl}</td>
+                  <td className="py-5 text-green-400">{s.tp}</td>
+                  <td className="py-5 text-gray-400">{s.time}</td>
                 </tr>
               ))}
             </tbody>
