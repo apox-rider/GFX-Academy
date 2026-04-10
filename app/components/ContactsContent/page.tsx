@@ -126,7 +126,7 @@ export default function ContactsContent() {
                   </td>
                   <td className="p-4 text-gray-400">{contact.email}</td>
                   <td className="p-4 text-gray-300">{contact.subject || '-'}</td>
-                  <td className="p-4 max-w-xs truncate text-gray-300">{contact.message}</td>
+                  <td className="p-4 max-w-xs truncate text-gray-300 line-clamp-1">{contact.message}</td>
                   <td className="p-4 text-gray-400 text-sm">{formatDate(contact.created_at)}</td>
                   <td className="p-4">
                     <div className="flex gap-2">
