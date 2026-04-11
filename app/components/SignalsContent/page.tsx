@@ -59,7 +59,8 @@ export default function SignalsContent() {
       action: 'BUY',
       entry_price: '',
       stop_loss: '',
-      take_profit: '',
+      take_profit1: '',
+      take_profit2: '',
       validity_hours: '24',
       min_tier: 'bronze',
     });
@@ -74,7 +75,8 @@ export default function SignalsContent() {
       action: signal.action,
       entry_price: signal.entry_price.toString(),
       stop_loss: signal.stop_loss.toString(),
-      take_profit: signal.take_profit.toString(),
+      take_profit1: signal.take_profit.toString(),
+      take_profit2: signal.take_profit.toString(),
       validity_hours: signal.validity_hours.toString(),
       min_tier: signal.min_tier,
     });
@@ -95,7 +97,8 @@ export default function SignalsContent() {
       action: formData.action,
       entry_price: parseFloat(formData.entry_price),
       stop_loss: parseFloat(formData.stop_loss),
-      take_profit: parseFloat(formData.take_profit),
+      take_profit1: parseFloat(formData.take_profit1),
+      take_profit2: parseFloat(formData.take_profit2),
       validity_hours: parseInt(formData.validity_hours),
       min_tier: formData.min_tier,
     };
