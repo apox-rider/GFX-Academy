@@ -178,7 +178,7 @@ export default function About() {
             </p>
 
             <Link
-              href="/auth/register"
+              href="/auth/Register"
               className="inline-block bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-bold text-xl px-16 py-6 rounded-xl transition-all shadow-2xl shadow-yellow-600/30 hover:shadow-yellow-500/50 transform hover:-translate-y-2"
             >
               Join GalileeFx Academy Today and Trade Like a Pro!

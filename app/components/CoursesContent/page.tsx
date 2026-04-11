@@ -43,15 +43,15 @@ export default function CoursesContent() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const getToturials = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tutorials`)
-      .then(res => res.json())
-      .then(json => setToturial(json));
-  };
+  // const getToturials = () => {
+  //   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tutorials`)
+  //     .then(res => res.json())
+  //     .then(json => setToturial(json));
+  // };
 
-  useEffect(() => {
-    getToturials();
-  }, []);
+  // useEffect(() => {
+  //   getToturials();
+  // }, []);
 
   const beginnerTutorials = useMemo(() => 
     toturial.filter(t => t.level === 'Beginner'), 

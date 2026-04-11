@@ -8,10 +8,7 @@ export default function AdminHeader() {
       </div>
 
       <div className="flex items-center gap-6">
-        <div className="bg-gray-800 text-sm px-4 py-2 rounded-2xl flex items-center gap-2">
-          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-          Live Trading Mode
-        </div>
+       
 
         <div className="flex items-center gap-3">
           <div className="text-right">

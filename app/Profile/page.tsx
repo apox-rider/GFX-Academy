@@ -67,13 +67,11 @@ export default function ProfilePage() {
     router.push('/')
   }
 
-  const editprofile = () => {
-    setIsEditing(!isEditing)
-  }
+ 
 
   const handlenotifications = () => {
-    setRead(true)
     setActiveTab('Notifications')
+    setRead(true)
   }
 
   const displayUser = user || {
@@ -171,20 +169,24 @@ export default function ProfilePage() {
 
       {/* --- MAIN CONTENT --- */}
       <main className="flex-1 overflow-y-auto bg-slate-950">
-        <div className="h-32 md:h-48 bg-gradient-to-r from-yellow-600 via-yellow-500 to-orange-500 w-full" />
+        <div className={`h-32 md:h-48 bg-gradient-to-r ${subscription?.package_tier==='Free'?' from-yellow-600 via-yellow-500 to-orange-500':' from-blue-600 via-blue-500 to-orange-500'} w-full`} />
 
+
+            {/* I HAVE TO GET THROUGH THE PACKAGE_TIER */}
+
+
+
+            
         <div className="max-w-4xl mx-auto px-4 sm:px-6 -mt-16 pb-20">
           
           {/* Profile Header Card */}
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-              <div className="relative">
+              <div >
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-slate-800 border-4 border-slate-900 overflow-hidden shadow-xl flex items-center justify-center text-4xl font-bold text-slate-500">
                     {displayUser.name.charAt(0)}
                 </div>
-                <button className="absolute bottom-2 right-2 p-2 bg-yellow-500 rounded-lg text-slate-950 border-2 border-slate-900 hover:scale-110 transition-transform">
-                    <Camera size={16} />
-                </button>
+                 
               </div>
               
               <div className="flex-1 md:mb-2">
@@ -206,10 +208,9 @@ export default function ProfilePage() {
 
               <div className="flex gap-2 md:mb-2">
                 <button 
-                onClick={editprofile}
                 disabled={isSaving}
                 className={`flex-1 md:flex-none font-bold px-6 py-2.5 rounded-xl transition-all text-sm ${isEditing ? 'bg-green-500 text-white' : 'bg-yellow-500 text-slate-950'} disabled:opacity-50`}>
-                  {isSaving ? 'Saving...' : isEditing ? 'Save Changes' : 'Edit Profile'}
+                   PROFILE
                 </button>
                 <button 
                 onClick={handlenotifications}
@@ -268,8 +269,8 @@ export default function ProfilePage() {
                     <h3 className="font-bold text-white mb-4">Trading Activity</h3>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-center">
-                            <div className="text-2xl font-bold text-white">12</div>
-                            <div className="text-[10px] uppercase font-bold text-slate-500">Active Signals</div>
+                            <div className="text-2xl font-bold text-white">{displayUser.plan}</div>
+                            <div className="text-[10px] uppercase font-bold text-slate-500">Plan</div>
                         </div>
                         <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-center">
                             <div className="text-2xl font-bold text-yellow-500">{subscription?.package_tier || 'Free'}</div>
@@ -285,9 +286,9 @@ export default function ProfilePage() {
               <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
                     <h3 className="font-bold text-white mb-6 flex items-center gap-2">
-                        <Lock size={20} className="text-yellow-500" /> Login & Password
+                        <Lock size={20} className="text-yellow-500" /> UNDER UPGRADE DEVELOPMENT
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-4 hidden">
                         <div className="flex justify-between items-center p-4 bg-slate-950 rounded-2xl border border-slate-800">
                             <div>
                                 <p className="text-sm font-bold">Change Password</p>
@@ -296,23 +297,7 @@ export default function ProfilePage() {
                             <button className="text-xs bg-slate-800 px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors">Update</button>
                         </div>
                         <div className="flex justify-between items-center p-4 bg-slate-950 rounded-2xl border border-slate-800">
-                            <div>
-                                <p className="text-sm font-bold">Two-Factor Authentication</p>
-                                <p className="text-xs text-slate-500">Not enabled</p>
-                            </div>
                             <button className="text-xs text-green-500">Enable</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6">
-                    <h3 className="font-bold text-white mb-4 flex items-center gap-2">
-                        <Smartphone size={20} className="text-yellow-500" /> Login Devices
-                    </h3>
-                    <div className="text-sm text-slate-400 space-y-3">
-                        <div className="flex items-center justify-between">
-                            <span>Current Device</span>
-                            <span className="text-[10px] bg-yellow-500/20 text-yellow-500 px-2 py-1 rounded">Current</span>
                         </div>
                     </div>
                 </div>

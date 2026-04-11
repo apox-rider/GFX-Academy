@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 interface Signal {
   id: string;
   pair: string;
-  action: 'BUY' | 'SELL';
+  action: 'BUY' | 'SELL'|'SELL STOP'|'BUY STOP'| 'SELL LIMIT '|'BUY LIMIT';
   entry_price: number;
   stop_loss: number;
   take_profit: number;
@@ -19,8 +19,14 @@ interface Signal {
 export default function Signals() {
   const [signals, setSignals] = useState<Signal[]>([]);
   const [userTier, setUserTier] = useState<string>('free');
+// Something is missing to check subscription
+
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<{ id: string } | null>(null);
+
+  // const checkSubscription=async()=>{
+  //   const checkSession=
+  // }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,7 +82,7 @@ export default function Signals() {
     );
   }
 
-  if (!canAccessSignals) {
+  if (canAccessSignals) {
     return (
       <>
         <Navbar />
@@ -163,7 +169,7 @@ export default function Signals() {
               </div>
             ) : (
               <Link
-                href="/auth/egister"
+                href="/auth/Register"
                 className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-10 py-4 rounded-lg transition-all shadow-[0_0_20px_rgba(234,179,8,0.3)]"
               >
                 Get Signals – Register Now
