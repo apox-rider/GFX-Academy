@@ -16,10 +16,18 @@ export default function ProfilePage() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('Profile');
   const [isEditing, setIsEditing] = useState(false);
+
+  
+
   const [read, setRead]= useState(false)
-  const [notification] = useState([
-    {id:1, category:'Daily', message:'Welcome to Galilee TX '}
+  const [notification,setNotification] = useState([
+    {id:1, category:'Daily', message:'Welcome to Galilee FX '}
   ])
+
+
+  //Notification logic 
+
+
   const [user, setUser] = useState<{name: string; username: string; email: string; plan: string; location: string; joined: string; bio: string} | null>(null)
   const [subscription, setSubscription] = useState<{package_tier: string; end_date: string | null; status: string; id: string} | null>(null)
   const [editForm, setEditForm] = useState({ full_name: '', bio: '' })
