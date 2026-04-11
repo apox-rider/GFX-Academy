@@ -175,7 +175,7 @@ export default function CoursesContent() {
 
       if (res.ok) {
         setIsModalOpen(false);
-        getToturials();
+        // getToturials();
       } else {
         alert('Failed to save tutorial. Please try again.');
       }
@@ -197,7 +197,7 @@ export default function CoursesContent() {
 
       if (res.ok) {
         setIsModalOpen(false);
-        getToturials();
+        // getToturials();
       } else {
         alert('Failed to delete tutorial.');
       }
