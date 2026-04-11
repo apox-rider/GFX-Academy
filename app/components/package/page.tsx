@@ -8,53 +8,12 @@ interface Package {
   price: number;
   duration: string;
   features: string[];
-  color: string; // We'll map this to slate-friendly accents
+  color: string;  
 }
 
 interface Props { packages: Package[]; }
 
-const defaultPackages: Package[] = [
-  {
-    id: 1,
-    name: 'Bronze',
-    price: 25000,
-    duration: '1 month',
-    features: [
-      'Technical Analysis',
-      'Fundamental Analysis',
-      'Weekly Market Recap',
-      'Trading Psychology',
-      'Risk Management',
-    ],
-    color: 'from-blue-500 to-blue-600',
-  },
-  {
-    id: 2,
-    name: 'Silver',
-    price: 100000,
-    duration: '2 months',
-    features: [
-      'Everything in Bronze',
-      'Prop Firm Videos',
-      '1 Month Live Mentorship',
-      'Priority Signal Access',
-    ],
-    color: 'from-purple-500 to-purple-600',
-  },
-  {
-    id: 3,
-    name: 'Gold',
-    price: 130000,
-    duration: '3 months',
-    features: [
-      'Everything in Silver',
-      'Full Lifetime Mentorship',
-      'All Future Courses Free',
-      'Private WhatsApp Group',
-    ],
-    color: 'from-yellow-500 to-orange-600',
-  },
-]
+const defaultPackages: Package[] = []
 
 export default function PackagesSection({ packages }: Props) {
   const displayPackages = packages && packages.length > 0 ? packages : defaultPackages
@@ -75,7 +34,7 @@ export default function PackagesSection({ packages }: Props) {
 
         <div className="grid md:grid-cols-3 gap-8 mb-20">
           {displayPackages.map((pkg) => (
-            <article 
+            <article  
               key={pkg.id} 
               className="relative bg-slate-900/50 border border-slate-800 rounded-3xl overflow-hidden hover:border-yellow-500/50 transition-all duration-300 group flex flex-col"
             >

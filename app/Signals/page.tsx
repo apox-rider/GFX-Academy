@@ -103,7 +103,7 @@ export default function Signals() {
 
               <div className="space-y-4">
                 <Link
-                  href="/payment"
+                  href="/paymentSignals"
                   className="block w-full bg-gradient-to-r from-violet-500 to-yellow-500 text-white font-bold text-lg px-10 py-5 rounded-2xl transition-all hover:scale-105"
                 >
                   Get Premium Access

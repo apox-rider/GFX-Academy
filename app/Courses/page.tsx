@@ -84,7 +84,7 @@ export default function CoursesPage() {
 
           <div className="mt-10 md:mt-12 flex flex-col sm:flex-row gap-4 justify-center px-4">
             <Link
-              href="/auth/register"
+              href="/auth/Register"
               className="bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-lg px-10 sm:px-12 py-4 sm:py-5 rounded-2xl transition-all shadow-xl shadow-yellow-500/30 w-full sm:w-auto"
             >
               Start Free – Beginner Level
@@ -119,7 +119,7 @@ export default function CoursesPage() {
                 Introduction to Forex and Trading.
               </p>
               <Link
-                href="/auth/register?package=1"
+                href="/auth/Register?package=1"
                 className="inline-block bg-blue-500 hover:bg-emerald-400 text-slate-950 font-bold text-lg md:text-xl px-12 md:px-16 py-4 md:py-6 rounded-2xl transition-all w-full sm:w-auto"
               >
                 Get Started Free
