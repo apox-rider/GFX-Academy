@@ -26,7 +26,8 @@ export default function SignalsContent() {
     action: 'BUY',
     entry_price: '',
     stop_loss: '',
-    take_profit: '',
+    take_profit1: '',
+    take_profit2: '',
     validity_hours: '24',
     min_tier: 'bronze',
   });
@@ -272,7 +273,7 @@ export default function SignalsContent() {
                     <option value="BUYLIMIT">BUY LIMIT</option>
                   </select>
                 </div>
-                <div>
+                {/* <div>
                   <label className="block text-sm text-gray-400 mb-1">Min Tier</label>
                   <select
                     name="min_tier"
@@ -284,10 +285,7 @@ export default function SignalsContent() {
                     <option value="silver">Silver</option>
                     <option value="gold">Gold</option>
                   </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4">
+                </div> */}
                 <div>
                   <label className="block text-sm text-gray-400 mb-1">Entry Price</label>
                   <input
@@ -300,6 +298,10 @@ export default function SignalsContent() {
                     className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500"
                   />
                 </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                
                 <div>
                   <label className="block text-sm text-gray-400 mb-1">Stop Loss</label>
                   <input
@@ -313,11 +315,23 @@ export default function SignalsContent() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-400 mb-1">Take Profit</label>
+                  <label className="block text-sm text-gray-400 mb-1">Take Profit 1</label>
                   <input
                     type="number"
                     name="take_profit"
-                    value={formData.take_profit}
+                    value={formData.take_profit1}
+                    onChange={handleInputChange}
+                    required
+                    step="0.00001"
+                    className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-400 mb-1">Take Profit 2</label>
+                  <input
+                    type="number"
+                    name="take_profit"
+                    value={formData.take_profit2}
                     onChange={handleInputChange}
                     required
                     step="0.00001"

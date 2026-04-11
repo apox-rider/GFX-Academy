@@ -15,6 +15,9 @@ interface Settings {
     silverPrice: number;
     goldPrice: number;
     enableNotifications: boolean;
+    weeklyPrice: number;
+    monthlyPrice: number;
+    annualPrice: number;
     maintenanceMode: boolean;
     themeColor: string;
 }
@@ -143,6 +146,34 @@ export default function SettingsContent() {
                 { label: "Bronze", name: "bronzePrice", value: settings?.bronzePrice },
                 { label: "Silver", name: "silverPrice", value: settings?.silverPrice },
                 { label: "Gold", name: "goldPrice", value: settings?.goldPrice },
+              ].map((pkg) => (
+                <div key={pkg.name}>
+                  <label className="block text-sm text-gray-400 mb-2">{pkg.label} Package</label>
+                  <div className="relative">
+                    <span className="absolute left-5 top-4 text-gray-500">TZS</span>
+                    <input
+                      type="number"
+                      name={pkg.name}
+                      value={pkg.value}
+                      onChange={handleChange}
+                      className="w-full bg-gray-800 border border-gray-700 rounded-2xl pl-14 pr-5 py-4 focus:border-yellow-500 outline-none transition"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <CreditCard className="w-6 h-6 text-yellow-500" />
+              <h2 className="text-2xl font-semibold">Signal Pricing (TZS)</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { label: "Weekly", name: "weeklyPrice", value: settings?.weeklyPrice },
+                { label: "Monthly", name: "monthlyPrice", value: settings?.monthlyPrice },
+                { label: "Annually", name: "annualPrice", value: settings?.annualPrice },
               ].map((pkg) => (
                 <div key={pkg.name}>
                   <label className="block text-sm text-gray-400 mb-2">{pkg.label} Package</label>
