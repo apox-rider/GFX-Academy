@@ -52,9 +52,24 @@ export default function SettingsContent() {
   };
 
   const handleSave = async () => {
-    // Add your PUT/POST logic here
-    console.log("Saving settings:", settings);
-    alert("Settings updated locally! (Add your API call here)");
+    if (!settings) return;
+    
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/settings`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settings),
+      });
+      
+      if (res.ok) {
+        alert("Settings updated successfully!");
+      } else {
+        alert("Failed to update settings. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating settings:", error);
+      alert("Error connecting to server.");
+    }
   };
 
   // 3. Prevent rendering if data isn't loaded yet

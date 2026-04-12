@@ -241,3 +241,16 @@ ON CONFLICT (key) DO NOTHING;
 -- ENABLE REALTIME FOR PAYMENTS
 -- ============================================
 ALTER PUBLICATION supabase_realtime ADD TABLE public.payments;
+
+-- ENABLE REALTIME FOR SIGNALS
+ALTER PUBLICATION supabase_realtime ADD TABLE public.signals;
+
+-- ENABLE REALTIME FOR TUTORIALS (for videos/links)
+ALTER PUBLICATION supabase_realtime ADD TABLE public.tutorials;
+
+-- ENABLE REALTIME FOR CONTACTS
+ALTER PUBLICATION supabase_realtime ADD TABLE public.contacts;
+
+-- ENABLE REALTIME FOR SETTINGS
+ALTER PUBLICATION supabase_realtime ADD TABLE public.settings;
+

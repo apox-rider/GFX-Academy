@@ -16,20 +16,22 @@ import { RiSecurePaymentFill } from 'react-icons/ri';
 
 interface AdminSidebarProps {
   activeTab: string;
-  setActiveTab: (tab: 'dashboard' | 'signals' | 'courses' | 'contacts' | 'settings'|'payments') => void;
+  setActiveTab: (tab: 'dashboard' | 'signals' | 'courses' | 'contacts' | 'settings' | 'payments' | 'videos' | 'links') => void;
 }
 
 export default function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'signals', label: 'Trading Signals', icon: TrendingUp },
-    { id: 'courses', label: 'Courses', icon: BookOpen },
-    { id: 'contacts', label: 'Contacts', icon: MessageSquare },
-    { id: 'settings', label: 'Settings', icon: Settings },
-    { id: 'payments', label: 'Payments', icon: RiSecurePaymentFill }
-  ];
+    const menuItems = [
+      { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+      { id: 'signals', label: 'Trading Signals', icon: TrendingUp },
+      { id: 'courses', label: 'Courses', icon: BookOpen },
+      { id: 'contacts', label: 'Contacts', icon: MessageSquare },
+      { id: 'settings', label: 'Settings', icon: Settings },
+      { id: 'payments', label: 'Payments', icon: RiSecurePaymentFill },
+      { id: 'videos', label: 'Videos', icon: '🎥' },
+      { id: 'links', label: 'Links', icon: '🔗' }
+    ];
 
   return (
     <>

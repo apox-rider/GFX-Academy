@@ -9,13 +9,15 @@ import CoursesContent from '../components/CoursesContent/page';
 import ContactsContent from '../components/ContactsContent/page';
 import SettingsContent from '../components/SettingsContent/page';
 import PaymentsContent from '../components/Payment Content/page';
+import VideosContent from '../components/VideosContent/page';
+import LinksContent from '../components/LinksContent/page';
  
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'signals' | 'courses' | 'payments' | 'settings' | 'contacts'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'signals' | 'courses' | 'payments' | 'settings' | 'contacts' | 'videos' | 'links'>('dashboard');
 
  
   const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'forexadmin2026';
@@ -83,12 +85,14 @@ export default function AdminPage() {
         <AdminHeader />
 
         <main className="flex-1 overflow-auto p-6 bg-gray-950">
-          {activeTab === 'dashboard' && <DashboardContent />}
-          {activeTab === 'signals' && <SignalsContent />}
-          {activeTab === 'courses' && <CoursesContent />}
-          {activeTab === 'contacts' && <ContactsContent />}
-          {activeTab === 'settings' && <SettingsContent />}
-          {activeTab === 'payments' && <PaymentsContent />}
+{activeTab === 'dashboard' && <DashboardContent />}
+           {activeTab === 'signals' && <SignalsContent />}
+           {activeTab === 'courses' && <CoursesContent />}
+           {activeTab === 'contacts' && <ContactsContent />}
+           {activeTab === 'settings' && <SettingsContent />}
+           {activeTab === 'payments' && <PaymentsContent />}
+           {activeTab === 'videos' && <VideosContent />}
+           {activeTab === 'links' && <LinksContent />}
         </main>
       </div>
     </div>
