@@ -10,7 +10,9 @@ import {
   Settings,
   LogOut,
   Menu,
-  X
+  X,
+  Play,
+  Link
 } from 'lucide-react';
 import { RiSecurePaymentFill } from 'react-icons/ri';
 
@@ -29,8 +31,8 @@ export default function AdminSidebar({ activeTab, setActiveTab }: AdminSidebarPr
       { id: 'contacts', label: 'Contacts', icon: MessageSquare },
       { id: 'settings', label: 'Settings', icon: Settings },
       { id: 'payments', label: 'Payments', icon: RiSecurePaymentFill },
-      { id: 'videos', label: 'Videos', icon: '🎥' },
-      { id: 'links', label: 'Links', icon: '🔗' }
+      { id: 'videos', label: 'Videos', icon: Play },
+      { id: 'links', label: 'Links', icon: Link }
     ];
 
   return (
