@@ -122,7 +122,7 @@ export default function DashboardContent() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
           <p className="text-gray-400 text-sm">Active Signals</p>
           <p className="text-5xl font-bold mt-4">{stats.activeSignals}</p>
@@ -132,28 +132,17 @@ export default function DashboardContent() {
           <p className="text-gray-400 text-sm">Total Students</p>
           <p className="text-5xl font-bold mt-4">{stats.totalStudents}</p>
           <p className="text-green-500 text-sm mt-2">↑ 23 this month</p>
-          <p className="text-5xl font-bold mt-4">{signals?.length}</p>
-          <p className="text-green-500 text-sm mt-2">↑  from yesterday</p>
         </div>
         <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
-          <p className="text-gray-400 text-sm">Total Students</p>
-          <p className="text-5xl font-bold mt-4">{students?.length}</p>
-          <p className="text-green-500 text-sm mt-2">↑ this month</p>
-        </div>
-        {/* <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
           <p className="text-gray-400 text-sm">Revenue (TZS)</p>
           <p className="text-5xl font-bold mt-4">{stats.revenue}.0M</p>
-          <p className="text-5xl font-bold mt-4">{}</p>
           <p className="text-green-500 text-sm mt-2">↑ 18% this month</p>
-        </div> */}
-        {/* <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
+        </div>
+        <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
           <p className="text-gray-400 text-sm">Success Rate</p>
           <p className="text-5xl font-bold mt-4">{stats.successRate}%</p>
           <p className="text-green-500 text-sm mt-2">+4% this week</p>
         </div>
-          <p className="text-5xl font-bold mt-4">Top</p>
-          <p className="text-green-500 text-sm mt-2">Higher this week</p>
-        </div> */}
       </div>
 
       {/* Recent Signals */}
@@ -179,28 +168,23 @@ export default function DashboardContent() {
                 <tr>
                   <td colSpan={6} className="py-6 text-center text-gray-400">
                     No recent signals available
-              {signals?.map((signal,index) => (
-                <tr 
-                key={index}
-                className="hover:bg-gray-800/50">
-                  <td className="py-5 font-medium">{signal.entry}</td>
-                  <td className={`py-5 font-bold ${signal.type === 'BUY' ? 'text-green-500' : 'text-red-500'}`}>
-                    {signal.type}
                   </td>
                 </tr>
               ) : (
-                recentSignals.map((signal, i) => (
-                  <tr key={i} className="hover:bg-gray-800/50">
-                    <td className="py-5 font-medium">{signal.pair}</td>
-                    <td className={`py-5 font-bold ${signal.type === 'BUY' ? 'text-green-500' : 'text-red-500'}`}>
-                      {signal.type}
-                    </td>
-                    <td className="py-5">{signal.entry.toFixed(4)}</td>
-                    <td className="py-5 text-red-400">{signal.stop_loss.toFixed(4)}</td>
-                    <td className="py-5 text-green-400">{signal.take_profit.toFixed(4)}</td>
-                    <td className="py-5 text-gray-400">{timeAgo(signal.created_at)}</td>
-                  </tr>
-                ))
+                <>
+                  {recentSignals.map((signal, i) => (
+                    <tr key={i} className="hover:bg-gray-800/50">
+                      <td className="py-5 font-medium">{signal.pair}</td>
+                      <td className={`py-5 font-bold ${signal.type === 'BUY' ? 'text-green-500' : 'text-red-500'}`}>
+                        {signal.type}
+                      </td>
+                      <td className="py-5">{signal.entry.toFixed(4)}</td>
+                      <td className="py-5 text-red-400">{signal.stop_loss.toFixed(4)}</td>
+                      <td className="py-5 text-green-400">{signal.take_profit.toFixed(4)}</td>
+                      <td className="py-5 text-gray-400">{timeAgo(signal.created_at)}</td>
+                    </tr>
+                  ))}
+                </>
               )}
             </tbody>
           </table>
