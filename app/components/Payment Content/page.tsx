@@ -69,16 +69,16 @@ export default function PaymentsContent() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
           <p className="text-gray-400 text-sm">Active Subscriptions</p>
           <p className="text-5xl font-bold mt-4 text-white">{activePayments.length}</p>
-          <p className="text-green-500 text-sm mt-2">↑ 7 this month</p>
+          <p className="text-green-500 text-sm mt-2">↑  this month</p>
         </div>
         <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
           <p className="text-gray-400 text-sm">Total Revenue (TZS)</p>
           <p className="text-5xl font-bold mt-4 text-white">{(totalRevenue / 1000000).toFixed(1)}M</p>
-          <p className="text-green-500 text-sm mt-2">↑ 22% this month</p>
+          <p className="text-green-500 text-sm mt-2">↑  this month</p>
         </div>
         <div className="bg-gray-900 border border-gray-800 rounded-3xl p-8">
           <p className="text-gray-400 text-sm">Gold Members</p>
@@ -93,7 +93,7 @@ export default function PaymentsContent() {
       </div>
 
       {/* Quick Actions */}
-      <div className="flex flex-wrap gap-4">
+      <div className="flex   gap-4">
         <button 
           onClick={exportPayments}
           className="bg-gradient-to-r from-yellow-500 to-orange-600 text-black font-semibold px-8 py-4 rounded-2xl flex items-center gap-3 hover:scale-105 transition"

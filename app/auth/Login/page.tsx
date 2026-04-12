@@ -109,7 +109,7 @@ export default function Login() {
         </form>
         
         <p className="text-center text-sm text-slate-400 mt-6">
-          Don&apos;t have an account? <Link href="/auth/register" className="text-yellow-500 hover:underline">Sign up</Link>
+          Don&apos;t have an account? <Link href="/auth/Register" className="text-yellow-500 hover:underline">Sign up</Link>
         </p>
         
         <Link href="/" className="flex items-center justify-center gap-2 mt-8 text-slate-500 hover:text-slate-400 text-sm">

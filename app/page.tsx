@@ -78,7 +78,7 @@ export default function Home() {
         'Everything in Bronze',
         'Prop Firm Videos',
         '1 Month Live Mentorship',
-        'Priority Signal Access',
+        'Priority Signal Access(1 month)',
       ],
       color: 'from-purple-500 to-purple-600',
     },

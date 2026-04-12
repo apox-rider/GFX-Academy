@@ -95,13 +95,13 @@ export default function Navbar() {
             ) : (
               <>
                 <Link
-                  href="/auth/login"
+                  href="/auth/Login"
                   className="text-sm font-semibold text-slate-300 hover:text-yellow-500 transition-colors"
                 >
                   Login
                 </Link>
                 <Link
-                  href="/auth/register"
+                  href="/auth/Register"
                   className="bg-yellow-500 text-slate-950 px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-yellow-400 transition-all shadow-lg shadow-yellow-500/10 active:scale-95"
                 >
                   Get Started
@@ -154,14 +154,14 @@ export default function Navbar() {
             ) : (
               <>
                 <Link
-                  href="/auth/login"
+                  href="/auth/Login"
                   className="w-full text-center py-3 text-slate-300 font-semibold border border-slate-700 rounded-xl"
                   onClick={toggleMobile}
                 >
                   Login
                 </Link>
                 <Link
-                  href="/auth/register"
+                  href="/auth/Register"
                   className="w-full text-center py-3 bg-yellow-500 text-slate-950 font-bold rounded-xl"
                   onClick={toggleMobile}
                 >

@@ -29,7 +29,7 @@ export default function CTASection() {
 
         <div className="flex flex-col items-center gap-6">
           <Link
-            href="/auth/register"
+            href="/auth/Register"
             className="group relative inline-flex items-center justify-center bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black text-xl md:text-2xl px-12 py-5 rounded-2xl transition-all shadow-[0_20px_50px_rgba(234,179,8,0.2)] hover:-translate-y-1 active:scale-95"
             aria-label="Get started with registration"
           >

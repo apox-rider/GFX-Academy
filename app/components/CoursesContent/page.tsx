@@ -43,15 +43,15 @@ export default function CoursesContent() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const getToturials = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tutorials`)
-      .then(res => res.json())
-      .then(json => setToturial(json));
-  };
+  // const getToturials = () => {
+  //   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tutorials`)
+  //     .then(res => res.json())
+  //     .then(json => setToturial(json));
+  // };
 
-  useEffect(() => {
-    getToturials();
-  }, []);
+  // useEffect(() => {
+  //   getToturials();
+  // }, []);
 
   const beginnerTutorials = useMemo(() => 
     toturial.filter(t => t.level === 'Beginner'), 
@@ -175,7 +175,7 @@ export default function CoursesContent() {
 
       if (res.ok) {
         setIsModalOpen(false);
-        getToturials();
+        // getToturials();
       } else {
         alert('Failed to save tutorial. Please try again.');
       }
@@ -197,7 +197,7 @@ export default function CoursesContent() {
 
       if (res.ok) {
         setIsModalOpen(false);
-        getToturials();
+        // getToturials();
       } else {
         alert('Failed to delete tutorial.');
       }

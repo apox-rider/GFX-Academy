@@ -20,7 +20,7 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'signals' | 'courses' | 'payments' | 'settings' | 'contacts' | 'videos' | 'links'>('dashboard');
 
  
-  const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'forexadmin2026';
+  const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'Gladness M';
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
