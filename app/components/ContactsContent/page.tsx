@@ -98,8 +98,8 @@ export default function ContactsContent() {
           <p className="text-gray-400 text-lg">No contact messages yet.</p>
         </div>
       ) : (
-        <div className="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden">
-          <table className="w-full">
+        <div className="bg-gray-900 border overflow-x-auto border-gray-800 rounded-3xl overflow-hidden ">
+          <table className="w-full min-w-3xl ">
             <thead className="bg-gray-950">
               <tr>
                 <th className="text-left p-4 text-sm font-semibold text-gray-400">Name</th>
@@ -114,10 +114,10 @@ export default function ContactsContent() {
               {contacts.map((contact) => (
                 <tr 
                   key={contact.id} 
-                  className={`hover:bg-gray-800/50 ${!contact.is_read ? 'bg-yellow-500/5' : ''}`}
+                  className={`hover:bg-gray-800/50  ${!contact.is_read ? 'bg-yellow-500/5' : ''}`}
                 >
                   <td className="p-4">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 ">
                       {contact.name}
                       {!contact.is_read && (
                         <span className="w-2 h-2 bg-yellow-500 rounded-full" title="New" />
@@ -126,7 +126,7 @@ export default function ContactsContent() {
                   </td>
                   <td className="p-4 text-gray-400">{contact.email}</td>
                   <td className="p-4 text-gray-300">{contact.subject || '-'}</td>
-                  <td className="p-4 max-w-xs truncate text-gray-300">{contact.message}</td>
+                  <td className="p-4 max-w-xs truncate text-gray-300 line-clamp-1">{contact.message}</td>
                   <td className="p-4 text-gray-400 text-sm">{formatDate(contact.created_at)}</td>
                   <td className="p-4">
                     <div className="flex gap-2">

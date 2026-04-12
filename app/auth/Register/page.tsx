@@ -136,7 +136,7 @@ function RegisterContent() {
             {error}
             {error.includes('already exists') && (
               <div className="mt-3">
-                <Link href="/auth/login" className="text-yellow-400 hover:underline font-medium">
+                <Link href="/auth/Login" className="text-yellow-400 hover:underline font-medium">
                   → Go to Login
                 </Link>
               </div>
@@ -219,7 +219,7 @@ function RegisterContent() {
 
         <p className="text-center text-sm text-slate-400 mt-6">
           Already have an account?{' '}
-          <Link href="/auth/login" className="text-yellow-500 hover:underline">Sign in here</Link>
+          <Link href="/auth/Login" className="text-yellow-500 hover:underline">Sign in here</Link>
         </p>
 
         <Link href="/" className="flex items-center justify-center gap-2 mt-10 text-slate-500 hover:text-slate-400 text-sm">

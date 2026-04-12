@@ -20,10 +20,6 @@ export default function SignalsTeaser({ signals }: Props) {
           
           {/* Text Content */}
           <div className="flex-1 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 bg-slate-900 border border-slate-800 text-yellow-500 text-xs font-bold tracking-widest px-4 py-1.5 rounded-full mb-6">
-              <Radio size={14} className="animate-pulse" />
-              LIVE DATA FEED
-            </div>
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
               Institutional Grade <br />
               <span className="text-slate-400">Trading Signals.</span>
@@ -34,7 +30,7 @@ export default function SignalsTeaser({ signals }: Props) {
             </p>
             
             <Link
-              href="/auth/register"
+              href="/auth/Register"
               className="mt-8 group inline-flex items-center gap-2 text-yellow-500 hover:text-yellow-400 font-bold text-lg transition-all"
             >
               Get Full Access 

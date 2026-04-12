@@ -6,25 +6,9 @@ import { useState, useEffect } from 'react'
 import { ArrowLeft, CheckCircle, XCircle, Loader2, Smartphone } from 'lucide-react'
 
 const PACKAGES = {
-  bronze: { name: 'Bronze', price: 25000, color: 'from-blue-500 to-cyan-600', features: [
-        'Technical Analysis',
-        'Fundamental Analysis',
-        'Weekly Market Recap',
-        'Trading Psychology',
-        'Risk Management',
-      ] },
-  silver: { name: 'Silver', price: 100000, color: 'from-purple-500 to-violet-600', features: [
-        'Everything in Bronze',
-        'Prop Firm Videos',
-        '1 Month Live Mentorship',
-        'Priority Signal Access(1 month)',
-      ] },
-  gold: { name: 'Gold', price: 130000, color: 'from-yellow-500 to-orange-600', features: [
-        'Everything in Silver',
-        'Full Lifetime Mentorship',
-        'All Future Courses Free',
-        'Private WhatsApp Group',
-      ]  },
+  bronze: { name: 'Weekly', price: 30000, color: 'from-blue-500 to-cyan-600', features: ['Access to trading signals for 7 days', 'Carefully selected high-probability setups', 'Basic trade entries provided','Ideal for testing our service'] },
+  silver: { name: 'Monthly', price: 50000, color: 'from-purple-500 to-violet-600', features: ['Full access for 30 days', 'High-quality and frequent trading signals', 'Complete trade details (Entry, Stop Loss, Take Profit)', 'Designed for serious traders seeking consistency'] },
+  gold: { name: 'Annually', price: 500000, color: 'from-yellow-500 to-orange-600', features: ['Full Course Access for 12 months', 'Premium signals with top-tier setups', 'Priority trade alerts', 'Exclusive support and guidance'] },
 }
 
 const PAYMENT_METHODS = [
@@ -215,7 +199,7 @@ function PaymentContent() {
           <ArrowLeft className="w-5 h-5" /> Back
         </button>
 
-        <h1 className="text-4xl font-bold text-center mb-4">Complete Your Payment</h1>
+        <h1 className="text-4xl font-bold text-center mb-4">Complete Your SIGNAL PACKAGE PAYMENT</h1>
         <p className="text-slate-400 text-center mb-12">Secure payment powered by ClickPesa</p>
 
         {/* Package Selection */}
@@ -229,8 +213,10 @@ function PaymentContent() {
               >
                 <div className="bg-slate-900 rounded-3xl p-8 h-full">
                   <h3 className="text-2xl font-bold">{pkg.name}</h3>
-                  <p className="text-4xl font-bold mt-4">{pkg.price.toLocaleString()}</p>
-                  <p className="text-slate-400">TZS/month</p>
+                  <div className='flex'>
+                    <p className="text-4xl font-bold mt-4">{pkg.price.toLocaleString()}</p>
+                    <p className="text-slate-400">TZS</p>
+                  </div>
                   <ul className="mt-6 space-y-2">
                     {pkg.features.map((feature, i) => (
                       <li key={i} className="flex items-center gap-2 text-sm">
