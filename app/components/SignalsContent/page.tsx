@@ -321,7 +321,7 @@ export default function SignalsContent() {
                   <label className="block text-sm text-gray-400 mb-1">Take Profit 1</label>
                   <input
                     type="number"
-                    name="take_profit"
+                    name="take_profit1"
                     value={formData.take_profit1}
                     onChange={handleInputChange}
                     required
@@ -333,7 +333,7 @@ export default function SignalsContent() {
                   <label className="block text-sm text-gray-400 mb-1">Take Profit 2</label>
                   <input
                     type="number"
-                    name="take_profit"
+                    name="take_profit2"
                     value={formData.take_profit2}
                     onChange={handleInputChange}
                     required
